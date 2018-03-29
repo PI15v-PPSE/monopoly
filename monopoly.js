@@ -169,7 +169,7 @@ function Game () {
                 currentbidder -= pcount
             }
 
-            if (currentbidder == highestbidder) {
+            if (currentbidder === highestbidder) {
                 finalizeAuction()
                 return
             } else if (player[currentbidder].bidding) {
@@ -408,7 +408,7 @@ function Game () {
                 currentTableCell.className = "propertycellcolor"
                 currentTableCell.style.backgroundColor = currentSquare.color
 
-                if (currentSquare.groupNumber == 1 || currentSquare.groupNumber == 2) {
+                if (currentSquare.groupNumber === 1 || currentSquare.groupNumber === 2) {
                     currentTableCell.style.borderColor = "grey"
                 } else {
                     currentTableCell.style.borderColor = currentSquare.color
@@ -444,7 +444,7 @@ function Game () {
                 currentTableCell.className = "propertycellcolor"
                 currentTableCell.style.backgroundColor = currentSquare.color
 
-                if (currentSquare.groupNumber == 1 || currentSquare.groupNumber == 2) {
+                if (currentSquare.groupNumber === 1 || currentSquare.groupNumber === 2) {
                     currentTableCell.style.borderColor = "grey"
                 } else {
                     currentTableCell.style.borderColor = currentSquare.color
@@ -1009,12 +1009,12 @@ function Game () {
 
         for (let i = 0; i < 40; i++) {
             sq = square[i]
-            if (sq.owner == p.index && sq.mortgage) {
+            if (sq.owner === p.index && sq.mortgage) {
                 price = Math.round(sq.price * 0.5)
 
                 HTML += "<tr><td class='propertycellcolor' style='background: " + sq.color + ""
 
-                if (sq.groupNumber == 1 || sq.groupNumber == 2) {
+                if (sq.groupNumber === 1 || sq.groupNumber === 2) {
                     HTML += " border: 1px solid grey"
                 } else {
                     HTML += " border: 1px solid " + sq.color + ""
@@ -1055,7 +1055,7 @@ function Game () {
 
         for (let i = 0; i < 40; i++) {
             sq = square[i]
-            if (sq.owner == p.index) {
+            if (sq.owner === p.index) {
                 // Mortgaged properties will be tranfered by bankruptcyUnmortgage()
                 if (!sq.mortgage) {
                     sq.owner = p.creditor
@@ -1198,11 +1198,11 @@ Array.prototype.randomize = function (length) {
 
 // function show(element) {
 // // Element may be an HTML element or the id of one passed as a string.
-// if (element.constructor == String) {
+// if (element.constructor === String) {
 // element = document.getElementById(element)
 // }
 
-// if (element.tagName == "INPUT" || element.tagName == "SPAN" || element.tagName == "LABEL") {
+// if (element.tagName === "INPUT" || element.tagName === "SPAN" || element.tagName === "LABEL") {
 // element.style.display = "inline"
 // } else {
 // element.style.display = "block"
@@ -1211,7 +1211,7 @@ Array.prototype.randomize = function (length) {
 
 // function hide(element) {
 // // Element may be an HTML element or the id of one passed as a string.
-// if (element.constructor == String) {
+// if (element.constructor === String) {
 // document.getElementById(element).style.display = "none"
 // } else {
 // element.style.display = "none"
@@ -1304,10 +1304,10 @@ function updatePosition () {
 
         for (let y = turn; y <= pcount; y++) {
 
-            if (player[y].position == x && !player[y].jail) {
+            if (player[y].position === x && !player[y].jail) {
 
                 document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
-                if (left == 36) {
+                if (left === 36) {
                     left = 0
                     top = 12
                 } else
@@ -1317,9 +1317,9 @@ function updatePosition () {
 
         for (let y = 1; y < turn; y++) {
 
-            if (player[y].position == x && !player[y].jail) {
+            if (player[y].position === x && !player[y].jail) {
                 document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
-                if (left == 36) {
+                if (left === 36) {
                     left = 0
                     top = 12
                 } else
@@ -1471,7 +1471,7 @@ function updateOwned () {
 
     for (let i = 0; i < 40; i++) {
         sq = square[i]
-        if (sq.owner == turn) {
+        if (sq.owner === turn) {
 
             mortgagetext = ""
             if (sq.mortgage) {
@@ -1494,7 +1494,7 @@ function updateOwned () {
 
             HTML += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox" + i + "' /></td><td class='propertycellcolor' style='background: " + sq.color + ""
 
-            if (sq.groupNumber == 1 || sq.groupNumber == 2) {
+            if (sq.groupNumber === 1 || sq.groupNumber === 2) {
                 HTML += " border: 1px solid grey width: 18px"
             }
 
@@ -1571,7 +1571,7 @@ function updateOption () {
 
         for (let i = 0; i < 40; i++) {
             s = square[i]
-            if (s.hotel == 1)
+            if (s.hotel === 1)
                 hotelsum--
             else
                 housesum -= s.house
@@ -1614,11 +1614,11 @@ function updateOption () {
             buyhousebutton.title = "Buy a house for $" + sq.houseprice
             sellhousebutton.title = "Sell a house for $" + (sq.houseprice * 0.5)
 
-            if (sq.house == 4) {
+            if (sq.house === 4) {
                 buyhousebutton.value = "Buy hotel ($" + sq.houseprice + ")"
                 buyhousebutton.title = "Buy a hotel for $" + sq.houseprice
             }
-            if (sq.hotel == 1) {
+            if (sq.hotel === 1) {
                 $("#buyhousebutton").hide()
                 sellhousebutton.value = "Sell hotel ($" + (sq.houseprice * 0.5) + ")"
                 sellhousebutton.title = "Sell a hotel for $" + (sq.houseprice * 0.5)
@@ -1672,9 +1672,9 @@ function updateOption () {
             if (sq.house > minhouse) {
                 buyhousebutton.disabled = true
 
-                if (sq.house == 1) {
+                if (sq.house === 1) {
                     buyhousebutton.title = "Before you can buy another house, the other properties of this color-group must all have one house."
-                } else if (sq.house == 4) {
+                } else if (sq.house === 4) {
                     buyhousebutton.title = "Before you can buy a hotel, the other properties of this color-group must all have 4 houses."
                 } else {
                     buyhousebutton.title = "Before you can buy a house, the other properties of this color-group must all have " + sq.house + " houses."
@@ -1683,7 +1683,7 @@ function updateOption () {
             if (sq.house < maxhouse) {
                 sellhousebutton.disabled = true
 
-                if (sq.house == 1) {
+                if (sq.house === 1) {
                     sellhousebutton.title = "Before you can sell house, the other properties of this color-group must all have one house."
                 } else {
                     sellhousebutton.title = "Before you can sell a house, the other properties of this color-group must all have " + sq.house + " houses."
@@ -1940,8 +1940,8 @@ function streetrepairs (houseprice, hotelprice) {
     let cost = 0
     for (let i = 0; i < 40; i++) {
         let s = square[i]
-        if (s.owner == turn) {
-            if (s.hotel == 1)
+        if (s.owner === turn) {
+            if (s.hotel === 1)
                 cost += hotelprice
             else
                 cost += s.house * houseprice
@@ -2032,7 +2032,7 @@ function buyHouse (index) {
     let hotelSum = 0
 
     if (p.money - sq.houseprice < 0) {
-        if (sq.house == 4) {
+        if (sq.house === 4) {
             return false
         } else {
             return false
@@ -2102,7 +2102,7 @@ function showStats () {
     for (let x = 1; x <= pcount; x++) {
         write = false
         p = player[x]
-        if (x == 5) {
+        if (x === 5) {
             HTML += "</tr><tr>"
         }
         HTML += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>"
@@ -2110,7 +2110,7 @@ function showStats () {
         for (let i = 0; i < 40; i++) {
             sq = square[i]
 
-            if (sq.owner == x) {
+            if (sq.owner === x) {
                 mortgagetext = "",
                     housetext = ""
 
@@ -2123,7 +2123,7 @@ function showStats () {
                     HTML += "<table>"
                 }
 
-                if (sq.house == 5) {
+                if (sq.house === 5) {
                     housetext += "<span style='float: right font-weight: bold'>1&nbspx&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' style='float: none' /></span>"
                 } else if (sq.house > 0 && sq.house < 5) {
                     housetext += "<span style='float: right font-weight: bold'>" + sq.house + "&nbspx&nbsp<img src='images/house.png' alt='' title='House' class='house' style='float: none' /></span>"
@@ -2131,7 +2131,7 @@ function showStats () {
 
                 HTML += "<tr><td class='statscellcolor' style='background: " + sq.color + ""
 
-                if (sq.groupNumber == 1 || sq.groupNumber == 2) {
+                if (sq.groupNumber === 1 || sq.groupNumber === 2) {
                     HTML += " border: 1px solid grey"
                 }
 
@@ -2202,13 +2202,13 @@ function showdeed (property) {
             document.getElementById("deed-houseprice").textContent = sq.houseprice
             document.getElementById("deed-hotelprice").textContent = sq.houseprice
 
-        } else if (sq.groupNumber == 2) {
+        } else if (sq.groupNumber === 2) {
             $("#deed-special").show()
             document.getElementById("deed-special-name").textContent = sq.name
             document.getElementById("deed-special-text").innerHTML = utiltext()
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
 
-        } else if (sq.groupNumber == 1) {
+        } else if (sq.groupNumber === 1) {
             $("#deed-special").show()
             document.getElementById("deed-special-name").textContent = sq.name
             document.getElementById("deed-special-text").innerHTML = transtext()
@@ -2323,35 +2323,35 @@ function land (increasedRent) {
         let rent
 
         // Railroads
-        if (p.position == 5 || p.position == 15 || p.position == 25 || p.position == 35) {
+        if (p.position === 5 || p.position === 15 || p.position === 25 || p.position === 35) {
             if (increasedRent) {
                 rent = 25
             } else {
                 rent = 12.5
             }
 
-            if (s.owner == square[5].owner) {
+            if (s.owner === square[5].owner) {
                 rent *= 2
             }
-            if (s.owner == square[15].owner) {
+            if (s.owner === square[15].owner) {
                 rent *= 2
             }
-            if (s.owner == square[25].owner) {
+            if (s.owner === square[25].owner) {
                 rent *= 2
             }
-            if (s.owner == square[35].owner) {
+            if (s.owner === square[35].owner) {
                 rent *= 2
             }
 
         } else if (p.position === 12) {
-            if (increasedRent || square[28].owner == s.owner) {
+            if (increasedRent || square[28].owner === s.owner) {
                 rent = (die1 + die2) * 10
             } else {
                 rent = (die1 + die2) * 4
             }
 
         } else if (p.position === 28) {
-            if (increasedRent || square[12].owner == s.owner) {
+            if (increasedRent || square[12].owner === s.owner) {
                 rent = (die1 + die2) * 10
             } else {
                 rent = (die1 + die2) * 4
@@ -2361,7 +2361,7 @@ function land (increasedRent) {
 
             for (let i = 0; i < 40; i++) {
                 sq = square[i]
-                if (sq.groupNumber == s.groupNumber && sq.owner != s.owner) {
+                if (sq.groupNumber === s.groupNumber && sq.owner != s.owner) {
                     groupowned = false
                 }
             }
@@ -2441,13 +2441,13 @@ function roll () {
 
     doublecount++
 
-    if (die1 == die2) {
+    if (die1 === die2) {
         addAlert(p.name + " rolled " + (die1 + die2) + " - doubles.")
     } else {
         addAlert(p.name + " rolled " + (die1 + die2) + ".")
     }
 
-    if (die1 == die2 && !p.jail) {
+    if (die1 === die2 && !p.jail) {
         updateDice(die1, die2)
 
         if (doublecount < 3) {
@@ -2484,7 +2484,7 @@ function roll () {
         p.jailroll++
 
         updateDice(die1, die2)
-        if (die1 == die2) {
+        if (die1 === die2) {
             document.getElementById("jail").style.border = "1px solid black"
             document.getElementById("cell11").style.border = "2px solid " + p.color
             $("#landed").hide()
@@ -2767,7 +2767,7 @@ game_ns.setup = function () {
 // function togglecheck(elementid) {
 // element = document.getElementById(elementid)
 
-// if (window.event.srcElement.id == elementid)
+// if (window.event.srcElement.id === elementid)
 // return
 
 // if (element.checked) {
@@ -2894,7 +2894,7 @@ window.onload = function () {
     let currentCellName
     let currentCellOwner
 
-    for (let i = 0; i < 40; i++    ) {
+    for (let i = 0; i < 40; i++) {
         s = square[i]
 
         currentCell = document.getElementById("cell" + i)
@@ -3075,8 +3075,7 @@ window.onload = function () {
             }
         }
 
-        for (let i = 0; i < 40;        i++    )
-        {
+        for (let i = 0; i < 40; i++) {
             if (square[i].hotel === 1) {
                 hotelSum++
             } else {
@@ -3130,13 +3129,11 @@ window.onload = function () {
 function arr_diff (a1, a2) {
     let a = [], diff = []
 
-    for (let i = 0; i < a1.length;    i++)
-    {
+    for (let i = 0; i < a1.length; i++) {
         a[a1[i]] = true
     }
 
-    for (let i = 0; i < a2.length;    i++)
-    {
+    for (let i = 0; i < a2.length; i++) {
         if (a[a2[i]]) {
             delete a[a2[i]]
         } else {
