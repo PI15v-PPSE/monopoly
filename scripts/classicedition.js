@@ -82,7 +82,7 @@ square[8] = new Square("Мармонтова улица", "$100", "#87CEEB", 100
 square[9] = new Square("ДМЗ", "$120", "#87CEEB", 120, 4, 8, 40, 100, 300, 450, 600);
 square[10] = new Square("Большой Джон", "", "#FFFFFF");
 square[11] = new Square("Бургер бар", "$140", "#FF0080", 140, 5, 10, 50, 150, 450, 625, 750);
-square[12] = new Square("Electric Company", "$150", "#FFFFFF", 150, 2);
+square[12] = new Square("Феникс", "$150", "#FFFFFF", 150, 2);
 square[13] = new Square("States Avenue", "$140", "#FF0080", 140, 5, 10, 50, 150, 450, 625, 750);
 
 square[14] = new Square("Virginia Avenue", "$160", "#FF0080", 160, 5, 12, 60, 180, 500, 700, 900);
