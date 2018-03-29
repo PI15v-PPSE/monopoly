@@ -70,14 +70,15 @@ function citytax() {
 
 var square = [];
 
-square[0] = new Square("GO", "COLLECT $200 SALARY AS YOU PASS.", "#FFFFFF");
-square[1] = new Square("Mediterranean Avenue", "$60", "#8B4513", 60, 3, 2, 10, 30, 90, 160, 250);
-square[2] = new Square("Community Chest", "FOLLOW INSTRUCTIONS ON TOP CARD", "#FFFFFF");
-square[3] = new Square("Baltic Avenue", "$60", "#8B4513", 60, 3, 4, 20, 60, 180, 320, 450);
-square[4] = new Square("City Tax", "Pay $200", "#FFFFFF");
-square[5] = new Square("Reading Railroad", "$200", "#FFFFFF", 200, 1);
-square[6] = new Square("Oriental Avenue", "$100", "#87CEEB", 100, 4, 6, 30, 90, 270, 400, 550);
-square[7] = new Square("Chance", "FOLLOW INSTRUCTIONS ON TOP CARD", "#FFFFFF");
+square[0] = new Square("ШАГ", "COLLECT $200 SALARY AS YOU PASS.", "#FFFFFF");
+square[1] = new Square("Проспект Богдан Хмельницкого", "$60", "#8B4513", 60, 3, 2, 10, 30, 90, 160, 250);
+square[2] = new Square("ОПЛОТ", "FOLLOW INSTRUCTIONS ON TOP CARD", "#FFFFFF");
+square[3] = new Square("Улица Артёма", "$60", "#8B4513", 60, 3, 4, 20, 60, 180, 320, 450);
+square[4] = new Square("Первое республиканское такси", "Pay $200", "#FFFFFF");
+square[5] = new Square("Донецкий ЖД вокзал", "$200", "#FFFFFF", 200, 1);
+square[6] = new Square("Площадь Ленина", "$100", "#87CEEB", 100, 4, 6, 30, 90, 270, 400, 550);
+square[7] = new Square("Коммендантский час", "FOLLOW INSTRUCTIONS ON TOP CARD", "#FFFFFF");
+
 square[8] = new Square("Vermont Avenue", "$100", "#87CEEB", 100, 4, 6, 30, 90, 270, 400, 550);
 square[9] = new Square("Connecticut Avenue", "$120", "#87CEEB", 120, 4, 8, 40, 100, 300, 450, 600);
 square[10] = new Square("Just Visiting", "", "#FFFFFF");
