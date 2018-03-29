@@ -55,17 +55,17 @@ function transtext() {
 }
 
 function luxurytax() {
-	addAlert(player[turn].name + " paid $100 for landing on Luxury Tax.");
+	addAlert(player[turn].name + " заплатите $100 за попадание на Luxury Tax.");
 	player[turn].pay(100, 0);
 	
-	$("#landed").show().text("You landed on Luxury Tax. Pay $100.");
+	$("#landed").show().text("Вы попали на Luxury Tax. Заплатите $100.");
 }
 
 function citytax() {
-	addAlert(player[turn].name + " paid $200 for landing on City Tax.");
+	addAlert(player[turn].name + " заплатите $100 за попадание на City Tax.");
 	player[turn].pay(200, 0);
 
-	$("#landed").show().text("You landed on City Tax. Pay $200.");
+	$("#landed").show().text("Вы попали на City Tax. Заплатите $200.");
 }
 
 var square = [];
