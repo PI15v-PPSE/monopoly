@@ -31,9 +31,11 @@ class Square {
     }
 }
 
-function Card (text, action) {
-    this.text = text
-    this.action = action
+class Card {
+    constructor (text, action) {
+        this.text = text
+        this.action = action
+    }
 }
 
 function corrections () {
