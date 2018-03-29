@@ -109,7 +109,7 @@ square[35] = new Square("United Airlines", "$200", "white", 200, 1);
 square[36] = new Square("Chance", "NEW YORK LOTTERY GAMES", "white");
 square[37] = new Square("Tiffany & CO.", "$350", "blue", 350, 10, 35, 175, 500, 1100, 1300, 1500);
 square[38] = new Square("LUXURY TAX", "Pay $75", "white");
-square[39] = new Square("TRUMP TOWER", "$400", "blue", 400, 10, 50, 200, 600, 1400, 1700, 2000);
+square[39] = new Square("Башня Трампа", "$400", "blue", 400, 10, 50, 200, 600, 1400, 1700, 2000);
 
 var communityChestCards = [];
 var chanceCards = [];
