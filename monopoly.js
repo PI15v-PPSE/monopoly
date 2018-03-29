@@ -1373,7 +1373,7 @@ function updateMoney() {
 	document.getElementById("pmoney").innerHTML = "$" + p.money
 	$(".money-bar-row").hide()
 
-	for (var i = 1 i <= pcount i++) {
+	for (var i = 1; i <= pcount; i++) {
 		p_i = player[i]
 
 		$("#moneybarrow" + i).show()
@@ -1456,7 +1456,7 @@ function updateOwned() {
 	housetext = ""
 	var sq
 
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		sq = square[i]
 		if (sq.groupNumber && sq.owner === 0) {
 			$("#cell" + i + "owner").hide()
@@ -1469,7 +1469,7 @@ function updateOwned() {
 		}
 	}
 
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		sq = square[i]
 		if (sq.owner == turn) {
 
@@ -1627,7 +1627,7 @@ function updateOption() {
 			var maxhouse = 0
 			var minhouse = 5
 
-			for (var j = 0 j < max j++) {
+			for (var j = 0; j < max; j++) {
 
 				if (square[currentSquare.group[j]].house > 0) {
 					allGroupUninproved = false
@@ -1636,7 +1636,7 @@ function updateOption() {
 			}
 
 			var max = sq.group.length
-			for (var i = 0 i < max i++) {
+			for (var i = 0; i < max; i++) {
 				s = square[sq.group[i]]
 
 				if (s.owner !== sq.owner) {
@@ -1844,7 +1844,7 @@ function payeachplayer(amount, cause) {
 	var p = player[turn]
 	var total = 0
 
-	for (var i = 1 i <= pcount i++) {
+	for (var i = 1; i <= pcount; i++) {
 		if (i != turn) {
 			player[i].money += amount
 			total += amount
@@ -1861,7 +1861,7 @@ function collectfromeachplayer(amount, cause) {
 	var p = player[turn]
 	var total = 0
 
-	for (var i = 1 i <= pcount i++) {
+	for (var i = 1; i <= pcount; i++) {
 		if (i != turn) {
 			money = player[i].money
 			if (money < amount) {
@@ -1938,7 +1938,7 @@ function advanceToNearestRailroad() {
 
 function streetrepairs(houseprice, hotelprice) {
 	var cost = 0
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		var s = square[i]
 		if (s.owner == turn) {
 			if (s.hotel == 1)
@@ -2039,7 +2039,7 @@ function buyHouse(index) {
 		}
 
 	} else {
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			if (square[i].hotel === 1) {
 				hotelSum++
 			} else {
@@ -2099,7 +2099,7 @@ function showStats() {
 	var write
 	HTML = "<table align='center'><tr>"
 
-	for (var x = 1 x <= pcount x++) {
+	for (var x = 1; x <= pcount; x++) {
 		write = false
 		p = player[x]
 		if (x == 5) {
@@ -2359,7 +2359,7 @@ function land(increasedRent) {
 
 		} else {
 
-			for (var i = 0 i < 40 i++) {
+			for (var i = 0; i < 40; i++) {
 				sq = square[i]
 				if (sq.groupNumber == s.groupNumber && sq.owner != s.owner) {
 					groupowned = false
@@ -2643,13 +2643,13 @@ game_ns._draw_setup.draw_player_wrappers = function(max) {
 	content_intel += "</select>"
 
   var content_colors = "<select class='player-color' title='Player color'>"
-  for (i = 0 i <= game_ns.available_colors.length - 1 i++) {
+  for (i = 0; i <= game_ns.available_colors.length - 1; i++) {
   	color = game_ns.available_colors[i]
   	content_colors += "<option style='color: "+color+"'>"+color+"</option>"
   }
   content_colors += "</select>"
 
-  for (i = 1 i <= max i++) {
+  for (i = 1; i <= max; i++) {
 	  content += "<div id='player"+i+"wrap' data-id='"+i+"' class='player-wrap'>"
 	  content += "Player "+i+": "
 	  content += "<input type='text' class='player-name' title='Player name' maxlength='16' value='Player "+i+"' /> "
@@ -2690,7 +2690,7 @@ game_ns._draw_setup.select_on_player_number_change = function() {
 
 	$(".player-wrap").hide()
 
-	for (var i = 1 i <= pcount i++) {
+	for (var i = 1; i <= pcount; i++) {
 		$("#player" + i + "wrap").show()
 	}
 }
@@ -2731,7 +2731,7 @@ game_ns.setup = function() {
 
 	playerArray.randomize()
 
-	for (var i = 1 i <= pcount i++) {
+	for (var i = 1; i <= pcount; i++) {
 		p = player[playerArray[i - 1]]
 
 		wrap = $("div#player"+i+"wrap")
@@ -2791,7 +2791,7 @@ game_ns.setup = function() {
 // }
 
 function getCheckedProperty() {
-	for (var i = 0 i < 42 i++) {
+	for (var i = 0; i < 42; i++) {
 		if (document.getElementById("propertycheckbox" + i) && document.getElementById("propertycheckbox" + i).checked) {
 			return i
 		}
@@ -2829,7 +2829,7 @@ window.onload = function() {
 
 	game = new Game()
 
-	for (var i = 0 i <= 8 i++) {
+	for (var i = 0; i <= 8; i++) {
 		player[i] = new Player("", "")
 		player[i].index = i
 	}
@@ -2837,7 +2837,7 @@ window.onload = function() {
 	var groupPropertyArray = []
 	var groupNumber
 
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		groupNumber = square[i].groupNumber
 
 		if (groupNumber > 0) {
@@ -2870,7 +2870,7 @@ window.onload = function() {
 	communityChestCards.deck = []
 	chanceCards.deck = []
 
-	for (var i = 0 i < 16 i++) {
+	for (var i = 0; i < 16; i++) {
 		chanceCards.deck[i] = i
 		communityChestCards.deck[i] = i
 	}
@@ -2888,7 +2888,7 @@ window.onload = function() {
 	enlargeWrap.id = "enlarge-wrap"
 
 	var HTML = ""
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		HTML += "<div id='enlarge" + i + "' class='enlarge'>"
 		HTML += "<div id='enlarge" + i + "color' class='enlarge-color'></div><br /><div id='enlarge" + i + "name' class='enlarge-name'></div>"
 		HTML += "<br /><div id='enlarge" + i + "price' class='enlarge-price'></div>"
@@ -2903,7 +2903,7 @@ window.onload = function() {
 	var currentCellName
 	var currentCellOwner
 
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		s = square[i]
 
 		currentCell = document.getElementById("cell" + i)
@@ -3084,7 +3084,7 @@ window.onload = function() {
 			}
 		}
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			if (square[i].hotel === 1) {
 				hotelSum++
 			} else {
@@ -3137,11 +3137,11 @@ window.onload = function() {
 function arr_diff(a1, a2) {
     var a = [], diff = []
 
-    for (var i = 0 i < a1.length i++) {
+    for (var i = 0; i < a1.length; i++) {
         a[a1[i]] = true
     }
 
-    for (var i = 0 i < a2.length i++) {
+    for (var i = 0; i < a2.length; i++) {
         if (a[a2[i]]) {
             delete a[a2[i]]
         } else {
