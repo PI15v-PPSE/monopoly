@@ -172,13 +172,13 @@ chanceCards[0] = new Card("Выйти из тюрьмы, Свобода. Эту 
 chanceCards[1] = new Card("Массовое устранение наполадков на Ваших предприятиях. За каждый дом заплатите $25. За каждый отель - $100.", function () {
     streetrepairs(25, 100);
 });
-chanceCards[2] = new Card("Speeding fine $15.", function () {
+chanceCards[2] = new Card("Штраф ща превышение скорости $15.", function () {
     subtractamount(15, 'Chance');
 });
-chanceCards[3] = new Card("You have been elected chairman of the board. Pay each player $50.", function () {
+chanceCards[3] = new Card("Вы платите $50 каждому игроку за столом и становитесь его председателем.", function () {
     payeachplayer(50, 'Chance');
 });
-chanceCards[4] = new Card("Go back three spaces.", function () {
+chanceCards[4] = new Card("Перейти назад на 3 клетки.", function () {
     gobackthreespaces();
 });
 chanceCards[5] = new Card("ADVANCE TO THE NEAREST UTILITY. IF UNOWNED, you may buy it from the Bank. IF OWNED, throw dice and pay owner a total ten times the amount thrown.", function () {
