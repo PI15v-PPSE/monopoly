@@ -72,7 +72,7 @@ function citytax () {
     $("#landed").show().text("Вы попали на City Tax. Заплатите $200.")
 }
 
-var square = []
+let square = []
 
 square[0] = new Square("СТАРТ", "ПОЛУЧИТЕ $200 ПРИ ПРОХОДЕ ЧЕРЕЗ ЭТУ КЛЕТКУ.", "#FFFFFF")
 square[1] = new Square("Проспект Богдан Хмельницкого", "$60", "#8B4513", 60, 3, 2, 10, 30, 90, 160, 250)
@@ -115,8 +115,8 @@ square[37] = new Square("Park Place", "$350", "#0000FF", 350, 10, 35, 175, 500, 
 square[38] = new Square("LUXURY TAX", "Заплатите $100", "#FFFFFF")
 square[39] = new Square("Boardwalk", "$400", "#0000FF", 400, 10, 50, 200, 600, 1400, 1700, 2000)
 
-var communityChestCards = []
-var chanceCards = []
+let communityChestCards = []
+let chanceCards = []
 
 communityChestCards[0] = new Card("Get out of Jail, Free. This card may be kept until needed or sold.", function (p) {
     p.communityChestJailCard = true

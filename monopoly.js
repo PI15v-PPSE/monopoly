@@ -1,13 +1,13 @@
 function Game () {
-    var die1
-    var die2
-    var areDiceRolled = false
+    let die1
+    let die2
+    let areDiceRolled = false
 
-    var auctionQueue = []
-    var highestbidder
-    var highestbid
-    var currentbidder = 1
-    var auctionproperty
+    let auctionQueue = []
+    let highestbidder
+    let highestbid
+    let currentbidder = 1
+    let auctionproperty
 
     this.rollDice = function () {
         die1 = Math.floor(Math.random() * 6) + 1
@@ -50,9 +50,9 @@ function Game () {
     // Auction functions:
 
 
-    var finalizeAuction = function () {
-        var p = player[highestbidder]
-        var sq = square[auctionproperty]
+    let finalizeAuction = function () {
+        let p = player[highestbidder]
+        let sq = square[auctionproperty]
 
         if (highestbid > 0) {
             p.pay(highestbid, 0)
@@ -60,7 +60,7 @@ function Game () {
             addAlert(p.name + " bought " + sq.name + " for $" + highestbid + ".")
         }
 
-        for (var i = 1; i <= pcount; i++) {
+        for (let i = 1; i <= pcount; i++) {
             player[i].bidding = true
         }
 
@@ -83,7 +83,7 @@ function Game () {
 
         index = auctionQueue.shift()
 
-        var s = square[index]
+        let s = square[index]
 
         if (s.price === 0 || s.owner !== 0) {
             return game.auction()
@@ -105,9 +105,9 @@ function Game () {
         document.getElementById("highestbidder").innerHTML = "N/A"
         document.getElementById("currentbidder").innerHTML = player[currentbidder].name
         document.getElementById("bid").onkeydown = function (e) {
-            var key = 0
-            var isCtrl = false
-            var isShift = false
+            let key = 0
+            let isCtrl = false
+            let isShift = false
 
             if (window.event) {
                 key = window.event.keyCode
@@ -173,10 +173,10 @@ function Game () {
                 finalizeAuction()
                 return
             } else if (player[currentbidder].bidding) {
-                var p = player[currentbidder]
+                let p = player[currentbidder]
 
                 if (!p.human) {
-                    var bid = p.AI.bid(auctionproperty, highestbid)
+                    let bid = p.AI.bid(auctionproperty, highestbid)
 
                     if (bid === -1 || highestbid >= p.money) {
                         p.bidding = false
@@ -247,15 +247,15 @@ function Game () {
     // Trade functions:
 
 
-    var currentInitiator
-    var currentRecipient
+    let currentInitiator
+    let currentRecipient
 
     // Define event handlers:
 
-    var tradeMoneyOnKeyDown = function (e) {
-        var key = 0
-        var isCtrl = false
-        var isShift = false
+    let tradeMoneyOnKeyDown = function (e) {
+        let key = 0
+        let isCtrl = false
+        let isShift = false
 
         if (window.event) {
             key = window.event.keyCode
@@ -288,20 +288,20 @@ function Game () {
         return (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
     }
 
-    var tradeMoneyOnFocus = function () {
+    let tradeMoneyOnFocus = function () {
         this.style.color = "black"
         if (isNaN(this.value) || this.value === "0") {
             this.value = ""
         }
     }
 
-    var tradeMoneyOnChange = function (e) {
+    let tradeMoneyOnChange = function (e) {
         $("#proposetradebutton").show()
         $("#canceltradebutton").show()
         $("#accepttradebutton").hide()
         $("#rejecttradebutton").hide()
 
-        var amount = this.value
+        let amount = this.value
 
         if (isNaN(amount)) {
             this.value = "This value must be a number."
@@ -328,18 +328,18 @@ function Game () {
     document.getElementById("trade-leftp-money").onchange = tradeMoneyOnChange
     document.getElementById("trade-rightp-money").onchange = tradeMoneyOnChange
 
-    var resetTrade = function (initiator, recipient, allowRecipientToBeChanged) {
-        var currentSquare
-        var currentTableRow
-        var currentTableCell
-        var currentTableCellCheckbox
-        var nameSelect
-        var currentOption
-        var allGroupUninproved
-        var currentName
+    let resetTrade = function (initiator, recipient, allowRecipientToBeChanged) {
+        let currentSquare
+        let currentTableRow
+        let currentTableCell
+        let currentTableCellCheckbox
+        let nameSelect
+        let currentOption
+        let allGroupUninproved
+        let currentName
 
-        var tableRowOnClick = function (e) {
-            var checkboxElement = this.firstChild.firstChild
+        let tableRowOnClick = function (e) {
+            let checkboxElement = this.firstChild.firstChild
 
             if (checkboxElement !== e.srcElement) {
                 checkboxElement.checked = !checkboxElement.checked
@@ -351,8 +351,8 @@ function Game () {
             $("#rejecttradebutton").hide()
         }
 
-        var initiatorProperty = document.getElementById("trade-leftp-property")
-        var recipientProperty = document.getElementById("trade-rightp-property")
+        let initiatorProperty = document.getElementById("trade-leftp-property")
+        let recipientProperty = document.getElementById("trade-rightp-property")
 
         currentInitiator = initiator
         currentRecipient = recipient
@@ -366,11 +366,11 @@ function Game () {
             recipientProperty.removeChild(recipientProperty.lastChild)
         }
 
-        var initiatorSideTable = document.createElement("table")
-        var recipientSideTable = document.createElement("table")
+        let initiatorSideTable = document.createElement("table")
+        let recipientSideTable = document.createElement("table")
 
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             currentSquare = square[i]
 
             // A property cannot be traded if any properties in its group have been improved.
@@ -379,8 +379,8 @@ function Game () {
             }
 
             allGroupUninproved = true
-            var max = currentSquare.group.length
-            for (var j = 0; j < max; j++) {
+            let max = currentSquare.group.length
+            for (let j = 0; j < max; j++) {
 
                 if (square[currentSquare.group[j]].house > 0) {
                     allGroupUninproved = false
@@ -573,7 +573,7 @@ function Game () {
             }
 
             nameSelect = currentName.appendChild(document.createElement("select"))
-            for (var i = 1; i <= pcount; i++) {
+            for (let i = 1; i <= pcount; i++) {
                 if (i === initiator.index) {
                     continue
                 }
@@ -602,15 +602,15 @@ function Game () {
 
     }
 
-    var readTrade = function () {
-        var initiator = currentInitiator
-        var recipient = currentRecipient
-        var property = new Array(40)
-        var money
-        var communityChestJailCard
-        var chanceJailCard
+    let readTrade = function () {
+        let initiator = currentInitiator
+        let recipient = currentRecipient
+        let property = new Array(40)
+        let money
+        let communityChestJailCard
+        let chanceJailCard
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
 
             if (document.getElementById("tradeleftcheckbox" + i) && document.getElementById("tradeleftcheckbox" + i).checked) {
                 property[i] = 1
@@ -640,15 +640,15 @@ function Game () {
         money = parseInt(document.getElementById("trade-leftp-money").value, 10) || 0
         money -= parseInt(document.getElementById("trade-rightp-money").value, 10) || 0
 
-        var trade = new Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard)
+        let trade = new Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard)
 
         return trade
     }
 
-    var writeTrade = function (tradeObj) {
+    let writeTrade = function (tradeObj) {
         resetTrade(tradeObj.getInitiator(), tradeObj.getRecipient(), false)
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
 
             if (document.getElementById("tradeleftcheckbox" + i)) {
                 document.getElementById("tradeleftcheckbox" + i).checked = false
@@ -718,8 +718,8 @@ function Game () {
             writeTrade(tradeObj)
             this.proposeTrade()
         } else {
-            var initiator = player[turn]
-            var recipient = turn === 1 ? player[2] : player[1]
+            let initiator = player[turn]
+            let recipient = turn === 1 ? player[2] : player[1]
 
             currentInitiator = initiator
             currentRecipient = recipient
@@ -755,10 +755,10 @@ function Game () {
             return false
         }
 
-        var showAlerts = true
-        var money
-        var initiator
-        var recipient
+        let showAlerts = true
+        let money
+        let initiator
+        let recipient
 
         if (tradeObj) {
             showAlerts = false
@@ -781,10 +781,10 @@ function Game () {
             return false
         }
 
-        var isAPropertySelected = 0
+        let isAPropertySelected = 0
 
         // Ensure that some properties are selected.
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             isAPropertySelected |= tradeObj.getProperty(i)
         }
 
@@ -802,7 +802,7 @@ function Game () {
         }
 
         // Exchange properties
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
 
             if (tradeObj.getProperty(i) === 1) {
                 square[i].owner = recipient.index
@@ -875,11 +875,11 @@ function Game () {
             return false
         }
 
-        var tradeObj = readTrade()
-        var money = tradeObj.getMoney()
-        var initiator = tradeObj.getInitiator()
-        var recipient = tradeObj.getRecipient()
-        var reversedTradeProperty = []
+        let tradeObj = readTrade()
+        let money = tradeObj.getMoney()
+        let initiator = tradeObj.getInitiator()
+        let recipient = tradeObj.getRecipient()
+        let reversedTradeProperty = []
 
         if (money > 0 && money > initiator.money) {
             document.getElementById("trade-leftp-money").value = initiator.name + " does not have $" + money + "."
@@ -891,10 +891,10 @@ function Game () {
             return false
         }
 
-        var isAPropertySelected = 0
+        let isAPropertySelected = 0
 
         // Ensure that some properties are selected.
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             reversedTradeProperty[i] = -tradeObj.getProperty(i)
             isAPropertySelected |= tradeObj.getProperty(i)
         }
@@ -912,7 +912,7 @@ function Game () {
             return false
         }
 
-        var reversedTrade = new Trade(recipient, initiator, -money, reversedTradeProperty, -tradeObj.getCommunityChestJailCard(), -tradeObj.getChanceJailCard())
+        let reversedTrade = new Trade(recipient, initiator, -money, reversedTradeProperty, -tradeObj.getCommunityChestJailCard(), -tradeObj.getChanceJailCard())
 
         if (recipient.human) {
 
@@ -926,7 +926,7 @@ function Game () {
             addAlert(initiator.name + " initiated a trade with " + recipient.name + ".")
             popup("<p>" + initiator.name + " has proposed a trade with you, " + recipient.name + ". You may accept, reject, or modify the offer.</p>")
         } else {
-            var tradeResponse = recipient.AI.acceptTrade(tradeObj)
+            let tradeResponse = recipient.AI.acceptTrade(tradeObj)
 
             if (tradeResponse === true) {
                 popup("<p>" + recipient.name + " has accepted your offer.</p>")
@@ -950,15 +950,15 @@ function Game () {
 
 
     this.eliminatePlayer = function () {
-        var p = player[turn]
+        let p = player[turn]
 
-        for (var i = p.index; i < pcount; i++) {
+        for (let i = p.index; i < pcount; i++) {
             player[i] = player[i + 1]
             player[i].index = i
 
         }
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             if (square[i].owner >= p.index) {
                 square[i].owner--
             }
@@ -980,8 +980,8 @@ function Game () {
             $("#refresh").show()
 
             // // Display land counts for survey purposes.
-            // var text
-            // for (var i = 0 i < 40 i++) {
+            // let text
+            // for (let i = 0 i < 40 i++) {
             // if (i === 0)
             // text = square[i].landcount
             // else
@@ -997,17 +997,17 @@ function Game () {
     }
 
     this.bankruptcyUnmortgage = function () {
-        var p = player[turn]
+        let p = player[turn]
 
         if (p.creditor === 0) {
             this.eliminatePlayer()
             return
         }
 
-        var HTML = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>"
-        var price
+        let HTML = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>"
+        let price
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             sq = square[i]
             if (sq.owner == p.index && sq.mortgage) {
                 price = Math.round(sq.price * 0.5)
@@ -1038,9 +1038,9 @@ function Game () {
     }
 
     this.bankruptcy = function () {
-        var p = player[turn]
-        var pcredit = player[p.creditor]
-        var bankruptcyUnmortgageFee = 0
+        let p = player[turn]
+        let pcredit = player[p.creditor]
+        let bankruptcyUnmortgageFee = 0
 
 
         if (p.money >= 0) {
@@ -1053,7 +1053,7 @@ function Game () {
             pcredit.money += p.money
         }
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             sq = square[i]
             if (sq.owner == p.index) {
                 // Mortgaged properties will be tranfered by bankruptcyUnmortgage()
@@ -1104,7 +1104,7 @@ function Game () {
 
 }
 
-var game
+let game
 
 
 function Player (name, color) {
@@ -1174,20 +1174,20 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
     }
 }
 
-var player = []
-var pcount
-var turn = 0, doublecount = 0
+let player = []
+let pcount
+let turn = 0, doublecount = 0
 // Overwrite an array with numbers from one to the array's length in a random order.
 Array.prototype.randomize = function (length) {
     length = (length || this.length)
-    var num
-    var indexArray = []
+    let num
+    let indexArray = []
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         indexArray[i] = i
     }
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         // Generate random number between 0 and indexArray.length - 1.
         num = Math.floor(Math.random() * indexArray.length)
         this[i] = indexArray[num] + 1
@@ -1289,20 +1289,20 @@ function updatePosition () {
     // Reset borders
     document.getElementById("jail").style.border = "1px solid black"
     document.getElementById("jailpositionholder").innerHTML = ""
-    for (var i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
         document.getElementById("cell" + i).style.border = "1px solid black"
         document.getElementById("cell" + i + "positionholder").innerHTML = ""
 
     }
 
-    var sq, left, top
+    let sq, left, top
 
-    for (var x = 0; x < 40; x++) {
+    for (let x = 0; x < 40; x++) {
         sq = square[x]
         left = 0
         top = 0
 
-        for (var y = turn; y <= pcount; y++) {
+        for (let y = turn; y <= pcount; y++) {
 
             if (player[y].position == x && !player[y].jail) {
 
@@ -1315,7 +1315,7 @@ function updatePosition () {
             }
         }
 
-        for (var y = 1; y < turn; y++) {
+        for (let y = 1; y < turn; y++) {
 
             if (player[y].position == x && !player[y].jail) {
                 document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
@@ -1330,7 +1330,7 @@ function updatePosition () {
 
     left = 0
     top = 53
-    for (var i = turn; i <= pcount; i++) {
+    for (let i = turn; i <= pcount; i++) {
         if (player[i].jail) {
             document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
 
@@ -1343,7 +1343,7 @@ function updatePosition () {
         }
     }
 
-    for (var i = 1; i < turn; i++) {
+    for (let i = 1; i < turn; i++) {
         if (player[i].jail) {
             document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
             if (left === 36) {
@@ -1362,18 +1362,18 @@ function updatePosition () {
         document.getElementById("cell" + p.position).style.border = "1px solid " + p.color
     }
 
-    // for (var i=1 i <= pcount i++) {
+    // for (let i=1 i <= pcount i++) {
     // document.getElementById("enlarge"+player[i].position+"token").innerHTML+="<img src='"+tokenArray[i].src+"' height='30' width='30' />"
     // }
 }
 
 function updateMoney () {
-    var p = player[turn]
+    let p = player[turn]
 
     document.getElementById("pmoney").innerHTML = "$" + p.money
     $(".money-bar-row").hide()
 
-    for (var i = 1; i <= pcount; i++) {
+    for (let i = 1; i <= pcount; i++) {
         p_i = player[i]
 
         $("#moneybarrow" + i).show()
@@ -1401,15 +1401,15 @@ function updateMoney () {
 }
 
 function updateDice () {
-    var die0 = game.getDie(1)
-    var die1 = game.getDie(2)
+    let die0 = game.getDie(1)
+    let die1 = game.getDie(2)
 
     $("#die0").show()
     $("#die1").show()
 
     if (document.images) {
-        var element0 = document.getElementById("die0")
-        var element1 = document.getElementById("die1")
+        let element0 = document.getElementById("die0")
+        let element1 = document.getElementById("die1")
 
         element0.classList.remove("die-no-img")
         element1.classList.remove("die-no-img")
@@ -1444,24 +1444,24 @@ function updateDice () {
 }
 
 function updateOwned () {
-    var p = player[turn]
-    var checkedproperty = getCheckedProperty()
+    let p = player[turn]
+    let checkedproperty = getCheckedProperty()
     $("#option").show()
     $("#owned").show()
 
-    var HTML = "",
+    let HTML = "",
         firstproperty = -1
 
-    var mortgagetext = "",
+    let mortgagetext = "",
         housetext = ""
-    var sq
+    let sq
 
-    for (var i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
         sq = square[i]
         if (sq.groupNumber && sq.owner === 0) {
             $("#cell" + i + "owner").hide()
         } else if (sq.groupNumber && sq.owner > 0) {
-            var currentCellOwner = document.getElementById("cell" + i + "owner")
+            let currentCellOwner = document.getElementById("cell" + i + "owner")
 
             currentCellOwner.style.display = "block"
             currentCellOwner.style.backgroundColor = player[sq.owner].color
@@ -1469,7 +1469,7 @@ function updateOwned () {
         }
     }
 
-    for (var i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
         sq = square[i]
         if (sq.owner == turn) {
 
@@ -1480,7 +1480,7 @@ function updateOwned () {
 
             housetext = ""
             if (sq.house >= 1 && sq.house <= 4) {
-                for (var x = 1; x <= sq.house; x++) {
+                for (let x = 1; x <= sq.house; x++) {
                     housetext += "<img src='images/house.png' alt='' title='House' class='house' />"
                 }
             } else if (sq.hotel) {
@@ -1534,7 +1534,7 @@ function updateOwned () {
         document.getElementById("propertycheckbox" + firstproperty).checked = true
     }
     $(".property-cell-row").click(function () {
-        var row = this
+        let row = this
 
         // Toggle check the current checkbox.
         $(this).find(".propertycellcheckbox > input").prop("checked", function (index, val) {
@@ -1556,9 +1556,9 @@ function updateOwned () {
 function updateOption () {
     $("#option").show()
 
-    var allGroupUninproved = true
-    var allGroupUnmortgaged = true
-    var checkedproperty = getCheckedProperty()
+    let allGroupUninproved = true
+    let allGroupUnmortgaged = true
+    let checkedproperty = getCheckedProperty()
 
     if (checkedproperty < 0 || checkedproperty >= 40) {
         $("#buyhousebutton").hide()
@@ -1566,10 +1566,10 @@ function updateOption () {
         $("#mortgagebutton").hide()
 
 
-        var housesum = 32
-        var hotelsum = 12
+        let housesum = 32
+        let hotelsum = 12
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             s = square[i]
             if (s.hotel == 1)
                 hotelsum--
@@ -1584,7 +1584,7 @@ function updateOption () {
     }
 
     $("#buildings").hide()
-    var sq = square[checkedproperty]
+    let sq = square[checkedproperty]
 
     buyhousebutton = document.getElementById("buyhousebutton")
     sellhousebutton = document.getElementById("sellhousebutton")
@@ -1624,10 +1624,10 @@ function updateOption () {
                 sellhousebutton.title = "Sell a hotel for $" + (sq.houseprice * 0.5)
             }
 
-            var maxhouse = 0
-            var minhouse = 5
+            let maxhouse = 0
+            let minhouse = 5
 
-            for (var j = 0; j < max; j++) {
+            for (let j = 0; j < max; j++) {
 
                 if (square[currentSquare.group[j]].house > 0) {
                     allGroupUninproved = false
@@ -1635,8 +1635,8 @@ function updateOption () {
                 }
             }
 
-            var max = sq.group.length
-            for (var i = 0; i < max; i++) {
+            let max = sq.group.length
+            for (let i = 0; i < max; i++) {
                 s = square[sq.group[i]]
 
                 if (s.owner !== sq.owner) {
@@ -1712,11 +1712,11 @@ function updateOption () {
 }
 
 function chanceCommunityChest () {
-    var p = player[turn]
+    let p = player[turn]
 
     // Community Chest
     if (p.position === 2 || p.position === 17 || p.position === 33) {
-        var communityChestIndex = communityChestCards.deck[communityChestCards.index]
+        let communityChestIndex = communityChestCards.deck[communityChestCards.index]
 
         // Remove the get out of jail free card from the deck.
         if (communityChestIndex === 0) {
@@ -1735,7 +1735,7 @@ function chanceCommunityChest () {
 
         // Chance
     } else if (p.position === 7 || p.position === 22 || p.position === 36) {
-        var chanceIndex = chanceCards.deck[chanceCards.index]
+        let chanceIndex = chanceCards.deck[chanceCards.index]
 
         // Remove the get out of jail free card from the deck.
         if (chanceIndex === 0) {
@@ -1763,7 +1763,7 @@ function chanceCommunityChest () {
 }
 
 function chanceAction (chanceIndex) {
-    var p = player[turn] // This is needed for reference in action() method.
+    let p = player[turn] // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
     // $('#popupwrap').hide()
@@ -1778,7 +1778,7 @@ function chanceAction (chanceIndex) {
 }
 
 function communityChestAction (communityChestIndex) {
-    var p = player[turn] // This is needed for reference in action() method.
+    let p = player[turn] // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
     // $('#popupwrap').hide()
@@ -1793,7 +1793,7 @@ function communityChestAction (communityChestIndex) {
 }
 
 function addamount (amount, cause) {
-    var p = player[turn]
+    let p = player[turn]
 
     p.money += amount
 
@@ -1801,7 +1801,7 @@ function addamount (amount, cause) {
 }
 
 function subtractamount (amount, cause) {
-    var p = player[turn]
+    let p = player[turn]
 
     p.pay(amount, 0)
 
@@ -1809,7 +1809,7 @@ function subtractamount (amount, cause) {
 }
 
 function gotojail () {
-    var p = player[turn]
+    let p = player[turn]
     addAlert(p.name + " was sent directly to jail.")
     document.getElementById("landed").innerHTML = "You are in jail."
 
@@ -1833,7 +1833,7 @@ function gotojail () {
 }
 
 function gobackthreespaces () {
-    var p = player[turn]
+    let p = player[turn]
 
     p.position -= 3
 
@@ -1841,10 +1841,10 @@ function gobackthreespaces () {
 }
 
 function payeachplayer (amount, cause) {
-    var p = player[turn]
-    var total = 0
+    let p = player[turn]
+    let total = 0
 
-    for (var i = 1; i <= pcount; i++) {
+    for (let i = 1; i <= pcount; i++) {
         if (i != turn) {
             player[i].money += amount
             total += amount
@@ -1858,10 +1858,10 @@ function payeachplayer (amount, cause) {
 }
 
 function collectfromeachplayer (amount, cause) {
-    var p = player[turn]
-    var total = 0
+    let p = player[turn]
+    let total = 0
 
-    for (var i = 1; i <= pcount; i++) {
+    for (let i = 1; i <= pcount; i++) {
         if (i != turn) {
             money = player[i].money
             if (money < amount) {
@@ -1880,7 +1880,7 @@ function collectfromeachplayer (amount, cause) {
 }
 
 function advance (destination, pass) {
-    var p = player[turn]
+    let p = player[turn]
 
     if (typeof pass === "number") {
         if (p.position < pass) {
@@ -1903,7 +1903,7 @@ function advance (destination, pass) {
 }
 
 function advanceToNearestUtility () {
-    var p = player[turn]
+    let p = player[turn]
 
     if (p.position < 12) {
         p.position = 12
@@ -1919,7 +1919,7 @@ function advanceToNearestUtility () {
 }
 
 function advanceToNearestRailroad () {
-    var p = player[turn]
+    let p = player[turn]
 
     updatePosition()
 
@@ -1937,9 +1937,9 @@ function advanceToNearestRailroad () {
 }
 
 function streetrepairs (houseprice, hotelprice) {
-    var cost = 0
-    for (var i = 0; i < 40; i++) {
-        var s = square[i]
+    let cost = 0
+    for (let i = 0; i < 40; i++) {
+        let s = square[i]
         if (s.owner == turn) {
             if (s.hotel == 1)
                 cost += hotelprice
@@ -1948,7 +1948,7 @@ function streetrepairs (houseprice, hotelprice) {
         }
     }
 
-    var p = player[turn]
+    let p = player[turn]
 
     if (cost > 0) {
         p.pay(cost, 0)
@@ -1964,7 +1964,7 @@ function streetrepairs (houseprice, hotelprice) {
 }
 
 function payfifty () {
-    var p = player[turn]
+    let p = player[turn]
 
     document.getElementById("jail").style.border = '1px solid black'
     document.getElementById("cell11").style.border = '2px solid ' + p.color
@@ -1983,7 +1983,7 @@ function payfifty () {
 }
 
 function useJailCard () {
-    var p = player[turn]
+    let p = player[turn]
 
     document.getElementById("jail").style.border = '1px solid black'
     document.getElementById("cell11").style.border = '2px solid ' + p.color
@@ -2026,10 +2026,10 @@ function useJailCard () {
 }
 
 function buyHouse (index) {
-    var sq = square[index]
-    var p = player[sq.owner]
-    var houseSum = 0
-    var hotelSum = 0
+    let sq = square[index]
+    let p = player[sq.owner]
+    let houseSum = 0
+    let hotelSum = 0
 
     if (p.money - sq.houseprice < 0) {
         if (sq.house == 4) {
@@ -2039,7 +2039,7 @@ function buyHouse (index) {
         }
 
     } else {
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             if (square[i].hotel === 1) {
                 hotelSum++
             } else {
@@ -2093,13 +2093,13 @@ function sellHouse (index) {
 }
 
 function showStats () {
-    var HTML, sq, p
-    var mortgagetext,
+    let HTML, sq, p
+    let mortgagetext,
         housetext
-    var write
+    let write
     HTML = "<table align='center'><tr>"
 
-    for (var x = 1; x <= pcount; x++) {
+    for (let x = 1; x <= pcount; x++) {
         write = false
         p = player[x]
         if (x == 5) {
@@ -2107,7 +2107,7 @@ function showStats () {
         }
         HTML += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>"
 
-        for (var i = 0; i < 40; i++) {
+        for (let i = 0; i < 40; i++) {
             sq = square[i]
 
             if (sq.owner == x) {
@@ -2174,7 +2174,7 @@ function showStats () {
 }
 
 function showdeed (property) {
-    var sq = square[property]
+    let sq = square[property]
     $("#deed").show()
 
     $("#deed-normal").hide()
@@ -2222,9 +2222,9 @@ function hidedeed () {
 }
 
 function buy () {
-    var p = player[turn]
-    var property = square[p.position]
-    var cost = property.price
+    let p = player[turn]
+    let property = square[p.position]
+    let cost = property.price
 
     if (p.money >= cost) {
         p.pay(cost, 0)
@@ -2243,15 +2243,15 @@ function buy () {
 }
 
 function mortgage (index) {
-    var sq = square[index]
-    var p = player[sq.owner]
+    let sq = square[index]
+    let p = player[sq.owner]
 
     if (sq.house > 0 || sq.hotel > 0 || sq.mortgage) {
         return false
     }
 
-    var mortgagePrice = Math.round(sq.price * 0.5)
-    var unmortgagePrice = Math.round(sq.price * 0.6)
+    let mortgagePrice = Math.round(sq.price * 0.5)
+    let unmortgagePrice = Math.round(sq.price * 0.6)
 
     sq.mortgage = true
     p.money += mortgagePrice
@@ -2267,10 +2267,10 @@ function mortgage (index) {
 }
 
 function unmortgage (index) {
-    var sq = square[index]
-    var p = player[sq.owner]
-    var unmortgagePrice = Math.round(sq.price * 0.6)
-    var mortgagePrice = Math.round(sq.price * 0.5)
+    let sq = square[index]
+    let p = player[sq.owner]
+    let unmortgagePrice = Math.round(sq.price * 0.6)
+    let mortgagePrice = Math.round(sq.price * 0.5)
 
     if (unmortgagePrice > p.money || !sq.mortgage) {
         return false
@@ -2290,11 +2290,11 @@ function unmortgage (index) {
 function land (increasedRent) {
     increasedRent = !!increasedRent // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
 
-    var p = player[turn]
-    var s = square[p.position]
+    let p = player[turn]
+    let s = square[p.position]
 
-    var die1 = game.getDie(1)
-    var die2 = game.getDie(2)
+    let die1 = game.getDie(1)
+    let die2 = game.getDie(2)
 
     $("#landed").show()
     document.getElementById("landed").innerHTML = "You landed on " + s.name + "."
@@ -2319,8 +2319,8 @@ function land (increasedRent) {
 
     // Collect rent
     if (s.owner !== 0 && s.owner != turn && !s.mortgage) {
-        var groupowned = true
-        var rent
+        let groupowned = true
+        let rent
 
         // Railroads
         if (p.position == 5 || p.position == 15 || p.position == 25 || p.position == 35) {
@@ -2359,7 +2359,7 @@ function land (increasedRent) {
 
         } else {
 
-            for (var i = 0; i < 40; i++) {
+            for (let i = 0; i < 40; i++) {
                 sq = square[i]
                 if (sq.groupNumber == s.groupNumber && sq.owner != s.owner) {
                     groupowned = false
@@ -2423,7 +2423,7 @@ function land (increasedRent) {
 }
 
 function roll () {
-    var p = player[turn]
+    let p = player[turn]
 
     $("#option").hide()
     $("#buy").show()
@@ -2436,8 +2436,8 @@ function roll () {
     document.getElementById("nextbutton").title = "End turn and advance to the next player."
 
     game.rollDice()
-    var die1 = game.getDie(1)
-    var die2 = game.getDie(2)
+    let die1 = game.getDie(1)
+    let die2 = game.getDie(2)
 
     doublecount++
 
@@ -2551,7 +2551,7 @@ function play () {
         turn -= pcount
     }
 
-    var p = player[turn]
+    let p = player[turn]
     game.resetDice()
 
     document.getElementById("pname").innerHTML = p.name
@@ -2616,12 +2616,12 @@ function play () {
     }
 }
 
-var game_ns = {
+let game_ns = {
     available_colors: ['blue', 'red', 'green', 'yellow', 'aqua', 'black', 'fuchsia', 'gray', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'silver', 'teal']
 }
 
 game_ns.draw_setup = function () {
-    var context = game_ns._draw_setup
+    let context = game_ns._draw_setup
 
     context.draw_player_wrappers(8)
     context.bind_player_inteligence_change()
@@ -2632,17 +2632,17 @@ game_ns.draw_setup = function () {
 game_ns._draw_setup = {}
 
 game_ns._draw_setup.draw_player_wrappers = function (max) {
-    var i, color
+    let i, color
 
-    var content = ""
+    let content = ""
 
-    var content_intel = ""
+    let content_intel = ""
     content_intel += "<select class='player-intel' title='Choose whether this player is controled by a human or by the computer.'>"
     content_intel += "	<option value='0' selected='selected'>Human</option>"
     content_intel += "	<option value='1'>AI (Test)</option>"
     content_intel += "</select>"
 
-    var content_colors = "<select class='player-color' title='Player color'>"
+    let content_colors = "<select class='player-color' title='Player color'>"
     for (i = 0; i <= game_ns.available_colors.length - 1; i++) {
         color = game_ns.available_colors[i]
         content_colors += "<option style='color: " + color + "'>" + color + "</option>"
@@ -2664,9 +2664,9 @@ game_ns._draw_setup.draw_player_wrappers = function (max) {
 
 game_ns._draw_setup.bind_player_inteligence_change = function () {
     $("#player-wrappers .player-intel").change(function () {
-        var val = $(this).val()
-        var boo = val !== '0'
-        var wrap = $(this).closest('.player-wrap')
+        let val = $(this).val()
+        let boo = val !== '0'
+        let wrap = $(this).closest('.player-wrap')
 
         wrap.find('.player-name').attr('disabled', boo)
         wrap.nextAll().find('.player-name').attr('disabled', boo)
@@ -2690,27 +2690,27 @@ game_ns._draw_setup.select_on_player_number_change = function () {
 
     $(".player-wrap").hide()
 
-    for (var i = 1; i <= pcount; i++) {
+    for (let i = 1; i <= pcount; i++) {
         $("#player" + i + "wrap").show()
     }
 }
 
 game_ns._draw_setup.select_on_player_color_change = function () {
-    var colors_taken = []
+    let colors_taken = []
 
-    var wrap = $(this).closest('.player-wrap')
+    let wrap = $(this).closest('.player-wrap')
 
     // assume current and before as static
     colors_taken.push($(this).val())
 
     // change any next to any other color
     wrap.siblings().each(function (index, el) {
-        var el2 = $(el).find('.player-color')
-        var val2 = el2.val()
-        var is_already_present = colors_taken.indexOf(val2) != -1
+        let el2 = $(el).find('.player-color')
+        let val2 = el2.val()
+        let is_already_present = colors_taken.indexOf(val2) != -1
         if (is_already_present) {
             // change its color to next available
-            var colors_not_taken = arr_diff(game_ns.available_colors, colors_taken)
+            let colors_not_taken = arr_diff(game_ns.available_colors, colors_taken)
             el2.val(colors_not_taken[0])
         }
 
@@ -2726,12 +2726,12 @@ game_ns.setup = function () {
 
     pcount = parseInt(document.getElementById("playernumber").value, 10)
 
-    var playerArray = new Array(pcount)
-    var p, wrap, intel
+    let playerArray = new Array(pcount)
+    let p, wrap, intel
 
     playerArray.randomize()
 
-    for (var i = 1; i <= pcount; i++) {
+    for (let i = 1; i <= pcount; i++) {
         p = player[playerArray[i - 1]]
 
         wrap = $("div#player" + i + "wrap")
@@ -2778,7 +2778,7 @@ game_ns.setup = function () {
 // }
 
 function getCheckedProperty () {
-    for (var i = 0; i < 42; i++) {
+    for (let i = 0; i < 42; i++) {
         if (document.getElementById("propertycheckbox" + i) && document.getElementById("propertycheckbox" + i).checked) {
             return i
         }
@@ -2791,7 +2791,7 @@ function getCheckedProperty () {
 // if (document.getElementById("propertycheckbox" + num).checked) {
 
 // // Uncheck all other boxes.
-// for (var i = 0 i < 40 i++) {
+// for (let i = 0 i < 40 i++) {
 // if (i !== num && document.getElementById("propertycheckbox" + i)) {
 // document.getElementById("propertycheckbox" + i).checked = false
 // }
@@ -2816,15 +2816,15 @@ window.onload = function () {
 
     game = new Game()
 
-    for (var i = 0; i <= 8; i++) {
+    for (let i = 0; i <= 8; i++) {
         player[i] = new Player("", "")
         player[i].index = i
     }
 
-    var groupPropertyArray = []
-    var groupNumber
+    let groupPropertyArray = []
+    let groupNumber
 
-    for (var i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
         groupNumber = square[i].groupNumber
 
         if (groupNumber > 0) {
@@ -2836,7 +2836,7 @@ window.onload = function () {
         }
     }
 
-    for (var i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
         groupNumber = square[i].groupNumber
 
         if (groupNumber > 0) {
@@ -2857,7 +2857,7 @@ window.onload = function () {
     communityChestCards.deck = []
     chanceCards.deck = []
 
-    for (var i = 0; i < 16; i++) {
+    for (let i = 0; i < 16; i++) {
         chanceCards.deck[i] = i
         communityChestCards.deck[i] = i
     }
@@ -2874,12 +2874,12 @@ window.onload = function () {
     $("#noscript").hide()
     $("#setup, #noF5").show()
 
-    var enlargeWrap = document.body.appendChild(document.createElement("div"))
+    let enlargeWrap = document.body.appendChild(document.createElement("div"))
 
     enlargeWrap.id = "enlarge-wrap"
 
-    var HTML = ""
-    for (var i = 0; i < 40; i++) {
+    let HTML = ""
+    for (let i = 0; i < 40; i++) {
         HTML += "<div id='enlarge" + i + "' class='enlarge'>"
         HTML += "<div id='enlarge" + i + "color' class='enlarge-color'></div><br /><div id='enlarge" + i + "name' class='enlarge-name'></div>"
         HTML += "<br /><div id='enlarge" + i + "price' class='enlarge-price'></div>"
@@ -2888,13 +2888,13 @@ window.onload = function () {
 
     enlargeWrap.innerHTML = HTML
 
-    var currentCell
-    var currentCellAnchor
-    var currentCellPositionHolder
-    var currentCellName
-    var currentCellOwner
+    let currentCell
+    let currentCellAnchor
+    let currentCellPositionHolder
+    let currentCellName
+    let currentCellOwner
 
-    for (var i = 0; i < 40; i++    ) {
+    for (let i = 0; i < 40; i++    ) {
         s = square[i]
 
         currentCell = document.getElementById("cell" + i)
@@ -2944,7 +2944,7 @@ window.onload = function () {
 
     // Create event handlers for hovering and draging.
 
-    var drag, dragX, dragY, dragObj, dragTop, dragLeft
+    let drag, dragX, dragY, dragObj, dragTop, dragLeft
 
     $(".cell-position-holder, #jail").on("mouseover", function () {
         $("#" + this.enlargeId).show()
@@ -2953,7 +2953,7 @@ window.onload = function () {
         $("#" + this.enlargeId).hide()
 
     }).on("mousemove", function (e) {
-        var element = document.getElementById(this.enlargeId)
+        let element = document.getElementById(this.enlargeId)
 
         if (e.clientY + 20 > window.innerHeight - 204) {
             element.style.top = (window.innerHeight - 204) + "px"
@@ -2966,7 +2966,7 @@ window.onload = function () {
 
 
     $("body").on("mousemove", function (e) {
-        var object
+        let object
 
         if (e.target) {
             object = e.target
@@ -3038,8 +3038,8 @@ window.onload = function () {
     }
 
     $("#mortgagebutton").click(function () {
-        var checkedProperty = getCheckedProperty()
-        var s = square[checkedProperty]
+        let checkedProperty = getCheckedProperty()
+        let s = square[checkedProperty]
 
         if (s.mortgage) {
             if (player[s.owner].money < Math.round(s.price * 0.6)) {
@@ -3059,11 +3059,11 @@ window.onload = function () {
     })
 
     $("#buyhousebutton").on("click", function () {
-        var checkedProperty = getCheckedProperty()
-        var s = square[checkedProperty]
-        var p = player[s.owner]
-        var houseSum = 0
-        var hotelSum = 0
+        let checkedProperty = getCheckedProperty()
+        let s = square[checkedProperty]
+        let p = player[s.owner]
+        let houseSum = 0
+        let hotelSum = 0
 
         if (p.money < s.houseprice) {
             if (s.house === 4) {
@@ -3075,7 +3075,7 @@ window.onload = function () {
             }
         }
 
-        for (var i = 0; i < 40;        i++    )
+        for (let i = 0; i < 40;        i++    )
         {
             if (square[i].hotel === 1) {
                 hotelSum++
@@ -3128,14 +3128,14 @@ window.onload = function () {
 
 
 function arr_diff (a1, a2) {
-    var a = [], diff = []
+    let a = [], diff = []
 
-    for (var i = 0; i < a1.length;    i++)
+    for (let i = 0; i < a1.length;    i++)
     {
         a[a1[i]] = true
     }
 
-    for (var i = 0; i < a2.length;    i++)
+    for (let i = 0; i < a2.length;    i++)
     {
         if (a[a2[i]]) {
             delete a[a2[i]]
@@ -3144,7 +3144,7 @@ function arr_diff (a1, a2) {
         }
     }
 
-    for (var k in a) {
+    for (let k in a) {
         diff.push(k)
     }
 
