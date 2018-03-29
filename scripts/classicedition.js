@@ -136,22 +136,22 @@ communityChestCards[5] = new Card("Получите $100 с празднично
 communityChestCards[6] = new Card("Вы получаете $100 по наслдству.", function () {
     addamount(100, 'Community Chest');
 });
-communityChestCards[7] = new Card("Receive $25 consultancy fee.", function () {
+communityChestCards[7] = new Card("Получите $25 с консультаций.", function () {
     addamount(25, 'Community Chest');
 });
-communityChestCards[8] = new Card("Pay hospital fees of $100.", function () {
+communityChestCards[8] = new Card("Вы попали в больницу. Заплатите $100 .", function () {
     subtractamount(100, 'Community Chest');
 });
-communityChestCards[9] = new Card("Bank error in your favor. Collect $200.", function () {
+communityChestCards[9] = new Card("Ошибка банка в вашу пользу. Получите $200.", function () {
     addamount(200, 'Community Chest');
 });
-communityChestCards[10] = new Card("Pay school fees of $50.", function () {
+communityChestCards[10] = new Card("Заплатите школьные налоги $50.", function () {
     subtractamount(50, 'Community Chest');
 });
-communityChestCards[11] = new Card("Doctor's fee. Pay $50.", function () {
+communityChestCards[11] = new Card("Услуги доктора. Заплатите $50.", function () {
     subtractamount(50, 'Community Chest');
 });
-communityChestCards[12] = new Card("It is your birthday. Collect $10 from every player.", function () {
+communityChestCards[12] = new Card("Сейчас ваш День Рождения. Соберите $10 с каждого игрока.", function () {
     collectfromeachplayer(10, 'Community Chest');
 });
 communityChestCards[13] = new Card("Advance to \"GO\" (Collect $200).", function () {
