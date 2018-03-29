@@ -165,11 +165,11 @@ communityChestCards[15] = new Card("Отправиться  в тюрьму. О�
 });
 
 
-chanceCards[0] = new Card("GET OUT OF JAIL FREE. This card may be kept until needed or traded.", function (p) {
+chanceCards[0] = new Card("Выйти из тюрьмы, Свобода. Эту карточку можно сохранить до момента надобности или продажи .", function (p) {
     p.chanceJailCard = true;
     updateOwned();
 });
-chanceCards[1] = new Card("Make General Repairs on All Your Property. For each house pay $25. For each hotel $100.", function () {
+chanceCards[1] = new Card("Массовое устранение наполадков на Ваших предприятиях. За каждый дом заплатите $25. За каждый отель - $100.", function () {
     streetrepairs(25, 100);
 });
 chanceCards[2] = new Card("Speeding fine $15.", function () {
