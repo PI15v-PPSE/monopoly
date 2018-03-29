@@ -1,71 +1,71 @@
 function Square(name, pricetext, color, price, groupNumber, baserent, rent1, rent2, rent3, rent4, rent5) {
-	this.name = name;
-	this.pricetext = pricetext;
-	this.color = color;
-	this.owner = 0;
-	this.mortgage = false;
-	this.house = 0;
-	this.hotel = 0;
-	this.groupNumber = groupNumber || 0;
-	this.price = (price || 0);
-	this.baserent = (baserent || 0);
-	this.rent1 = (rent1 || 0);
-	this.rent2 = (rent2 || 0);
-	this.rent3 = (rent3 || 0);
-	this.rent4 = (rent4 || 0);
-	this.rent5 = (rent5 || 0);
-	this.landcount = 0;
-	
-	if (groupNumber === 3 || groupNumber === 4) {
-		this.houseprice = 50;
-	} else if (groupNumber === 5 || groupNumber === 6) {
-		this.houseprice = 100;
-	} else if (groupNumber === 7 || groupNumber === 8) {
-		this.houseprice = 150;
-	} else if (groupNumber === 9 || groupNumber === 10) {
-		this.houseprice = 200;
-	} else {
-		this.houseprice = 0;
-	}
+    this.name = name;
+    this.pricetext = pricetext;
+    this.color = color;
+    this.owner = 0;
+    this.mortgage = false;
+    this.house = 0;
+    this.hotel = 0;
+    this.groupNumber = groupNumber || 0;
+    this.price = (price || 0);
+    this.baserent = (baserent || 0);
+    this.rent1 = (rent1 || 0);
+    this.rent2 = (rent2 || 0);
+    this.rent3 = (rent3 || 0);
+    this.rent4 = (rent4 || 0);
+    this.rent5 = (rent5 || 0);
+    this.landcount = 0;
+
+    if (groupNumber === 3 || groupNumber === 4) {
+        this.houseprice = 50;
+    } else if (groupNumber === 5 || groupNumber === 6) {
+        this.houseprice = 100;
+    } else if (groupNumber === 7 || groupNumber === 8) {
+        this.houseprice = 150;
+    } else if (groupNumber === 9 || groupNumber === 10) {
+        this.houseprice = 200;
+    } else {
+        this.houseprice = 0;
+    }
 }
 
 function Card(text, action) {
-	this.text = text;
-	this.action = action;
+    this.text = text;
+    this.action = action;
 }
 
 function corrections() {
-	document.getElementById("cell1name").textContent = "Mediter-ranean Avenue";
-	
-	// Add images to enlarges.
-	document.getElementById("enlarge5token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; bottom: 20px;" />';
-	document.getElementById("enlarge15token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
-	document.getElementById("enlarge25token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
-	document.getElementById("enlarge35token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
-	document.getElementById("enlarge12token").innerHTML += '<img src="../images/electric_icon.png" height="60" width="48" alt="" style="position: relative; top: -20px;" />';
-	document.getElementById("enlarge28token").innerHTML += '<img src="../images/water_icon.png" height="60" width="78" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("cell1name").textContent = "Mediter-ranean Avenue";
+
+    // Add images to enlarges.
+    document.getElementById("enlarge5token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; bottom: 20px;" />';
+    document.getElementById("enlarge15token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge25token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge35token").innerHTML += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge12token").innerHTML += '<img src="../images/electric_icon.png" height="60" width="48" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge28token").innerHTML += '<img src="../images/water_icon.png" height="60" width="78" alt="" style="position: relative; top: -20px;" />';
 }
 
 function utiltext() {
-	return '&nbsp;&nbsp;&nbsp;&nbsp;If one "Utility" is owned rent is 4 times amount shown on dice.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;If both "Utilitys" are owned rent is 10 times amount shown on dice.';
+    return '&nbsp;&nbsp;&nbsp;&nbsp;If one "Utility" is owned rent is 4 times amount shown on dice.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;If both "Utilitys" are owned rent is 10 times amount shown on dice.';
 }
 
 function transtext() {
-	return '<div style="font-size: 14px; line-height: 1.5;">Rent<span style="float: right;">$25.</span><br />If 2 Railroads are owned<span style="float: right;">50.</span><br />If 3 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">100.</span><br />If 4 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">200.</span></div>';
+    return '<div style="font-size: 14px; line-height: 1.5;">Rent<span style="float: right;">$25.</span><br />If 2 Railroads are owned<span style="float: right;">50.</span><br />If 3 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">100.</span><br />If 4 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">200.</span></div>';
 }
 
 function luxurytax() {
-	addAlert(player[turn].name + " заплатите $100 за попадание на Luxury Tax.");
-	player[turn].pay(100, 0);
-	
-	$("#landed").show().text("Вы попали на Luxury Tax. Заплатите $100.");
+    addAlert(player[turn].name + " заплатите $100 за попадание на Luxury Tax.");
+    player[turn].pay(100, 0);
+
+    $("#landed").show().text("Вы попали на Luxury Tax. Заплатите $100.");
 }
 
 function citytax() {
-	addAlert(player[turn].name + " заплатите $100 за попадание на City Tax.");
-	player[turn].pay(200, 0);
+    addAlert(player[turn].name + " заплатите $100 за попадание на City Tax.");
+    player[turn].pay(200, 0);
 
-	$("#landed").show().text("Вы попали на City Tax. Заплатите $200.");
+    $("#landed").show().text("Вы попали на City Tax. Заплатите $200.");
 }
 
 var square = [];
@@ -114,37 +114,103 @@ square[39] = new Square("Boardwalk", "$400", "#0000FF", 400, 10, 50, 200, 600, 1
 var communityChestCards = [];
 var chanceCards = [];
 
-communityChestCards[0] = new Card("Get out of Jail, Free. This card may be kept until needed or sold.", function(p) { p.communityChestJailCard = true; updateOwned();});
-communityChestCards[1] = new Card("You have won second prize in a beauty contest. Collect $10.", function() { addamount(10, 'Community Chest');});
-communityChestCards[2] = new Card("From sale of stock, you get $50.", function() { addamount(50, 'Community Chest');});
-communityChestCards[3] = new Card("Life insurance matures. Collect $100.", function() { addamount(100, 'Community Chest');});
-communityChestCards[4] = new Card("Income tax refund. Collect $20.", function() { addamount(20, 'Community Chest');});
-communityChestCards[5] = new Card("Holiday fund matures. Receive $100.", function() { addamount(100, 'Community Chest');});
-communityChestCards[6] = new Card("You inherit $100.", function() { addamount(100, 'Community Chest');});
-communityChestCards[7] = new Card("Receive $25 consultancy fee.", function() { addamount(25, 'Community Chest');});
-communityChestCards[8] = new Card("Pay hospital fees of $100.", function() { subtractamount(100, 'Community Chest');});
-communityChestCards[9] = new Card("Bank error in your favor. Collect $200.", function() { addamount(200, 'Community Chest');});
-communityChestCards[10] = new Card("Pay school fees of $50.", function() { subtractamount(50, 'Community Chest');});
-communityChestCards[11] = new Card("Doctor's fee. Pay $50.", function() { subtractamount(50, 'Community Chest');});
-communityChestCards[12] = new Card("It is your birthday. Collect $10 from every player.", function() { collectfromeachplayer(10, 'Community Chest');});
-communityChestCards[13] = new Card("Advance to \"GO\" (Collect $200).", function() { advance(0);});
-communityChestCards[14] = new Card("You are assessed for street repairs. $40 per house. $115 per hotel.", function() { streetrepairs(40, 115);});
-communityChestCards[15] = new Card("Go to Jail. Go directly to Jail. Do not pass \"GO\". Do not collect $200.", function() { gotojail();});
+communityChestCards[0] = new Card("Выйти из тюрьмы, Свобода. Эту карточку можно сохранить до момента надобности или продажи .", function (p) {
+    p.communityChestJailCard = true;
+    updateOwned();
+});
+communityChestCards[1] = new Card("Вы заняли второе место в конкурсе красоты. Получите $10.", function () {
+    addamount(10, 'Community Chest');
+});
+communityChestCards[2] = new Card("С продажи акций вы получите $50.", function () {
+    addamount(50, 'Community Chest');
+});
+communityChestCards[3] = new Card("Получите $100 со страховки.", function () {
+    addamount(100, 'Community Chest');
+});
+communityChestCards[4] = new Card("Возврат налога с доходов. Получите $20.", function () {
+    addamount(20, 'Community Chest');
+});
+communityChestCards[5] = new Card("Получите $100 с праздничного фонда .", function () {
+    addamount(100, 'Community Chest');
+});
+communityChestCards[6] = new Card("Вы получаете $100 по наслдству.", function () {
+    addamount(100, 'Community Chest');
+});
+communityChestCards[7] = new Card("Receive $25 consultancy fee.", function () {
+    addamount(25, 'Community Chest');
+});
+communityChestCards[8] = new Card("Pay hospital fees of $100.", function () {
+    subtractamount(100, 'Community Chest');
+});
+communityChestCards[9] = new Card("Bank error in your favor. Collect $200.", function () {
+    addamount(200, 'Community Chest');
+});
+communityChestCards[10] = new Card("Pay school fees of $50.", function () {
+    subtractamount(50, 'Community Chest');
+});
+communityChestCards[11] = new Card("Doctor's fee. Pay $50.", function () {
+    subtractamount(50, 'Community Chest');
+});
+communityChestCards[12] = new Card("It is your birthday. Collect $10 from every player.", function () {
+    collectfromeachplayer(10, 'Community Chest');
+});
+communityChestCards[13] = new Card("Advance to \"GO\" (Collect $200).", function () {
+    advance(0);
+});
+communityChestCards[14] = new Card("You are assessed for street repairs. $40 per house. $115 per hotel.", function () {
+    streetrepairs(40, 115);
+});
+communityChestCards[15] = new Card("Go to Jail. Go directly to Jail. Do not pass \"GO\". Do not collect $200.", function () {
+    gotojail();
+});
 
 
-chanceCards[0] = new Card("GET OUT OF JAIL FREE. This card may be kept until needed or traded.", function(p) { p.chanceJailCard=true; updateOwned();});
-chanceCards[1] = new Card("Make General Repairs on All Your Property. For each house pay $25. For each hotel $100.", function() { streetrepairs(25, 100);});
-chanceCards[2] = new Card("Speeding fine $15.", function() { subtractamount(15, 'Chance');});
-chanceCards[3] = new Card("You have been elected chairman of the board. Pay each player $50.", function() { payeachplayer(50, 'Chance');});
-chanceCards[4] = new Card("Go back three spaces.", function() { gobackthreespaces();});
-chanceCards[5] = new Card("ADVANCE TO THE NEAREST UTILITY. IF UNOWNED, you may buy it from the Bank. IF OWNED, throw dice and pay owner a total ten times the amount thrown.", function() { advanceToNearestUtility();});
-chanceCards[6] = new Card("Bank pays you dividend of $50.", function() { addamount(50, 'Chance');});
-chanceCards[7] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function() { advanceToNearestRailroad();});
-chanceCards[8] = new Card("Pay poor tax of $15.", function() { subtractamount(15, 'Chance');});
-chanceCards[9] = new Card("Take a trip to Reading Rail Road. If you pass \"GO\" collect $200.", function() { advance(5);});
-chanceCards[10] = new Card("ADVANCE to Boardwalk.", function() { advance(39);});
-chanceCards[11] = new Card("ADVANCE to Illinois Avenue. If you pass \"GO\" collect $200.", function() { advance(24);});
-chanceCards[12] = new Card("Your building loan matures. Collect $150.", function() { addamount(150, 'Chance');});
-chanceCards[13] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function() { advanceToNearestRailroad();});
-chanceCards[14] = new Card("ADVANCE to St. Charles Place. If you pass \"GO\" collect $200.", function() { advance(11);});
-chanceCards[15] = new Card("Go to Jail. Go Directly to Jail. Do not pass \"GO\". Do not collect $200.", function() { gotojail();});
+chanceCards[0] = new Card("GET OUT OF JAIL FREE. This card may be kept until needed or traded.", function (p) {
+    p.chanceJailCard = true;
+    updateOwned();
+});
+chanceCards[1] = new Card("Make General Repairs on All Your Property. For each house pay $25. For each hotel $100.", function () {
+    streetrepairs(25, 100);
+});
+chanceCards[2] = new Card("Speeding fine $15.", function () {
+    subtractamount(15, 'Chance');
+});
+chanceCards[3] = new Card("You have been elected chairman of the board. Pay each player $50.", function () {
+    payeachplayer(50, 'Chance');
+});
+chanceCards[4] = new Card("Go back three spaces.", function () {
+    gobackthreespaces();
+});
+chanceCards[5] = new Card("ADVANCE TO THE NEAREST UTILITY. IF UNOWNED, you may buy it from the Bank. IF OWNED, throw dice and pay owner a total ten times the amount thrown.", function () {
+    advanceToNearestUtility();
+});
+chanceCards[6] = new Card("Bank pays you dividend of $50.", function () {
+    addamount(50, 'Chance');
+});
+chanceCards[7] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function () {
+    advanceToNearestRailroad();
+});
+chanceCards[8] = new Card("Pay poor tax of $15.", function () {
+    subtractamount(15, 'Chance');
+});
+chanceCards[9] = new Card("Take a trip to Reading Rail Road. If you pass \"GO\" collect $200.", function () {
+    advance(5);
+});
+chanceCards[10] = new Card("ADVANCE to Boardwalk.", function () {
+    advance(39);
+});
+chanceCards[11] = new Card("ADVANCE to Illinois Avenue. If you pass \"GO\" collect $200.", function () {
+    advance(24);
+});
+chanceCards[12] = new Card("Your building loan matures. Collect $150.", function () {
+    addamount(150, 'Chance');
+});
+chanceCards[13] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function () {
+    advanceToNearestRailroad();
+});
+chanceCards[14] = new Card("ADVANCE to St. Charles Place. If you pass \"GO\" collect $200.", function () {
+    advance(11);
+});
+chanceCards[15] = new Card("Go to Jail. Go Directly to Jail. Do not pass \"GO\". Do not collect $200.", function () {
+    gotojail();
+});
