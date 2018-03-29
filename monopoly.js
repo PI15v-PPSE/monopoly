@@ -62,7 +62,7 @@ function Game() {
 			addAlert(p.name + " bought " + sq.name + " for $" + highestbid + ".")
 		}
 
-		for (var i = 1 i <= pcount i++) {
+		for (var i = 1; i <= pcount; i++) {
 			player[i].bidding = true
 		}
 
@@ -374,7 +374,7 @@ function Game() {
 		var recipientSideTable = document.createElement("table")
 
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			currentSquare = square[i]
 
 			// A property cannot be traded if any properties in its group have been improved.
@@ -573,7 +573,7 @@ function Game() {
 			}
 
 			nameSelect = currentName.appendChild(document.createElement("select"))
-			for (var i = 1 i <= pcount i++) {
+			for (var i = 1; i <= pcount; i++) {
 				if (i === initiator.index) {
 					continue
 				}
@@ -610,7 +610,7 @@ function Game() {
 		var communityChestJailCard
 		var chanceJailCard
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 
 			if (document.getElementById("tradeleftcheckbox" + i) && document.getElementById("tradeleftcheckbox" + i).checked) {
 				property[i] = 1
@@ -648,7 +648,7 @@ function Game() {
 	var writeTrade = function(tradeObj) {
 		resetTrade(tradeObj.getInitiator(), tradeObj.getRecipient(), false)
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 
 			if (document.getElementById("tradeleftcheckbox" + i)) {
 				document.getElementById("tradeleftcheckbox" + i).checked = false
@@ -784,7 +784,7 @@ function Game() {
 		var isAPropertySelected = 0
 
 		// Ensure that some properties are selected.
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			isAPropertySelected |= tradeObj.getProperty(i)
 		}
 
@@ -894,7 +894,7 @@ function Game() {
 		var isAPropertySelected = 0
 
 		// Ensure that some properties are selected.
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			reversedTradeProperty[i] = -tradeObj.getProperty(i)
 			isAPropertySelected |= tradeObj.getProperty(i)
 		}
@@ -955,13 +955,13 @@ function Game() {
 	this.eliminatePlayer = function() {
 		var p = player[turn]
 
-		for (var i = p.index i < pcount i++) {
+		for (var i = p.index; i < pcount; i++) {
 			player[i] = player[i + 1]
 			player[i].index = i
 
 		}
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			if (square[i].owner >= p.index) {
 				square[i].owner--
 			}
@@ -1010,7 +1010,7 @@ function Game() {
 		var HTML = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>"
 		var price
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			sq = square[i]
 			if (sq.owner == p.index && sq.mortgage) {
 				price = Math.round(sq.price * 0.5)
@@ -1056,7 +1056,7 @@ function Game() {
 			pcredit.money += p.money
 		}
 
-		for (var i = 0 i < 40 i++) {
+		for (var i = 0; i < 40; i++) {
 			sq = square[i]
 			if (sq.owner == p.index) {
 				// Mortgaged properties will be tranfered by bankruptcyUnmortgage()
@@ -1183,11 +1183,11 @@ Array.prototype.randomize = function(length) {
 	var num
 	var indexArray = []
 
-	for (var i = 0 i < length i++) {
+	for (var i = 0; i < length; i++) {
 		indexArray[i] = i
 	}
 
-	for (var i = 0 i < length i++) {
+	for (var i = 0; i < length; i++) {
 		// Generate random number between 0 and indexArray.length - 1.
 		num = Math.floor(Math.random() * indexArray.length)
 		this[i] = indexArray[num] + 1
@@ -1289,7 +1289,7 @@ function updatePosition() {
 	// Reset borders
 	document.getElementById("jail").style.border = "1px solid black"
 	document.getElementById("jailpositionholder").innerHTML = ""
-	for (var i = 0 i < 40 i++) {
+	for (var i = 0; i < 40; i++) {
 		document.getElementById("cell" + i).style.border = "1px solid black"
 		document.getElementById("cell" + i + "positionholder").innerHTML = ""
 
@@ -1297,12 +1297,12 @@ function updatePosition() {
 
 	var sq, left, top
 
-	for (var x = 0 x < 40 x++) {
+	for (var x = 0; x < 40; x++) {
 		sq = square[x]
 		left = 0
 		top = 0
 
-		for (var y = turn y <= pcount y++) {
+		for (var y = turn; y <= pcount; y++) {
 
 			if (player[y].position == x && !player[y].jail) {
 
@@ -1315,7 +1315,7 @@ function updatePosition() {
 			}
 		}
 
-		for (var y = 1 y < turn y++) {
+		for (var y = 1; y < turn; y++) {
 
 			if (player[y].position == x && !player[y].jail) {
 				document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
@@ -1330,7 +1330,7 @@ function updatePosition() {
 
 	left = 0
 	top = 53
-	for (var i = turn i <= pcount i++) {
+	for (var i = turn; i <= pcount; i++) {
 		if (player[i].jail) {
 			document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
 
@@ -1343,7 +1343,7 @@ function updatePosition() {
 		}
 	}
 
-	for (var i = 1 i < turn i++) {
+	for (var i = 1; i < turn; i++) {
 		if (player[i].jail) {
 			document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
 			if (left === 36) {
