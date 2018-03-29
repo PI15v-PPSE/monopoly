@@ -640,9 +640,7 @@ function Game () {
         money = parseInt(document.getElementById("trade-leftp-money").value, 10) || 0
         money -= parseInt(document.getElementById("trade-rightp-money").value, 10) || 0
 
-        let trade = new Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard)
-
-        return trade
+        return new Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard)
     }
 
     let writeTrade = function (tradeObj) {
@@ -651,50 +649,30 @@ function Game () {
         for (let i = 0; i < 40; i++) {
 
             if (document.getElementById("tradeleftcheckbox" + i)) {
-                document.getElementById("tradeleftcheckbox" + i).checked = false
-                if (tradeObj.getProperty(i) === 1) {
-                    document.getElementById("tradeleftcheckbox" + i).checked = true
-                }
+
+                document.getElementById("tradeleftcheckbox" + i).checked = tradeObj.getProperty(i) === 1;
             }
 
             if (document.getElementById("traderightcheckbox" + i)) {
-                document.getElementById("traderightcheckbox" + i).checked = false
-                if (tradeObj.getProperty(i) === -1) {
-                    document.getElementById("traderightcheckbox" + i).checked = true
-                }
+
+                document.getElementById("traderightcheckbox" + i).checked = tradeObj.getProperty(i) === -1;
             }
         }
 
         if (document.getElementById("tradeleftcheckbox40")) {
-            if (tradeObj.getCommunityChestJailCard() === 1) {
-                document.getElementById("tradeleftcheckbox40").checked = true
-            } else {
-                document.getElementById("tradeleftcheckbox40").checked = false
-            }
+            document.getElementById("tradeleftcheckbox40").checked = tradeObj.getCommunityChestJailCard() === 1;
         }
 
         if (document.getElementById("traderightcheckbox40")) {
-            if (tradeObj.getCommunityChestJailCard() === -1) {
-                document.getElementById("traderightcheckbox40").checked = true
-            } else {
-                document.getElementById("traderightcheckbox40").checked = false
-            }
+            document.getElementById("traderightcheckbox40").checked = tradeObj.getCommunityChestJailCard() === -1;
         }
 
         if (document.getElementById("tradeleftcheckbox41")) {
-            if (tradeObj.getChanceJailCard() === 1) {
-                document.getElementById("tradeleftcheckbox41").checked = true
-            } else {
-                document.getElementById("tradeleftcheckbox41").checked = false
-            }
+            document.getElementById("tradeleftcheckbox41").checked = tradeObj.getChanceJailCard() === 1;
         }
 
         if (document.getElementById("traderightcheckbox41")) {
-            if (tradeObj.getChanceJailCard() === -1) {
-                document.getElementById("traderightcheckbox41").checked = true
-            } else {
-                document.getElementById("traderightcheckbox41").checked = false
-            }
+            document.getElementById("traderightcheckbox41").checked = tradeObj.getChanceJailCard() === -1;
         }
 
         if (tradeObj.getMoney() > 0) {
@@ -1845,7 +1823,7 @@ function payeachplayer (amount, cause) {
     let total = 0
 
     for (let i = 1; i <= pcount; i++) {
-        if (i != turn) {
+        if (i !== turn) {
             player[i].money += amount
             total += amount
             creditor = p.money >= 0 ? i : creditor
@@ -1862,7 +1840,7 @@ function collectfromeachplayer (amount, cause) {
     let total = 0
 
     for (let i = 1; i <= pcount; i++) {
-        if (i != turn) {
+        if (i !== turn) {
             money = player[i].money
             if (money < amount) {
                 p.money += money
