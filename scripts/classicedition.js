@@ -151,16 +151,16 @@ communityChestCards[10] = new Card("Заплатите школьные нало
 communityChestCards[11] = new Card("Услуги доктора. Заплатите $50.", function () {
     subtractamount(50, 'Community Chest');
 });
-communityChestCards[12] = new Card("Сейчас ваш День Рождения. Соберите $10 с каждого игрока.", function () {
+communityChestCards[12] = new Card("Сейчас Ваш День Рождения. Соберите $10 с каждого игрока.", function () {
     collectfromeachplayer(10, 'Community Chest');
 });
 communityChestCards[13] = new Card("Advance to \"GO\" (Collect $200).", function () {
     advance(0);
 });
-communityChestCards[14] = new Card("You are assessed for street repairs. $40 per house. $115 per hotel.", function () {
+communityChestCards[14] = new Card("С Вас вас взымаются выплаты: $40 за дом, $115 за отель.", function () {
     streetrepairs(40, 115);
 });
-communityChestCards[15] = new Card("Go to Jail. Go directly to Jail. Do not pass \"GO\". Do not collect $200.", function () {
+communityChestCards[15] = new Card("Отправиться  в тюрьму. Отправляетесь прямо в тюрьму. Не проходите \"СТАРТ\". Не получаете $200.", function () {
     gotojail();
 });
 
