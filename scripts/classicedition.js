@@ -189,7 +189,7 @@ chanceCards[5] = new Card("ПЕРЕМЕСТИТЕСЬ В БЛИЖАЙШЕЕ ЗА
 chanceCards[6] = new Card("Bank pays you dividend of $50.", function () {
     addamount(50, 'Chance');
 });
-chanceCards[7] = new Card("ПЕРЕМЕСТИТЕСЬ НА БЛИЖАЙШУЮ ЖЕЛЕЗНУЮ ДОРОГУ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его у Банка. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function () {
+chanceCards[7] = new Card("ПЕРЕМЕСТИТЕСЬ НА БЛИЖАЙШУЮ ЖЕЛЕЗНУЮ ДОРОГУ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его у Банка. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём.", function () {
     advanceToNearestRailroad();
 });
 chanceCards[8] = new Card("Pay poor tax of $15.", function () {
