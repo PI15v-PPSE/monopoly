@@ -192,7 +192,7 @@ chanceCards[6] = new Card("Банк платит вам дивиденты в $5
 chanceCards[7] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function () {
     advanceToNearestRailroad();
 });
-chanceCards[8] = new Card("Pay poor tax of $15.", function () {
+chanceCards[8] = new Card("Заплатить бедным налог в $15.", function () {
     subtractamount(15, 'Chance');
 });
 chanceCards[9] = new Card("Take a trip to Reading Rail Road. If you pass \"GO\" collect $200.", function () {
