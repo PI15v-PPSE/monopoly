@@ -186,7 +186,7 @@ chanceCards[4] = new Card("Перейти назад на 3 клетки.", func
 chanceCards[5] = new Card("ПЕРЕМЕСТИТЕСЬ В БЛИЖАЙШЕЕ ЗАВЕДЕНИЕ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём", function () {
     advanceToNearestUtility();
 });
-chanceCards[6] = new Card("Bank pays you dividend of $50.", function () {
+chanceCards[6] = new Card("Банк платит вам дивиденты в $50.", function () {
     addamount(50, 'Chance');
 });
 chanceCards[7] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function () {
