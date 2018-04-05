@@ -111,7 +111,7 @@ square[35] = new Square("Short Line", "$200", "#FFFFFF", 200, 1);
 square[36] = new Square("Chance", "СЛЕДУЙТЕ ИНСТРУКЦИЯМ НА ВЕРХНЕЙ КАРТОЧКЕ", "#FFFFFF");
 square[37] = new Square("Park Place", "$350", "#0000FF", 350, 10, 35, 175, 500, 1100, 1300, 1500);
 square[38] = new Square("LUXURY TAX", "Заплатите $100", "#FFFFFF");
-square[39] = new Square("Boardwalk", "$400", "#0000FF", 400, 10, 50, 200, 600, 1400, 1700, 2000);
+square[39] = new Square("Boardwalks", "$400", "#0000FF", 400, 10, 50, 200, 600, 1400, 1700, 2000);
 
 let communityChestCards = [];
 let chanceCards = [];
