@@ -198,7 +198,7 @@ chanceCards[8] = new Card("Заплатить бедным налог в $15.", 
 chanceCards[9] = new Card("Take a trip to Reading Rail Road. If you pass \"GO\" collect $200.", function () {
     advance(5);
 });
-chanceCards[10] = new Card("ADVANCE to Boardwalk.", function () {
+chanceCards[10] = new Card("ПЕРЕМЕСТИТЬСЯ на Набережную.", function () {
     advance(39);
 });
 chanceCards[11] = new Card("ADVANCE to Illinois Avenue. If you pass \"GO\" collect $200.", function () {
