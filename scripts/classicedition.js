@@ -62,7 +62,7 @@ function luxurytax() {
 
     $("#landed").show().text("Вы попали на Luxury Tax. Заплатите $100.");
 }
-}
+
 
 function citytax () {
     addAlert(player[turn].name + " заплатите $100 за попадание на City Tax.");
@@ -183,7 +183,7 @@ chanceCards[3] = new Card("Вы платите $50 каждому игроку �
 chanceCards[4] = new Card("Перейти назад на 3 клетки.", function () {
     gobackthreespaces();
 });
-chanceCards[5] = new Card("ADVANCE TO THE NEAREST UTILITY. IF UNOWNED, you may buy it from the Bank. IF OWNED, throw dice and pay owner a total ten times the amount thrown.", function () {
+chanceCards[5] = new Card("ПЕРЕМЕСТИТЕСЬ В БЛИЖАЙШЕЕ ЗАВЕДЕНИЕ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём", function () {
     advanceToNearestUtility();
 });
 chanceCards[6] = new Card("Bank pays you dividend of $50.", function () {

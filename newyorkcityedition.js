@@ -109,13 +109,13 @@ square[35] = new Square("United Airlines", "$200", "white", 200, 1);
 square[36] = new Square("Chance", "NEW YORK LOTTERY GAMES", "white");
 square[37] = new Square("Tiffany & CO.", "$350", "blue", 350, 10, 35, 175, 500, 1100, 1300, 1500);
 square[38] = new Square("LUXURY TAX", "Pay $75", "white");
-square[39] = new Square("TRUMP TOWER", "$400", "blue", 400, 10, 50, 200, 600, 1400, 1700, 2000);
+square[39] = new Square("Башня Трампа", "$400", "blue", 400, 10, 50, 200, 600, 1400, 1700, 2000);
 
 var communityChestCards = [];
 var chanceCards = [];
 
 communityChestCards[0] = new Card("Get out of Jail, Free. This card may be kept until needed or sold.", function() { p.communityChestJailCard = true; updateOwned();});
-communityChestCards[1] = new Card("You have won lifetime home delivery of the New York Times. Collect $10", function() { addamount(10, 'Community Chest');});
+communityChestCards[1] = new Card("Вы получили пожизненную доставку на дом New York Times. Соберите 10 долларов США", function() { addamount(10, 'Community Chest');});
 communityChestCards[2] = new Card("From sale of Macy's stock, you get $45", function() { addamount(45, 'Community Chest');});
 communityChestCards[3] = new Card("Life insurance matures. Collect $100", function() { addamount(100, 'Community Chest');});
 communityChestCards[4] = new Card("Deloitte & Touche LLP tax return Collect $20", function() { addamount(20, 'Community Chest');});
