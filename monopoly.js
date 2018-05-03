@@ -24,7 +24,7 @@ function Game () {
             p.AI.payDebt()
 
             if (p.money < 0) {
-                popup("<p>" + p.name + " is bankrupt. All of its assets will be turned over to " + player[p.creditor].name + ".</p>", game.bankruptcy)
+                popup("<p>" + p.name + " стал банкротом. All of its assets will be turned over to " + player[p.creditor].name + ".</p>", game.bankruptcy)
             } else {
                 roll()
             }
