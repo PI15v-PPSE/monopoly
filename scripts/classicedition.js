@@ -195,7 +195,7 @@ chanceCards[7] = new Card("ПЕРЕМЕСТИТЕСЬ НА БЛИЖАЙШУЮ Ж
 chanceCards[8] = new Card("Заплатить бедным налог в $15.", function () {
     subtractamount(15, 'Chance');
 });
-chanceCards[9] = new Card("Отправтесь в Reading Rail Road. Если пройдёте \"GO\" соберите $200.", function () {
+chanceCards[9] = new Card("Отправтесь в путишествие в Reading Rail Road. Если пройдёте \"GO\" соберите $200.", function () {
     advance(5);
 });
 chanceCards[10] = new Card("ПЕРЕМЕСТИТЬСЯ на Набережную.", function () {
