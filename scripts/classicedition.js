@@ -183,22 +183,22 @@ chanceCards[3] = new Card("Вы платите $50 каждому игроку �
 chanceCards[4] = new Card("Перейти назад на 3 клетки.", function () {
     gobackthreespaces();
 });
-chanceCards[5] = new Card("ПЕРЕМЕСТИТЕСЬ В БЛИЖАЙШЕЕ ЗАВЕДЕНИЕ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём", function () {
+chanceCards[5] = new Card("ПЕРЕМЕСТИТЕСЬ В БЛИЖАЙШЕЕ ЗАВЕДЕНИЕ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его у Банка. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём", function () {
     advanceToNearestUtility();
 });
-chanceCards[6] = new Card("Bank pays you dividend of $50.", function () {
+chanceCards[6] = new Card("Банк платит вам дивиденты в $50.", function () {
     addamount(50, 'Chance');
 });
-chanceCards[7] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function () {
+chanceCards[7] = new Card("ПЕРЕМЕСТИТЕСЬ НА БЛИЖАЙШУЮ ЖЕЛЕЗНУЮ ДОРОГУ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его у Банка. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём.", function () {
     advanceToNearestRailroad();
 });
-chanceCards[8] = new Card("Pay poor tax of $15.", function () {
+chanceCards[8] = new Card("Заплатить бедным налог в $15.", function () {
     subtractamount(15, 'Chance');
 });
-chanceCards[9] = new Card("Take a trip to Reading Rail Road. If you pass \"GO\" collect $200.", function () {
+chanceCards[9] = new Card("Отправтесь в путишествие в Reading Rail Road. Если пройдёте \"GO\" соберите $200.", function () {
     advance(5);
 });
-chanceCards[10] = new Card("ADVANCE to Boardwalk.", function () {
+chanceCards[10] = new Card("ПЕРЕМЕСТИТЬСЯ на Набережную.", function () {
     advance(39);
 });
 chanceCards[11] = new Card("ADVANCE to Illinois Avenue. If you pass \"GO\" collect $200.", function () {
