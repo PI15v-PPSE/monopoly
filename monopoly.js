@@ -28,6 +28,7 @@ function Game () {
             } else {
                 roll()
             }
+
         } else if (areDiceRolled && doublecount === 0) {
             play()
         } else {
@@ -668,11 +669,11 @@ function Game () {
         }
 
         if (document.getElementById("tradeleftcheckbox41")) {
-            document.getElementById("tradeleftcheckbox41").checked = tradeObj.getChanceJailCard() === 1;
+            document.getElementById("tradeleftcheckbox41").checked = tradeObj.getchanceJailCard() === 1;
         }
 
         if (document.getElementById("traderightcheckbox41")) {
-            document.getElementById("traderightcheckbox41").checked = tradeObj.getChanceJailCard() === -1;
+            document.getElementById("traderightcheckbox41").checked = tradeObj.getchanceJailCard() === -1;
         }
 
         if (tradeObj.getMoney() > 0) {
@@ -767,7 +768,7 @@ function Game () {
         }
 
         isAPropertySelected |= tradeObj.getCommunityChestJailCard()
-        isAPropertySelected |= tradeObj.getChanceJailCard()
+        isAPropertySelected |= tradeObj.getchanceJailCard()
 
         if (isAPropertySelected === 0) {
             popup("<p>One or more properties must be selected in order to trade.</p>")
@@ -802,11 +803,11 @@ function Game () {
             addAlert(initiator.name + ' received a "Get Out of Jail Free" card from ' + recipient.name + ".")
         }
 
-        if (tradeObj.getChanceJailCard() === 1) {
+        if (tradeObj.getchanceJailCard() === 1) {
             initiator.chanceJailCard = false
             recipient.chanceJailCard = true
             addAlert(recipient.name + ' received a "Get Out of Jail Free" card from ' + initiator.name + ".")
-        } else if (tradeObj.getChanceJailCard() === -1) {
+        } else if (tradeObj.getchanceJailCard() === -1) {
             initiator.chanceJailCard = true
             recipient.chanceJailCard = false
             addAlert(initiator.name + ' received a "Get Out of Jail Free" card from ' + recipient.name + ".")
@@ -878,7 +879,7 @@ function Game () {
         }
 
         isAPropertySelected |= tradeObj.getCommunityChestJailCard()
-        isAPropertySelected |= tradeObj.getChanceJailCard()
+        isAPropertySelected |= tradeObj.getchanceJailCard()
 
         if (isAPropertySelected === 0) {
             popup("<p>One or more properties must be selected in order to trade.</p>")
@@ -890,7 +891,7 @@ function Game () {
             return false
         }
 
-        let reversedTrade = new Trade(recipient, initiator, -money, reversedTradeProperty, -tradeObj.getCommunityChestJailCard(), -tradeObj.getChanceJailCard())
+        let reversedTrade = new Trade(recipient, initiator, -money, reversedTradeProperty, -tradeObj.getCommunityChestJailCard(), -tradeObj.getchanceJailCard())
 
         if (recipient.human) {
 
@@ -982,7 +983,7 @@ function Game () {
             return
         }
 
-        let HTML = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>"
+        let html = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>"
         let price
 
         for (let i = 0; i < 40; i++) {
@@ -990,23 +991,23 @@ function Game () {
             if (sq.owner === p.index && sq.mortgage) {
                 price = Math.round(sq.price * 0.5)
 
-                HTML += "<tr><td class='propertycellcolor' style='background: " + sq.color + ""
+                html += "<tr><td class='propertycellcolor' style='background: " + sq.color + ""
 
                 if (sq.groupNumber === 1 || sq.groupNumber === 2) {
-                    HTML += " border: 1px solid grey"
+                    html += " border: 1px solid grey"
                 } else {
-                    HTML += " border: 1px solid " + sq.color + ""
+                    html += " border: 1px solid " + sq.color + ""
                 }
 
                 // Player already paid interest, so they can unmortgage for the mortgage price.
-                HTML += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='propertycellname'><a href='javascript:void(0)' title='Unmortgage " + sq.name + " for $" + price + ".' onclick='if (" + price + " <= player[" + p.creditor + "].money) {player[" + p.creditor + "].pay(" + price + ", 0) square[" + i + "].mortgage = false addAlert(\"" + player[p.creditor].name + " unmortgaged " + sq.name + " for $" + price + ".\")} this.parentElement.parentElement.style.display = \"none\"'>Unmortgage " + sq.name + " ($" + price + ")</a></td></tr>"
+                html += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='propertycellname'><a href='javascript:void(0)' title='Unmortgage " + sq.name + " for $" + price + ".' onclick='if (" + price + " <= player[" + p.creditor + "].money) {player[" + p.creditor + "].pay(" + price + ", 0) square[" + i + "].mortgage = false addAlert(\"" + player[p.creditor].name + " unmortgaged " + sq.name + " for $" + price + ".\")} this.parentElement.parentElement.style.display = \"none\"'>Unmortgage " + sq.name + " ($" + price + ")</a></td></tr>"
 
                 sq.owner = p.creditor
 
             }
         }
 
-        HTML += "</table>"
+        html += "</table>"
 
         popup(HTML, game.eliminatePlayer)
     }
@@ -1043,7 +1044,7 @@ function Game () {
 
                 if (sq.house > 0) {
                     if (p.creditor !== 0) {
-                        pcredit.money += sq.houseprice * 0.5 * sq.house
+                        pcredit.money += sq.housePrice * 0.5 * sq.house
                     }
                     sq.hotel = 0
                     sq.house = 0
@@ -1083,7 +1084,6 @@ function Game () {
 }
 
 let game
-
 
 function Player (name, color) {
     this.name = name
@@ -1147,7 +1147,7 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
         return communityChestJailCard
     }
 
-    this.getChanceJailCard = function () {
+    this.getchanceJailCard = function () {
         return chanceJailCard
     }
 }
@@ -1175,7 +1175,7 @@ Array.prototype.randomize = function (length) {
 }
 
 // function show(element) {
-// // Element may be an HTML element or the id of one passed as a string.
+// // Element may be an html element or the id of one passed as a string.
 // if (element.constructor === String) {
 // element = document.getElementById(element)
 // }
@@ -1188,7 +1188,7 @@ Array.prototype.randomize = function (length) {
 // }
 
 // function hide(element) {
-// // Element may be an HTML element or the id of one passed as a string.
+// // Element may be an html element or the id of one passed as a string.
 // if (element.constructor === String) {
 // document.getElementById(element).style.display = "none"
 // } else {
@@ -1210,7 +1210,7 @@ function addAlert (alertText) {
 }
 
 function popup (HTML, action, option) {
-    document.getElementById("popuptext").innerHTML = HTML
+    document.getElementById("popuptext").innerHTML = html
     document.getElementById("popup").style.width = "300px"
     document.getElementById("popup").style.top = "0px"
     document.getElementById("popup").style.left = "0px"
@@ -1423,15 +1423,15 @@ function updateDice () {
 
 function updateOwned () {
     let p = player[turn]
-    let checkedproperty = getCheckedProperty()
+    let checkedProperty = getCheckedProperty()
     $("#option").show()
     $("#owned").show()
 
-    let HTML = "",
-        firstproperty = -1
+    let html = "",
+        firstProperty = -1
 
-    let mortgagetext = "",
-        housetext = ""
+    let mortgageText = "",
+        houseText = ""
     let sq
 
     for (let i = 0; i < 40; i++) {
@@ -1451,65 +1451,65 @@ function updateOwned () {
         sq = square[i]
         if (sq.owner === turn) {
 
-            mortgagetext = ""
+            mortgageText = ""
             if (sq.mortgage) {
-                mortgagetext = "title='Mortgaged' style='color: grey'"
+                mortgageText = "title='Mortgaged' style='color: grey'"
             }
 
-            housetext = ""
+            houseText = ""
             if (sq.house >= 1 && sq.house <= 4) {
                 for (let x = 1; x <= sq.house; x++) {
-                    housetext += "<img src='images/house.png' alt='' title='House' class='house' />"
+                    houseText += "<img src='images/house.png' alt='' title='House' class='house' />"
                 }
             } else if (sq.hotel) {
-                housetext += "<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />"
+                houseText += "<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />"
             }
 
             if (HTML === "") {
-                HTML += "<table>"
-                firstproperty = i
+                html += "<table>"
+                firstProperty = i
             }
 
-            HTML += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox" + i + "' /></td><td class='propertycellcolor' style='background: " + sq.color + ""
+            html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox" + i + "' /></td><td class='propertycellcolor' style='background: " + sq.color + ""
 
             if (sq.groupNumber === 1 || sq.groupNumber === 2) {
-                HTML += " border: 1px solid grey width: 18px"
+                html += " border: 1px solid grey width: 18px"
             }
 
-            HTML += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='propertycellname' " + mortgagetext + ">" + sq.name + housetext + "</td></tr>"
+            html += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='propertycellname' " + mortgageText + ">" + sq.name + houseText + "</td></tr>"
         }
     }
 
     if (p.communityChestJailCard) {
         if (HTML === "") {
-            firstproperty = 40
-            HTML += "<table>"
+            firstProperty = 40
+            html += "<table>"
         }
-        HTML += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox40' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
+        html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox40' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
 
     }
     if (p.chanceJailCard) {
         if (HTML === "") {
-            firstproperty = 41
-            HTML += "<table>"
+            firstProperty = 41
+            html += "<table>"
         }
-        HTML += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox41' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
+        html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox41' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
     }
 
     if (HTML === "") {
-        HTML = p.name + ", you don't have any properties."
+        html = p.name + ", you don't have any properties."
         $("#option").hide()
     } else {
-        HTML += "</table>"
+        html += "</table>"
     }
 
-    document.getElementById("owned").innerHTML = HTML
+    document.getElementById("owned").innerHTML = html
 
     // Select previously selected property.
-    if (checkedproperty > -1 && document.getElementById("propertycheckbox" + checkedproperty)) {
-        document.getElementById("propertycheckbox" + checkedproperty).checked = true
-    } else if (firstproperty > -1) {
-        document.getElementById("propertycheckbox" + firstproperty).checked = true
+    if (checkedProperty > -1 && document.getElementById("propertycheckbox" + checkedProperty)) {
+        document.getElementById("propertycheckbox" + checkedProperty).checked = true
+    } else if (firstProperty > -1) {
+        document.getElementById("propertycheckbox" + firstProperty).checked = true
     }
     $(".property-cell-row").click(function () {
         let row = this
@@ -1536,36 +1536,36 @@ function updateOption () {
 
     let allGroupUninproved = true
     let allGroupUnmortgaged = true
-    let checkedproperty = getCheckedProperty()
+    let checkedProperty = getCheckedProperty()
 
-    if (checkedproperty < 0 || checkedproperty >= 40) {
-        $("#buyhousebutton").hide()
-        $("#sellhousebutton").hide()
+    if (checkedProperty < 0 || checkedProperty >= 40) {
+        $("#buyHouseButton").hide()
+        $("#sellHouseButton").hide()
         $("#mortgagebutton").hide()
 
 
-        let housesum = 32
-        let hotelsum = 12
+        let houseSum = 32
+        let hotelSum = 12
 
         for (let i = 0; i < 40; i++) {
             s = square[i]
             if (s.hotel === 1)
-                hotelsum--
+                hotelSum--
             else
-                housesum -= s.house
+                houseSum -= s.house
         }
 
         $("#buildings").show()
-        document.getElementById("buildings").innerHTML = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + housesum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelsum
+        document.getElementById("buildings").innerHTML = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum
 
         return
     }
 
     $("#buildings").hide()
-    let sq = square[checkedproperty]
+    let sq = square[checkedProperty]
 
-    buyhousebutton = document.getElementById("buyhousebutton")
-    sellhousebutton = document.getElementById("sellhousebutton")
+    buyHouseButton = document.getElementById("buyHouseButton")
+    sellHouseButton = document.getElementById("sellHouseButton")
 
     $("#mortgagebutton").show()
     document.getElementById("mortgagebutton").disabled = false
@@ -1573,8 +1573,8 @@ function updateOption () {
     if (sq.mortgage) {
         document.getElementById("mortgagebutton").value = "Unmortgage ($" + Math.round(sq.price * 0.6) + ")"
         document.getElementById("mortgagebutton").title = "Unmortgage " + sq.name + " for $" + Math.round(sq.price * 0.6) + "."
-        $("#buyhousebutton").hide()
-        $("#sellhousebutton").hide()
+        $("#buyHouseButton").hide()
+        $("#sellHouseButton").hide()
 
         allGroupUnmortgaged = false
     } else {
@@ -1582,27 +1582,27 @@ function updateOption () {
         document.getElementById("mortgagebutton").title = "Mortgage " + sq.name + " for $" + (sq.price * 0.5) + "."
 
         if (sq.groupNumber >= 3) {
-            $("#buyhousebutton").show()
-            $("#sellhousebutton").show()
-            buyhousebutton.disabled = false
-            sellhousebutton.disabled = false
+            $("#buyHouseButton").show()
+            $("#sellHouseButton").show()
+            buyHouseButton.disabled = false
+            sellHouseButton.disabled = false
 
-            buyhousebutton.value = "Buy house ($" + sq.houseprice + ")"
-            sellhousebutton.value = "Sell house ($" + (sq.houseprice * 0.5) + ")"
-            buyhousebutton.title = "Buy a house for $" + sq.houseprice
-            sellhousebutton.title = "Sell a house for $" + (sq.houseprice * 0.5)
+            buyHouseButton.value = "Buy house ($" + sq.housePrice + ")"
+            sellHouseButton.value = "Sell house ($" + (sq.housePrice * 0.5) + ")"
+            buyHouseButton.title = "Buy a house for $" + sq.housePrice
+            sellHouseButton.title = "Sell a house for $" + (sq.housePrice * 0.5)
 
             if (sq.house === 4) {
-                buyhousebutton.value = "Buy hotel ($" + sq.houseprice + ")"
-                buyhousebutton.title = "Buy a hotel for $" + sq.houseprice
+                buyHouseButton.value = "Buy hotel ($" + sq.housePrice + ")"
+                buyHouseButton.title = "Buy a hotel for $" + sq.housePrice
             }
             if (sq.hotel === 1) {
-                $("#buyhousebutton").hide()
-                sellhousebutton.value = "Sell hotel ($" + (sq.houseprice * 0.5) + ")"
-                sellhousebutton.title = "Sell a hotel for $" + (sq.houseprice * 0.5)
+                $("#buyHouseButton").hide()
+                sellHouseButton.value = "Sell hotel ($" + (sq.housePrice * 0.5) + ")"
+                sellHouseButton.title = "Sell a hotel for $" + (sq.housePrice * 0.5)
             }
 
-            let maxhouse = 0
+            let maxHouse = 0
             let minhouse = 5
 
             for (let j = 0; j < max; j++) {
@@ -1618,13 +1618,13 @@ function updateOption () {
                 s = square[sq.group[i]]
 
                 if (s.owner !== sq.owner) {
-                    buyhousebutton.disabled = true
-                    sellhousebutton.disabled = true
-                    buyhousebutton.title = "Before you can buy a house, you must own all the properties of this color-group."
+                    buyHouseButton.disabled = true
+                    sellHouseButton.disabled = true
+                    buyHouseButton.title = "Before you can buy a house, you must own all the properties of this color-group."
                 } else {
 
-                    if (s.house > maxhouse) {
-                        maxhouse = s.house
+                    if (s.house > maxHouse) {
+                        maxHouse = s.house
                     }
 
                     if (s.house < minhouse) {
@@ -1642,34 +1642,34 @@ function updateOption () {
             }
 
             if (!allGroupUnmortgaged) {
-                buyhousebutton.disabled = true
-                buyhousebutton.title = "Before you can buy a house, you must unmortgage all the properties of this color-group."
+                buyHouseButton.disabled = true
+                buyHouseButton.title = "Before you can buy a house, you must unmortgage all the properties of this color-group."
             }
 
             // Force even building
             if (sq.house > minhouse) {
-                buyhousebutton.disabled = true
+                buyHouseButton.disabled = true
 
                 if (sq.house === 1) {
-                    buyhousebutton.title = "Before you can buy another house, the other properties of this color-group must all have one house."
+                    buyHouseButton.title = "Before you can buy another house, the other properties of this color-group must all have one house."
                 } else if (sq.house === 4) {
-                    buyhousebutton.title = "Before you can buy a hotel, the other properties of this color-group must all have 4 houses."
+                    buyHouseButton.title = "Before you can buy a hotel, the other properties of this color-group must all have 4 houses."
                 } else {
-                    buyhousebutton.title = "Before you can buy a house, the other properties of this color-group must all have " + sq.house + " houses."
+                    buyHouseButton.title = "Before you can buy a house, the other properties of this color-group must all have " + sq.house + " houses."
                 }
             }
-            if (sq.house < maxhouse) {
-                sellhousebutton.disabled = true
+            if (sq.house < maxHouse) {
+                sellHouseButton.disabled = true
 
                 if (sq.house === 1) {
-                    sellhousebutton.title = "Before you can sell house, the other properties of this color-group must all have one house."
+                    sellHouseButton.title = "Before you can sell house, the other properties of this color-group must all have one house."
                 } else {
-                    sellhousebutton.title = "Before you can sell a house, the other properties of this color-group must all have " + sq.house + " houses."
+                    sellHouseButton.title = "Before you can sell a house, the other properties of this color-group must all have " + sq.house + " houses."
                 }
             }
 
             if (sq.house === 0 && sq.hotel === 0) {
-                $("#sellhousebutton").hide()
+                $("#sellHouseButton").hide()
 
             } else {
                 $("#mortgagebutton").hide()
@@ -1683,8 +1683,8 @@ function updateOption () {
             }
 
         } else {
-            $("#buyhousebutton").hide()
-            $("#sellhousebutton").hide()
+            $("#buyHouseButton").hide()
+            $("#sellHouseButton").hide()
         }
     }
 }
@@ -1770,7 +1770,7 @@ function communityChestAction (communityChestIndex) {
     }
 }
 
-function addamount (amount, cause) {
+function addAmount (amount, cause) {
     let p = player[turn]
 
     p.money += amount
@@ -1778,7 +1778,7 @@ function addamount (amount, cause) {
     addAlert(p.name + " received $" + amount + " from " + cause + ".")
 }
 
-function subtractamount (amount, cause) {
+function subtractAmount (amount, cause) {
     let p = player[turn]
 
     p.pay(amount, 0)
@@ -1786,7 +1786,7 @@ function subtractamount (amount, cause) {
     addAlert(p.name + " lost $" + amount + " from " + cause + ".")
 }
 
-function gotojail () {
+function gotoJail () {
     let p = player[turn]
     addAlert(p.name + " was sent directly to jail.")
     document.getElementById("landed").innerHTML = "You are in jail."
@@ -1810,7 +1810,7 @@ function gotojail () {
     }
 }
 
-function gobackthreespaces () {
+function goBackThreeSpaces () {
     let p = player[turn]
 
     p.position -= 3
@@ -1818,7 +1818,7 @@ function gobackthreespaces () {
     land()
 }
 
-function payeachplayer (amount, cause) {
+function payEachPlayer (amount, cause) {
     let p = player[turn]
     let total = 0
 
@@ -1896,7 +1896,7 @@ function advanceToNearestUtility () {
     land(true)
 }
 
-function advanceToNearestRailroad () {
+function advanceToNearestRailRoad () {
     let p = player[turn]
 
     updatePosition()
@@ -1914,7 +1914,7 @@ function advanceToNearestRailroad () {
     land(true)
 }
 
-function streetrepairs (houseprice, hotelprice) {
+function streetRepairs (housePrice, hotelprice) {
     let cost = 0
     for (let i = 0; i < 40; i++) {
         let s = square[i]
@@ -1922,7 +1922,7 @@ function streetrepairs (houseprice, hotelprice) {
             if (s.hotel === 1)
                 cost += hotelprice
             else
-                cost += s.house * houseprice
+                cost += s.house * housePrice
         }
     }
 
@@ -1932,7 +1932,7 @@ function streetrepairs (houseprice, hotelprice) {
         p.pay(cost, 0)
 
         // If function was called by Community Chest.
-        if (houseprice === 40) {
+        if (housePrice === 40) {
             addAlert(p.name + " lost $" + cost + " to Community Chest.")
         } else {
             addAlert(p.name + " lost $" + cost + " to Chance.")
@@ -2009,7 +2009,7 @@ function buyHouse (index) {
     let houseSum = 0
     let hotelSum = 0
 
-    if (p.money - sq.houseprice < 0) {
+    if (p.money - sq.housePrice < 0) {
         if (sq.house === 4) {
             return false
         } else {
@@ -2045,7 +2045,7 @@ function buyHouse (index) {
             }
         }
 
-        p.pay(sq.houseprice, 0)
+        p.pay(sq.housePrice, 0)
 
         updateOwned()
         updateMoney()
@@ -2065,88 +2065,88 @@ function sellHouse (index) {
         addAlert(p.name + " sold a house on " + sq.name + ".")
     }
 
-    p.money += sq.houseprice * 0.5
+    p.money += sq.housePrice * 0.5
     updateOwned()
     updateMoney()
 }
 
 function showStats () {
-    let HTML, sq, p
-    let mortgagetext,
-        housetext
+    let html, sq, p
+    let mortgageText,
+        houseText
     let write
-    HTML = "<table align='center'><tr>"
+    html = "<table align='center'><tr>"
 
     for (let x = 1; x <= pcount; x++) {
         write = false
         p = player[x]
         if (x === 5) {
-            HTML += "</tr><tr>"
+            html += "</tr><tr>"
         }
-        HTML += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>"
+        html += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>"
 
         for (let i = 0; i < 40; i++) {
             sq = square[i]
 
             if (sq.owner === x) {
-                mortgagetext = "",
-                    housetext = ""
+                mortgageText = "",
+                    houseText = ""
 
                 if (sq.mortgage) {
-                    mortgagetext = "title='Mortgaged' style='color: grey'"
+                    mortgageText = "title='Mortgaged' style='color: grey'"
                 }
 
                 if (!write) {
                     write = true
-                    HTML += "<table>"
+                    html += "<table>"
                 }
 
                 if (sq.house === 5) {
-                    housetext += "<span style='float: right font-weight: bold'>1&nbspx&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' style='float: none' /></span>"
+                    houseText += "<span style='float: right font-weight: bold'>1&nbspx&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' style='float: none' /></span>"
                 } else if (sq.house > 0 && sq.house < 5) {
-                    housetext += "<span style='float: right font-weight: bold'>" + sq.house + "&nbspx&nbsp<img src='images/house.png' alt='' title='House' class='house' style='float: none' /></span>"
+                    houseText += "<span style='float: right font-weight: bold'>" + sq.house + "&nbspx&nbsp<img src='images/house.png' alt='' title='House' class='house' style='float: none' /></span>"
                 }
 
-                HTML += "<tr><td class='statscellcolor' style='background: " + sq.color + ""
+                html += "<tr><td class='statscellcolor' style='background: " + sq.color + ""
 
                 if (sq.groupNumber === 1 || sq.groupNumber === 2) {
-                    HTML += " border: 1px solid grey"
+                    html += " border: 1px solid grey"
                 }
 
-                HTML += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='statscellname' " + mortgagetext + ">" + sq.name + housetext + "</td></tr>"
+                html += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='statscellname' " + mortgageText + ">" + sq.name + houseText + "</td></tr>"
             }
         }
 
         if (p.communityChestJailCard) {
             if (!write) {
                 write = true
-                HTML += "<table>"
+                html += "<table>"
             }
-            HTML += "<tr><td class='statscellcolor'></td><td class='statscellname'>Get Out of Jail Free Card</td></tr>"
+            html += "<tr><td class='statscellcolor'></td><td class='statscellname'>Get Out of Jail Free Card</td></tr>"
 
         }
         if (p.chanceJailCard) {
             if (!write) {
                 write = true
-                HTML += "<table>"
+                html += "<table>"
             }
-            HTML += "<tr><td class='statscellcolor'></td><td class='statscellname'>Get Out of Jail Free Card</td></tr>"
+            html += "<tr><td class='statscellcolor'></td><td class='statscellname'>Get Out of Jail Free Card</td></tr>"
 
         }
 
         if (!write) {
-            HTML += p.name + " dosen't have any properties."
+            html += p.name + " dosen't have any properties."
         } else {
-            HTML += "</table>"
+            html += "</table>"
         }
 
-        HTML += "</td>"
+        html += "</td>"
     }
-    HTML += "</tr></table><div id='titledeed'></div>"
+    html += "</tr></table><div id='titledeed'></div>"
 
-    document.getElementById("statstext").innerHTML = HTML
+    document.getElementById("statstext").innerHTML = html
     // Show using animation.
-    $("#statsbackground").fadeIn(400, function () {
+    $("#statsbackground").fadeIn(350, function () {
         $("#statswrap").show()
     })
 }
@@ -2170,26 +2170,26 @@ function showdeed (property) {
             $("#deed-normal").show()
             document.getElementById("deed-header").style.backgroundColor = sq.color
             document.getElementById("deed-name").textContent = sq.name
-            document.getElementById("deed-baserent").textContent = sq.baserent
+            document.getElementById("deed-baseRent").textContent = sq.baseRent
             document.getElementById("deed-rent1").textContent = sq.rent1
             document.getElementById("deed-rent2").textContent = sq.rent2
             document.getElementById("deed-rent3").textContent = sq.rent3
             document.getElementById("deed-rent4").textContent = sq.rent4
             document.getElementById("deed-rent5").textContent = sq.rent5
             document.getElementById("deed-mortgage").textContent = (sq.price / 2)
-            document.getElementById("deed-houseprice").textContent = sq.houseprice
-            document.getElementById("deed-hotelprice").textContent = sq.houseprice
+            document.getElementById("deed-housePrice").textContent = sq.housePrice
+            document.getElementById("deed-hotelprice").textContent = sq.housePrice
 
         } else if (sq.groupNumber === 2) {
             $("#deed-special").show()
             document.getElementById("deed-special-name").textContent = sq.name
-            document.getElementById("deed-special-text").innerHTML = utiltext()
+            document.getElementById("deed-special-text").innerHTML = utilText()
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
 
         } else if (sq.groupNumber === 1) {
             $("#deed-special").show()
             document.getElementById("deed-special-name").textContent = sq.name
-            document.getElementById("deed-special-text").innerHTML = transtext()
+            document.getElementById("deed-special-text").innerHTML = transText()
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
         }
     }
@@ -2345,10 +2345,10 @@ function land (increasedRent) {
             }
 
             if (!groupowned) {
-                rent = s.baserent
+                rent = s.baseRent
             } else {
                 if (s.house === 0) {
-                    rent = s.baserent * 2
+                    rent = s.baseRent * 2
                 } else {
                     rent = s["rent" + s.house]
                 }
@@ -2366,7 +2366,7 @@ function land (increasedRent) {
 
     // City Tax
     if (p.position === 4) {
-        citytax()
+        cityTax()
     }
 
     // Go to jail. Go directly to Jail. Do not pass GO. Do not collect $200.
@@ -2375,9 +2375,9 @@ function land (increasedRent) {
         updatePosition()
 
         if (p.human) {
-            popup("<div>Go to jail. Go directly to Jail. Do not pass GO. Do not collect $200.</div>", goToJail)
+            popup("<div>Go to jail. Go directly to Jail. Do not pass GO. Do not collect $200.</div>", gotoJail)
         } else {
-            gotojail()
+            gotoJail()
         }
 
         return
@@ -2385,7 +2385,7 @@ function land (increasedRent) {
 
     // Luxury Tax
     if (p.position === 38) {
-        luxurytax()
+        luxuryTax()
     }
 
     updateMoney()
@@ -2441,9 +2441,9 @@ function roll () {
 
 
             if (p.human) {
-                popup("You rolled doubles three times in a row. Go to jail.", goToJail)
+                popup("You rolled doubles three times in a row. Go to jail.", gotoJail)
             } else {
-                gotojail()
+                gotoJail()
             }
 
             return
@@ -2662,7 +2662,6 @@ game_ns._draw_setup.bind_and_invoke_players_count_change = function () {
     $("#playernumber").change()
 }
 
-
 game_ns._draw_setup.select_on_player_number_change = function () {
     pcount = parseInt(document.getElementById("playernumber").value, 10)
 
@@ -2856,15 +2855,15 @@ window.onload = function () {
 
     enlargeWrap.id = "enlarge-wrap"
 
-    let HTML = ""
+    let html = ""
     for (let i = 0; i < 40; i++) {
-        HTML += "<div id='enlarge" + i + "' class='enlarge'>"
-        HTML += "<div id='enlarge" + i + "color' class='enlarge-color'></div><br /><div id='enlarge" + i + "name' class='enlarge-name'></div>"
-        HTML += "<br /><div id='enlarge" + i + "price' class='enlarge-price'></div>"
-        HTML += "<br /><div id='enlarge" + i + "token' class='enlarge-token'></div></div>"
+        html += "<div id='enlarge" + i + "' class='enlarge'>"
+        html += "<div id='enlarge" + i + "color' class='enlarge-color'></div><br /><div id='enlarge" + i + "name' class='enlarge-name'></div>"
+        html += "<br /><div id='enlarge" + i + "price' class='enlarge-price'></div>"
+        html += "<br /><div id='enlarge" + i + "token' class='enlarge-token'></div></div>"
     }
 
-    enlargeWrap.innerHTML = HTML
+    enlargeWrap.innerHTML = html
 
     let currentCell
     let currentCellAnchor
@@ -3036,19 +3035,19 @@ window.onload = function () {
 
     })
 
-    $("#buyhousebutton").on("click", function () {
+    $("#buyHouseButton").on("click", function () {
         let checkedProperty = getCheckedProperty()
         let s = square[checkedProperty]
         let p = player[s.owner]
         let houseSum = 0
         let hotelSum = 0
 
-        if (p.money < s.houseprice) {
+        if (p.money < s.housePrice) {
             if (s.house === 4) {
-                popup("<p>You need $" + (s.houseprice - player[s.owner].money) + " more to buy a hotel for " + s.name + ".</p>")
+                popup("<p>You need $" + (s.housePrice - player[s.owner].money) + " more to buy a hotel for " + s.name + ".</p>")
                 return
             } else {
-                popup("<p>You need $" + (s.houseprice - player[s.owner].money) + " more to buy a house for " + s.name + ".</p>")
+                popup("<p>You need $" + (s.housePrice - player[s.owner].money) + " more to buy a house for " + s.name + ".</p>")
                 return
             }
         }
@@ -3073,7 +3072,7 @@ window.onload = function () {
 
     })
 
-    $("#sellhousebutton").click(function () {
+    $("#sellHouseButton").click(function () {
         sellHouse(getCheckedProperty())
     })
 
