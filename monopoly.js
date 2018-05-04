@@ -101,10 +101,10 @@ function Game () {
 
         popup("<div style='font-weight: bold font-size: 16px margin-bottom: 10px'>Auction <span id='propertyname'></span></div><div>Highest Bid = $<span id='highestbid'></span> (<span id='highestbidder'></span>)</div><div><span id='currentbidder'></span>, it is your turn to bid.</div<div><input id='bid' title='Enter an amount to bid on " + s.name + ".' style='width: 291px' /></div><div><input type='button' value='Bid' onclick='game.auctionBid()' title='Place your bid.' /><input type='button' value='Pass' title='Skip bidding this time.' onclick='game.auctionPass()' /><input type='button' value='Exit Auction' title='Stop bidding on " + s.name + " altogether.' onclick='if (confirm(\"Are you sure you want to stop bidding on this property altogether?\")) game.auctionExit()' /></div>", "blank")
 
-        document.getElementById("propertyname").innerHTML = "<a href='javascript:void(0)' onmouseover='showdeed(" + auctionproperty + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>"
-        document.getElementById("highestbid").innerHTML = "0"
-        document.getElementById("highestbidder").innerHTML = "N/A"
-        document.getElementById("currentbidder").innerHTML = player[currentbidder].name
+        document.getElementById("propertyname").innerhtml = "<a href='javascript:void(0)' onmouseover='showdeed(" + auctionproperty + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>"
+        document.getElementById("highestbid").innerhtml = "0"
+        document.getElementById("highestbidder").innerhtml = "N/A"
+        document.getElementById("currentbidder").innerhtml = player[currentbidder].name
         document.getElementById("bid").onkeydown = function (e) {
             let key = 0
             let isCtrl = false
@@ -202,7 +202,7 @@ function Game () {
 
         }
 
-        document.getElementById("currentbidder").innerHTML = player[currentbidder].name
+        document.getElementById("currentbidder").innerhtml = player[currentbidder].name
         document.getElementById("bid").value = ""
         document.getElementById("bid").style.color = "black"
     }
@@ -223,9 +223,9 @@ function Game () {
                 document.getElementById("bid").style.color = "red"
             } else if (bid > highestbid) {
                 highestbid = bid
-                document.getElementById("highestbid").innerHTML = parseInt(bid, 10)
+                document.getElementById("highestbid").innerhtml = parseInt(bid, 10)
                 highestbidder = currentbidder
-                document.getElementById("highestbidder").innerHTML = player[highestbidder].name
+                document.getElementById("highestbidder").innerhtml = player[highestbidder].name
 
                 document.getElementById("bid").focus()
 
@@ -966,7 +966,7 @@ function Game () {
             // else
             // text += " " + square[i].landcount
             // }
-            // document.getElementById("refresh").innerHTML += "<br><br><div><textarea type='text' style='width: 980px' onclick='javascript:select()' />" + text + "</textarea></div>"
+            // document.getElementById("refresh").innerhtml += "<br><br><div><textarea type='text' style='width: 980px' onclick='javascript:select()' />" + text + "</textarea></div>"
 
             popup("<p>Congratulations, " + player[1].name + ", you have won the game.</p><div>")
 
@@ -1009,7 +1009,7 @@ function Game () {
 
         html += "</table>"
 
-        popup(HTML, game.eliminatePlayer)
+        popup(html, game.eliminatePlayer)
     }
 
     this.resign = function () {
@@ -1209,8 +1209,8 @@ function addAlert (alertText) {
     }
 }
 
-function popup (HTML, action, option) {
-    document.getElementById("popuptext").innerHTML = html
+function popup (html, action, option) {
+    document.getElementById("popuptext").innerhtml = html
     document.getElementById("popup").style.width = "300px"
     document.getElementById("popup").style.top = "0px"
     document.getElementById("popup").style.left = "0px"
@@ -1231,7 +1231,7 @@ function popup (HTML, action, option) {
 
         // Yes/No
     } else if (option === "yes/no") {
-        document.getElementById("popuptext").innerHTML += "<div><input type=\"button\" value=\"Yes\" id=\"popupyes\" /><input type=\"button\" value=\"No\" id=\"popupno\" /></div>"
+        document.getElementById("popuptext").innerhtml += "<div><input type=\"button\" value=\"Yes\" id=\"popupyes\" /><input type=\"button\" value=\"No\" id=\"popupno\" /></div>"
 
         $("#popupyes, #popupno").on("click", function () {
             $("#popupwrap").hide()
@@ -1266,10 +1266,10 @@ function popup (HTML, action, option) {
 function updatePosition () {
     // Reset borders
     document.getElementById("jail").style.border = "1px solid black"
-    document.getElementById("jailpositionholder").innerHTML = ""
+    document.getElementById("jailpositionholder").innerhtml = ""
     for (let i = 0; i < 40; i++) {
         document.getElementById("cell" + i).style.border = "1px solid black"
-        document.getElementById("cell" + i + "positionholder").innerHTML = ""
+        document.getElementById("cell" + i + "positionholder").innerhtml = ""
 
     }
 
@@ -1284,7 +1284,7 @@ function updatePosition () {
 
             if (player[y].position === x && !player[y].jail) {
 
-                document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
+                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
                 if (left === 36) {
                     left = 0
                     top = 12
@@ -1296,7 +1296,7 @@ function updatePosition () {
         for (let y = 1; y < turn; y++) {
 
             if (player[y].position === x && !player[y].jail) {
-                document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
+                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
                 if (left === 36) {
                     left = 0
                     top = 12
@@ -1310,7 +1310,7 @@ function updatePosition () {
     top = 53
     for (let i = turn; i <= pcount; i++) {
         if (player[i].jail) {
-            document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
+            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
 
             if (left === 36) {
                 left = 0
@@ -1323,7 +1323,7 @@ function updatePosition () {
 
     for (let i = 1; i < turn; i++) {
         if (player[i].jail) {
-            document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
+            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
             if (left === 36) {
                 left = 0
                 top = 41
@@ -1341,14 +1341,14 @@ function updatePosition () {
     }
 
     // for (let i=1 i <= pcount i++) {
-    // document.getElementById("enlarge"+player[i].position+"token").innerHTML+="<img src='"+tokenArray[i].src+"' height='30' width='30' />"
+    // document.getElementById("enlarge"+player[i].position+"token").innerhtml+="<img src='"+tokenArray[i].src+"' height='30' width='30' />"
     // }
 }
 
 function updateMoney () {
     let p = player[turn]
 
-    document.getElementById("pmoney").innerHTML = "$" + p.money
+    document.getElementById("pmoney").innerhtml = "$" + p.money
     $(".money-bar-row").hide()
 
     for (let i = 1; i <= pcount; i++) {
@@ -1356,12 +1356,12 @@ function updateMoney () {
 
         $("#moneybarrow" + i).show()
         document.getElementById("p" + i + "moneybar").style.border = "2px solid " + p_i.color
-        document.getElementById("p" + i + "money").innerHTML = p_i.money
-        document.getElementById("p" + i + "moneyname").innerHTML = p_i.name
+        document.getElementById("p" + i + "money").innerhtml = p_i.money
+        document.getElementById("p" + i + "moneyname").innerhtml = p_i.name
     }
     // show("moneybarrow9") // Don't remove this line or make the first for-loop stop when i <= 8, because this affects how the table is displayed.
 
-    if (document.getElementById("landed").innerHTML === "") {
+    if (document.getElementById("landed").innerhtml === "") {
         $("#landed").hide()
     }
 
@@ -1465,7 +1465,7 @@ function updateOwned () {
                 houseText += "<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />"
             }
 
-            if (HTML === "") {
+            if (html === "") {
                 html += "<table>"
                 firstProperty = i
             }
@@ -1481,7 +1481,7 @@ function updateOwned () {
     }
 
     if (p.communityChestJailCard) {
-        if (HTML === "") {
+        if (html === "") {
             firstProperty = 40
             html += "<table>"
         }
@@ -1489,21 +1489,21 @@ function updateOwned () {
 
     }
     if (p.chanceJailCard) {
-        if (HTML === "") {
+        if (html === "") {
             firstProperty = 41
             html += "<table>"
         }
         html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox41' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
     }
 
-    if (HTML === "") {
+    if (html === "") {
         html = p.name + ", you don't have any properties."
         $("#option").hide()
     } else {
         html += "</table>"
     }
 
-    document.getElementById("owned").innerHTML = html
+    document.getElementById("owned").innerhtml = html
 
     // Select previously selected property.
     if (checkedProperty > -1 && document.getElementById("propertycheckbox" + checkedProperty)) {
@@ -1556,7 +1556,7 @@ function updateOption () {
         }
 
         $("#buildings").show()
-        document.getElementById("buildings").innerHTML = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum
+        document.getElementById("buildings").innerhtml = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum
 
         return
     }
@@ -1789,7 +1789,7 @@ function subtractAmount (amount, cause) {
 function gotoJail () {
     let p = player[turn]
     addAlert(p.name + " was sent directly to jail.")
-    document.getElementById("landed").innerHTML = "You are in jail."
+    document.getElementById("landed").innerhtml = "You are in jail."
 
     p.jail = true
     doublecount = 0
@@ -2144,7 +2144,7 @@ function showStats () {
     }
     html += "</tr></table><div id='titledeed'></div>"
 
-    document.getElementById("statstext").innerHTML = html
+    document.getElementById("statstext").innerhtml = html
     // Show using animation.
     $("#statsbackground").fadeIn(350, function () {
         $("#statswrap").show()
@@ -2183,13 +2183,13 @@ function showdeed (property) {
         } else if (sq.groupNumber === 2) {
             $("#deed-special").show()
             document.getElementById("deed-special-name").textContent = sq.name
-            document.getElementById("deed-special-text").innerHTML = utilText()
+            document.getElementById("deed-special-text").innerhtml = utilText()
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
 
         } else if (sq.groupNumber === 1) {
             $("#deed-special").show()
             document.getElementById("deed-special-name").textContent = sq.name
-            document.getElementById("deed-special-text").innerHTML = transText()
+            document.getElementById("deed-special-text").innerhtml = transText()
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
         }
     }
@@ -2275,7 +2275,7 @@ function land (increasedRent) {
     let die2 = game.getDie(2)
 
     $("#landed").show()
-    document.getElementById("landed").innerHTML = "You landed on " + s.name + "."
+    document.getElementById("landed").innerhtml = "You landed on " + s.name + "."
     s.landcount++
     addAlert(p.name + " landed on " + s.name + ".")
 
@@ -2288,7 +2288,7 @@ function land (increasedRent) {
                 buy()
             }
         } else {
-            document.getElementById("landed").innerHTML = "<div>You landed on <a href='javascript:void(0)' onmouseover='showdeed(" + p.position + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>.<input type='button' onclick='buy()' value='Buy ($" + s.price + ")' title='Buy " + s.name + " for " + s.pricetext + ".'/></div>"
+            document.getElementById("landed").innerhtml = "<div>You landed on <a href='javascript:void(0)' onmouseover='showdeed(" + p.position + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>.<input type='button' onclick='buy()' value='Buy ($" + s.price + ")' title='Buy " + s.name + " for " + s.pricetext + ".'/></div>"
         }
 
 
@@ -2359,9 +2359,9 @@ function land (increasedRent) {
         p.pay(rent, s.owner)
         player[s.owner].money += rent
 
-        document.getElementById("landed").innerHTML = "You landed on " + s.name + ". " + player[s.owner].name + " collected $" + rent + " rent."
+        document.getElementById("landed").innerhtml = "You landed on " + s.name + ". " + player[s.owner].name + " collected $" + rent + " rent."
     } else if (s.owner > 0 && s.owner != turn && s.mortgage) {
-        document.getElementById("landed").innerHTML = "You landed on " + s.name + ". Property is mortgaged no rent was collected."
+        document.getElementById("landed").innerhtml = "You landed on " + s.name + ". Property is mortgaged no rent was collected."
     }
 
     // City Tax
@@ -2492,7 +2492,7 @@ function roll () {
                 }
             } else {
                 $("#landed").show()
-                document.getElementById("landed").innerHTML = "You are in jail."
+                document.getElementById("landed").innerhtml = "You are in jail."
 
                 if (!p.human) {
                     popup(p.AI.alertList, game.next)
@@ -2532,7 +2532,7 @@ function play () {
     let p = player[turn]
     game.resetDice()
 
-    document.getElementById("pname").innerHTML = p.name
+    document.getElementById("pname").innerhtml = p.name
 
     addAlert("It is " + p.name + "'s turn.")
 
@@ -2554,10 +2554,10 @@ function play () {
 
     if (p.jail) {
         $("#landed").show()
-        document.getElementById("landed").innerHTML = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty()' />"
+        document.getElementById("landed").innerhtml = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty()' />"
 
         if (p.communityChestJailCard || p.chanceJailCard) {
-            document.getElementById("landed").innerHTML += "<input type='button' id='gojfbutton' title='Use &quotGet Out of Jail Free&quot card.' onclick='useJailCard()' value='Use Card' />"
+            document.getElementById("landed").innerhtml += "<input type='button' id='gojfbutton' title='Use &quotGet Out of Jail Free&quot card.' onclick='useJailCard()' value='Use Card' />"
         }
 
         document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail."
@@ -2567,7 +2567,7 @@ function play () {
         else if (p.jailroll === 1)
             addAlert("This is " + p.name + "'s second turn in jail.")
         else if (p.jailroll === 2) {
-            document.getElementById("landed").innerHTML += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>"
+            document.getElementById("landed").innerhtml += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>"
             addAlert("This is " + p.name + "'s third turn in jail.")
         }
 
@@ -2863,7 +2863,7 @@ window.onload = function () {
         html += "<br /><div id='enlarge" + i + "token' class='enlarge-token'></div></div>"
     }
 
-    enlargeWrap.innerHTML = html
+    enlargeWrap.innerhtml = html
 
     let currentCell
     let currentCellAnchor
@@ -2903,9 +2903,9 @@ window.onload = function () {
 
 
     // Add images to enlarges.
-    document.getElementById("enlarge0token").innerHTML += '<img src="images/arrow_icon.png" height="40" width="136" alt="" />'
-    document.getElementById("enlarge20price").innerHTML += "<img src='images/free_parking_icon.png' height='80' width='72' alt='' style='position: relative top: -20px' />"
-    document.getElementById("enlarge38token").innerHTML += '<img src="images/tax_icon.png" height="60" width="70" alt="" style="position: relative top: -20px" />'
+    document.getElementById("enlarge0token").innerhtml += '<img src="images/arrow_icon.png" height="40" width="136" alt="" />'
+    document.getElementById("enlarge20price").innerhtml += "<img src='images/free_parking_icon.png' height='80' width='72' alt='' style='position: relative top: -20px' />"
+    document.getElementById("enlarge38token").innerhtml += '<img src="images/tax_icon.png" height="60" width="70" alt="" style="position: relative top: -20px" />'
 
     corrections()
 
@@ -2915,9 +2915,9 @@ window.onload = function () {
 
     document.getElementById("jail").enlargeId = "enlarge40"
 
-    document.getElementById("enlarge-wrap").innerHTML += "<div id='enlarge40' class='enlarge'><div id='enlarge40color' class='enlarge-color'></div><br /><div id='enlarge40name' class='enlarge-name'>Jail</div><br /><div id='enlarge40price' class='enlarge-price'><img src='images/jake_icon.png' height='80' width='80' alt='' style='position: relative top: -20px' /></div><br /><div id='enlarge40token' class='enlarge-token'></div></div>"
+    document.getElementById("enlarge-wrap").innerhtml += "<div id='enlarge40' class='enlarge'><div id='enlarge40color' class='enlarge-color'></div><br /><div id='enlarge40name' class='enlarge-name'>Jail</div><br /><div id='enlarge40price' class='enlarge-price'><img src='images/jake_icon.png' height='80' width='80' alt='' style='position: relative top: -20px' /></div><br /><div id='enlarge40token' class='enlarge-token'></div></div>"
 
-    document.getElementById("enlarge40name").innerHTML = "Jail"
+    document.getElementById("enlarge40name").innerhtml = "Jail"
 
     // Create event handlers for hovering and draging.
 

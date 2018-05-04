@@ -37,15 +37,15 @@ class Card {
 }
 
 function corrections() {
-    document.getelementbyid("cell1name").textcontent = "mediter-ranean avenue";
+    document.getElementById("cell1name").textcontent = "mediter-ranean avenue";
 
     // add images to enlarges.
-    document.getelementbyid("enlarge5token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; bottom: 20px;" />';
-    document.getelementbyid("enlarge15token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
-    document.getelementbyid("enlarge25token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
-    document.getelementbyid("enlarge35token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
-    document.getelementbyid("enlarge12token").innerhtml += '<img src="../images/electric_icon.png" height="60" width="48" alt="" style="position: relative; top: -20px;" />';
-    document.getelementbyid("enlarge28token").innerhtml += '<img src="../images/water_icon.png" height="60" width="78" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge5token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; bottom: 20px;" />';
+    document.getElementById("enlarge15token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge25token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge35token").innerhtml += '<img src="../images/train_icon.png" height="60" width="65" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge12token").innerhtml += '<img src="../images/electric_icon.png" height="60" width="48" alt="" style="position: relative; top: -20px;" />';
+    document.getElementById("enlarge28token").innerhtml += '<img src="../images/water_icon.png" height="60" width="78" alt="" style="position: relative; top: -20px;" />';
 }
 
 function utilText() {
