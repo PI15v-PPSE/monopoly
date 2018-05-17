@@ -165,7 +165,6 @@ communityChestCards[15] = new Card("отправиться  в тюрьму. о�
     gotoJail();
 });
 
-
 chanceCards[0] = new Card("выйти из тюрьмы, свобода. эту карточку можно сохранить до момента надобности или продажи .", function (p) {
     p.chanceJailCard = true;
     updateOwned();
@@ -182,22 +181,23 @@ chanceCards[3] = new Card("вы платите $50 каждому игроку �
 chanceCards[4] = new Card("перейти назад на 3 клетки.", function () {
     goBackThreeSpaces();
 });
-chanceCards[5] = new Card("advance to the nearest utility. if unowned, you may buy it from the bank. if owned, throw dice and pay owner a total ten times the amount thrown.", function () {
+chanceCards[5] = new Card("ПЕРЕМЕСТИТЕСЬ В БЛИЖАЙШЕЕ ЗАВЕДЕНИЕ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его у Банка. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём", function () {
     advanceToNearestUtility();
 });
-chanceCards[6] = new Card("bank pays you dividend of $50.", function () {
+chanceCards[6] = new Card("Банк платит вам дивиденты в $50.", function () {
     addAmount(50, 'chance');
 });
-chanceCards[7] = new Card("advance to the nearest railroad. if unowned, you may buy it from the bank. if owned, pay owner twice the rental to which they are otherwise entitled.", function () {
+chanceCards[7] = new Card("ПЕРЕМЕСТИТЕСЬ НА БЛИЖАЙШУЮ ЖЕЛЕЗНУЮ ДОРОГУ. ЕСЛИ ОНО НЕ ПРИНАДЛИЖИТ НИКОМУ, Вы можете купить его у Банка. ИНАЧЕ, бросьте кубик и заплатите в 10 раз больше количества, выпавшего на нём.", function () {
     advanceToNearestRailRoad();
 });
-chanceCards[8] = new Card("pay poor tax of $15.", function () {
+chanceCards[8] = new Card("Заплатить бедным налог в $15.", function () {
     subtractAmount(15, 'chance');
 });
-chanceCards[9] = new Card("take a trip to reading rail road. if you pass \"go\" collect $200.", function () {
+
+chanceCards[9] = new Card("Вы отправляетесь в путишествие в Reading Rail Road. Если пройдёте \"СТАРТ\" получите $200.", function () {
     advance(5);
 });
-chanceCards[10] = new Card("advance to boardwalk.", function () {
+chanceCards[10] = new Card("ПЕРЕМЕСТИТЬСЯ на Набережную.", function () {
     advance(39);
 });
 chanceCards[11] = new Card("advance to illinois avenue. if you pass \"go\" collect $200.", function () {

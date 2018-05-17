@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Monopoly</title>
+	<title>Monopoly Game</title>
 	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 	<script src="scripts/libraries/jquery.min.js"></script>
 	<script type="text/javascript" src="scripts/classicedition.js"></script>
@@ -58,11 +58,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td style="text-align: left;">With 1 House</td>
+					<td style="text-align: left;">С одним домом</td>
 					<td style="text-align: right;">$&nbsp;&nbsp;&nbsp;<span id="deed-rent1">60</span>.</td>
 				</tr>
 				<tr>
-					<td style="text-align: left;">With 2 Houses</td>
+					<td style="text-align: left;">С двумя домами</td>
 					<td style="text-align: right;"><span id="deed-rent2">180</span>.</td>
 				</tr>
 				<tr>
@@ -75,11 +75,11 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<div style="margin-bottom: 8px;">With HOTEL $<span id="deed-rent5">900</span>.</div>
+						<div style="margin-bottom: 8px;">С гостиницей $<span id="deed-rent5">900</span>.</div>
 						<div>Mortgage Value $<span id="deed-mortgage">80</span>.</div>
 						<div>Houses cost $<span id="deed-housePrice">100</span>. each</div>
 						<div>Hotels, $<span id="deed-hotelprice">100</span>. plus 4 houses</div>
-						<div style="font-size: 9px; font-style: italic; margin-top: 5px;">If a player owns ALL the Lots of any Color-Group, the rent is Doubled on Unimproved Lots in that group.</div>
+						<div style="font-size: 9px; font-style: italic; margin-top: 5px;">Если игрок владеет ВСЕМ множеством любой цветной группы, арендная плата удваивается на неулучшенных участках в этой группе.</div>
 					</td>
 				</tr>
 			</table>
@@ -88,7 +88,7 @@
 		<div id="deed-mortgaged">
 			<div id="deed-mortgaged-name"></div>
 			<p>&bull;</p>
-			<div>MORTGAGED</div>
+			<div>Заложено</div>
 			<div> for $<span id="deed-mortgaged-mortgage">80</span></div>
 			<p>&bull;</p>
 			<div style="font-style: italic; font-size: 13px; margin: 10px;">Card must be turned this side up if property is mortgaged</div>
@@ -261,7 +261,7 @@
 			<input type="button" value="Start Game" onclick="game_ns.setup()" title="Begin playing." />
 		</div>
 
-		<div id="noF5">Note: Refreshing this page or navigating away from it may end your game without warning.</div>
+		<div id="noF5">Attention, please! Refreshing this page or navigating away from it may end your game without warning.</div>
 	</div>
 
 	<div id="control">
