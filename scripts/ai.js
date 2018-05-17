@@ -37,7 +37,7 @@ function AITest(p) {
         var property = [];
 
         tradeValue += 10 * tradeObj.getCommunityChestJailCard();
-        tradeValue += 10 * tradeObj.getChanceJailCard();
+        tradeValue += 10 * tradeObj.getchanceJailCard();
 
         tradeValue += money;
 
@@ -54,7 +54,7 @@ function AITest(p) {
             return true;
         } else if (tradeValue >= -50 && initiator.money > proposedMoney) {
 
-            return new Trade(initiator, recipient, proposedMoney, property, tradeObj.getCommunityChestJailCard(), tradeObj.getChanceJailCard());
+            return new Trade(initiator, recipient, proposedMoney, property, tradeObj.getCommunityChestJailCard(), tradeObj.getchanceJailCard());
         }
 
         return false;
@@ -95,7 +95,7 @@ function AITest(p) {
                     continue;
                 }
 
-                if (p.money > leastHouseProperty.houseprice + 100) {
+                if (p.money > leastHouseProperty.housePrice + 100) {
                     buyHouse(leastHouseProperty.index);
                 }
 
