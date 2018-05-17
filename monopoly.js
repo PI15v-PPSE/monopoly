@@ -433,6 +433,7 @@ function Game() {
         let isCtrl = false;
         let isShift = false;
 
+
         if (window.event) {
             key = window.event.keyCode;
             isCtrl = window.event.ctrlKey;
@@ -514,6 +515,13 @@ function Game() {
     document.getElementById("trade-leftp-money").onchange = tradeMoneyOnChange;
     document.getElementById("trade-rightp-money").onchange = tradeMoneyOnChange;
 
+    /**
+     * Отмена обмена
+     *
+     * @param {Object} initiator
+     * @param {Object} recipient
+     * @param {boolean} allowRecipientToBeChanged
+     */
     let resetTrade = function (initiator, recipient, allowRecipientToBeChanged) {
         let currentSquare;
         let currentTableRow;
@@ -3173,6 +3181,10 @@ function play() {
     }
 }
 
+/**
+ * Допустимые цвета
+ * @type {{available_colors: string[]}}
+ */
 let game_ns = {
     available_colors: ['blue', 'red', 'green', 'yellow', 'aqua', 'black', 'fuchsia', 'gray', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'silver', 'teal']
 };
@@ -3180,6 +3192,10 @@ let game_ns = {
  * Запуск настроек
  */
 game_ns.draw_setup = function () {
+    /**
+     * Настройки отрисовки
+     * @type {{}}
+     */
     let context = game_ns._draw_setup;
 
     context.draw_player_wrappers(8);
