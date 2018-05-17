@@ -1603,6 +1603,14 @@ Array.prototype.randomize = function (length) {
     }
 };
 
+/**
+ * Работа со свойством
+ *
+ * Добавляет предупреждение для игрока,
+ * выводит текст предупреждения.
+ *
+ * @param {string} alertText
+ */
 function addAlert(alertText) {
     $alert = $("#alert");
 
@@ -1616,6 +1624,15 @@ function addAlert(alertText) {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Создает привлекательную анимацию
+ *
+ * @param {string} html
+ * @param {string} action
+ * @param {string} option
+ */
 function popup(html, action, option) {
     document.getElementById("popuptext").innerHTML = html;
     document.getElementById("popup").style.width = "300px";
@@ -1669,6 +1686,12 @@ function popup(html, action, option) {
 
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для обновления позиции блока
+ *
+ */
 function updatePosition() {
     // Reset borders
     document.getElementById("jail").style.border = "1px solid black";
@@ -1751,6 +1774,13 @@ function updatePosition() {
     // }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для обновления количества денег
+ * у пользователя
+ *
+ */
 function updateMoney() {
     let p = player[turn];
 
@@ -1784,6 +1814,13 @@ function updateMoney() {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для обновления цифр на
+ * игральной кости
+ *
+ */
 function updateDice() {
     let die0 = game.getDie(true);
     let die1 = game.getDie(false);
@@ -1827,6 +1864,12 @@ function updateDice() {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для обновления владений игрока
+ *
+ */
 function updateOwned() {
     let p = player[turn];
     let checkedProperty = getCheckedProperty();
@@ -1937,6 +1980,12 @@ function updateOwned() {
     updateOption()
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для обновления настроек игрока
+ *
+ */
 function updateOption() {
     $("#option").show();
 
@@ -2095,6 +2144,13 @@ function updateOption() {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция, которая даёт шанс игроку
+ * попасть на поле Общественного фонда
+ *
+ */
 function chanceCommunityChest() {
     let p = player[turn];
 
@@ -2146,6 +2202,14 @@ function chanceCommunityChest() {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция, которая рассчитывает шансы
+ * игрока на совершение действия
+ *
+ * @param {number} chanceIndex
+ */
 function chanceAction(chanceIndex) {
     let p = player[turn]; // This is needed for reference in action() method.
 
@@ -2161,6 +2225,14 @@ function chanceAction(chanceIndex) {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция, которая рассчитывает шансы
+ * игрока попасть на поле Общественного фонда
+ *
+ * @param {number} communityChestIndex
+ */
 function communityChestAction(communityChestIndex) {
     let p = player[turn]; // This is needed for reference in action() method.
 
@@ -2176,6 +2248,15 @@ function communityChestAction(communityChestIndex) {
     }
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для добавления денег
+ * игроку по какой-либо причине.
+ *
+ * @param {number} amount
+ * @param {string} cause
+ */
 function addAmount(amount, cause) {
     let p = player[turn];
 
@@ -2184,6 +2265,15 @@ function addAmount(amount, cause) {
     addAlert(p.name + " received $" + amount + " from " + cause + ".")
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для вычитания денег
+ * у игрока по какой-либо причине.
+ *
+ * @param {number} amount
+ * @param {string} cause
+ */
 function subtractAmount(amount, cause) {
     let p = player[turn];
 
@@ -2192,6 +2282,13 @@ function subtractAmount(amount, cause) {
     addAlert(p.name + " lost $" + amount + " from " + cause + ".")
 }
 
+/**
+ * Работа со свойством
+ *
+ * Функция для отправки пользователя
+ * в тюрьму
+ *
+ */
 function gotoJail() {
     let p = player[turn];
     addAlert(p.name + " was sent directly to jail.");
