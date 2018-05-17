@@ -1,4 +1,4 @@
-function Game () {
+function Game() {
     let die1;
     let die2;
     let areDiceRolled = false;
@@ -1085,7 +1085,7 @@ function Game () {
 
 let game;
 
-function Player (name, color) {
+function Player(name, color) {
     this.name = name;
     this.color = color;
     this.position = 0;
@@ -1124,7 +1124,7 @@ function Player (name, color) {
 // property: array of integers, length: 40
 // communityChestJailCard: integer, 1 means offered, -1 means requested, 0 means neither
 // chanceJailCard: integer, 1 means offered, -1 means requested, 0 means neither
-function Trade (initiator, recipient, money, property, communityChestJailCard, chanceJailCard) {
+function Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard) {
     // For each property and get out of jail free cards, 1 means offered, -1 means requested, 0 means neither.
 
     this.getInitiator = function () {
@@ -1196,7 +1196,7 @@ Array.prototype.randomize = function (length) {
 // }
 // }
 
-function addAlert (alertText) {
+function addAlert(alertText) {
     $alert = $("#alert");
 
     $(document.createElement("div")).text(alertText).appendTo($alert);
@@ -1209,7 +1209,7 @@ function addAlert (alertText) {
     }
 }
 
-function popup (html, action, option) {
+function popup(html, action, option) {
     document.getElementById("popuptext").innerhtml = html;
     document.getElementById("popup").style.width = "300px";
     document.getElementById("popup").style.top = "0px";
@@ -1263,7 +1263,7 @@ function popup (html, action, option) {
 }
 
 
-function updatePosition () {
+function updatePosition() {
     // Reset borders
     document.getElementById("jail").style.border = "1px solid black";
     document.getElementById("jailpositionholder").innerhtml = "";
@@ -1345,7 +1345,7 @@ function updatePosition () {
     // }
 }
 
-function updateMoney () {
+function updateMoney() {
     let p = player[turn];
 
     document.getElementById("pmoney").innerhtml = "$" + p.money;
@@ -1378,7 +1378,7 @@ function updateMoney () {
     }
 }
 
-function updateDice () {
+function updateDice() {
     let die0 = game.getDie(1);
     let die1 = game.getDie(2);
 
@@ -1421,7 +1421,7 @@ function updateDice () {
     }
 }
 
-function updateOwned () {
+function updateOwned() {
     let p = player[turn];
     let checkedProperty = getCheckedProperty();
     $("#option").show();
@@ -1531,7 +1531,7 @@ function updateOwned () {
     updateOption()
 }
 
-function updateOption () {
+function updateOption() {
     $("#option").show();
 
     let allGroupUninproved = true;
@@ -1689,7 +1689,7 @@ function updateOption () {
     }
 }
 
-function chanceCommunityChest () {
+function chanceCommunityChest() {
     let p = player[turn];
 
     // Community Chest
@@ -1740,7 +1740,7 @@ function chanceCommunityChest () {
     }
 }
 
-function chanceAction (chanceIndex) {
+function chanceAction(chanceIndex) {
     let p = player[turn]; // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
@@ -1755,7 +1755,7 @@ function chanceAction (chanceIndex) {
     }
 }
 
-function communityChestAction (communityChestIndex) {
+function communityChestAction(communityChestIndex) {
     let p = player[turn]; // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
@@ -1770,7 +1770,7 @@ function communityChestAction (communityChestIndex) {
     }
 }
 
-function addAmount (amount, cause) {
+function addAmount(amount, cause) {
     let p = player[turn];
 
     p.money += amount;
@@ -1778,7 +1778,7 @@ function addAmount (amount, cause) {
     addAlert(p.name + " received $" + amount + " from " + cause + ".")
 }
 
-function subtractAmount (amount, cause) {
+function subtractAmount(amount, cause) {
     let p = player[turn];
 
     p.pay(amount, 0);
@@ -1786,7 +1786,7 @@ function subtractAmount (amount, cause) {
     addAlert(p.name + " lost $" + amount + " from " + cause + ".")
 }
 
-function gotoJail () {
+function gotoJail() {
     let p = player[turn];
     addAlert(p.name + " was sent directly to jail.");
     document.getElementById("landed").innerhtml = "You are in jail.";
@@ -1810,7 +1810,7 @@ function gotoJail () {
     }
 }
 
-function goBackThreeSpaces () {
+function goBackThreeSpaces() {
     let p = player[turn];
 
     p.position -= 3;
@@ -1818,7 +1818,7 @@ function goBackThreeSpaces () {
     land()
 }
 
-function payEachPlayer (amount, cause) {
+function payEachPlayer(amount, cause) {
     let p = player[turn];
     let total = 0;
 
@@ -1835,7 +1835,7 @@ function payEachPlayer (amount, cause) {
     addAlert(p.name + " lost $" + total + " from " + cause + ".")
 }
 
-function collectfromeachplayer (amount, cause) {
+function collectfromeachplayer(amount, cause) {
     let p = player[turn];
     let total = 0;
 
@@ -1857,7 +1857,7 @@ function collectfromeachplayer (amount, cause) {
     addAlert(p.name + " received $" + total + " from " + cause + ".")
 }
 
-function advance (destination, pass) {
+function advance(destination, pass) {
     let p = player[turn];
 
     if (typeof pass === "number") {
@@ -1880,7 +1880,7 @@ function advance (destination, pass) {
     land()
 }
 
-function advanceToNearestUtility () {
+function advanceToNearestUtility() {
     let p = player[turn];
 
     if (p.position < 12) {
@@ -1896,7 +1896,7 @@ function advanceToNearestUtility () {
     land(true)
 }
 
-function advanceToNearestRailRoad () {
+function advanceToNearestRailRoad() {
     let p = player[turn];
 
     updatePosition();
@@ -1914,7 +1914,7 @@ function advanceToNearestRailRoad () {
     land(true)
 }
 
-function streetRepairs (housePrice, hotelprice) {
+function streetRepairs(housePrice, hotelprice) {
     let cost = 0;
     for (let i = 0; i < 40; i++) {
         let s = square[i];
@@ -1941,7 +1941,7 @@ function streetRepairs (housePrice, hotelprice) {
 
 }
 
-function payfifty () {
+function payfifty() {
     let p = player[turn];
 
     document.getElementById("jail").style.border = '1px solid black';
@@ -1960,7 +1960,7 @@ function payfifty () {
     updatePosition()
 }
 
-function useJailCard () {
+function useJailCard() {
     let p = player[turn];
 
     document.getElementById("jail").style.border = '1px solid black';
@@ -2003,7 +2003,7 @@ function useJailCard () {
     updatePosition()
 }
 
-function buyHouse (index) {
+function buyHouse(index) {
     let sq = square[index];
     let p = player[sq.owner];
     let houseSum = 0;
@@ -2052,9 +2052,13 @@ function buyHouse (index) {
     }
 }
 
-function sellHouse (index) {
-    sq = square[index];
-    p = player[sq.owner];
+/**
+ * Продажа имущества
+ * @param index
+ */
+function sellHouse(index) {
+    let sq = square[index];
+    let p = player[sq.owner];
 
     if (sq.hotel === 1) {
         sq.hotel = 0;
@@ -2070,7 +2074,7 @@ function sellHouse (index) {
     updateMoney()
 }
 
-function showStats () {
+function showStats() {
     let html, sq, p;
     let mortgageText,
         houseText;
@@ -2151,7 +2155,7 @@ function showStats () {
     })
 }
 
-function showdeed (property) {
+function showdeed(property) {
     let sq = square[property];
     $("#deed").show();
 
@@ -2195,11 +2199,17 @@ function showdeed (property) {
     }
 }
 
-function hidedeed () {
+/**
+ * Скрыть элемент
+ */
+function hidedeed() {
     $("#deed").hide()
 }
 
-function buy () {
+/**
+ * Купить имущество
+ */
+function buy() {
     let p = player[turn];
     let property = square[p.position];
     let cost = property.price;
@@ -2220,7 +2230,12 @@ function buy () {
     }
 }
 
-function mortgage (index) {
+/**
+ * Заложить имущество
+ * @param index - Номер клетки
+ * @return {boolean} Возвращает состояние
+ */
+function mortgage(index) {
     let sq = square[index];
     let p = player[sq.owner];
 
@@ -2244,7 +2259,12 @@ function mortgage (index) {
     return true
 }
 
-function unmortgage (index) {
+/**
+ * Выкупить заложенное имущество
+ * @param index - номер клетки
+ * @return {boolean} Возвращает состояние
+ */
+function unmortgage(index) {
     let sq = square[index];
     let p = player[sq.owner];
     let unmortgagePrice = Math.round(sq.price * 0.6);
@@ -2264,8 +2284,11 @@ function unmortgage (index) {
     return true
 }
 
-
-function land (increasedRent) {
+/**
+ * Попадание на клетку
+ * @param increasedRent - Повышенная аренда
+ */
+function land(increasedRent) {
     increasedRent = !!increasedRent; // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
 
     let p = player[turn];
@@ -2296,7 +2319,7 @@ function land (increasedRent) {
     }
 
     // Collect rent
-    if (s.owner !== 0 && s.owner != turn && !s.mortgage) {
+    if (s.owner !== 0 && s.owner !== turn && !s.mortgage) {
         let groupowned = true;
         let rent;
 
@@ -2400,7 +2423,10 @@ function land (increasedRent) {
     }
 }
 
-function roll () {
+/**
+ * Бросить кости
+ */
+function roll() {
     let p = player[turn];
 
     $("#option").hide();
@@ -2519,7 +2545,10 @@ function roll () {
     }
 }
 
-function play () {
+/**
+ * Начало игры
+ */
+function play() {
     if (game.auction()) {
         return
     }
@@ -2597,7 +2626,9 @@ function play () {
 let game_ns = {
     available_colors: ['blue', 'red', 'green', 'yellow', 'aqua', 'black', 'fuchsia', 'gray', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'silver', 'teal']
 };
-
+/**
+ * Запуск настроек
+ */
 game_ns.draw_setup = function () {
     let context = game_ns._draw_setup;
 
@@ -2607,8 +2638,17 @@ game_ns.draw_setup = function () {
     context.bind_and_invoke_players_count_change()
 };
 
+/**
+ * Настройки визуальной части игры
+ * @type {{}}
+ * @protected
+ */
 game_ns._draw_setup = {};
 
+/**
+ * Отрисовка игроков на карте
+ * @param max
+ */
 game_ns._draw_setup.draw_player_wrappers = function (max) {
     let i, color;
 
@@ -2639,7 +2679,9 @@ game_ns._draw_setup.draw_player_wrappers = function (max) {
 
     $("#player-wrappers").append(content)
 };
-
+/**
+ * Настройка ботов
+ */
 game_ns._draw_setup.bind_player_inteligence_change = function () {
     $("#player-wrappers .player-intel").change(function () {
         let val = $(this).val();
@@ -2651,17 +2693,25 @@ game_ns._draw_setup.bind_player_inteligence_change = function () {
         wrap.nextAll().find('.player-intel').val(val)
     })
 };
-
+/**
+ * Изменение цветов игроков
+ */
 game_ns._draw_setup.bind_and_invoke_player_color_change = function () {
     $("#player-wrappers .player-color").on("change", game_ns._draw_setup.select_on_player_color_change);
     $("#player-wrappers .player-color").change()
 };
 
+/**
+ * Изменение количества игроков
+ */
 game_ns._draw_setup.bind_and_invoke_players_count_change = function () {
     $("#playernumber").on("change", game_ns._draw_setup.select_on_player_number_change);
     $("#playernumber").change()
 };
 
+/**
+ * Отрисовка смены номера игрока
+ */
 game_ns._draw_setup.select_on_player_number_change = function () {
     pcount = parseInt(document.getElementById("playernumber").value, 10);
 
@@ -2672,6 +2722,9 @@ game_ns._draw_setup.select_on_player_number_change = function () {
     }
 };
 
+/**
+ * Отрисовка смены игрока
+ */
 game_ns._draw_setup.select_on_player_color_change = function () {
     let colors_taken = [];
 
@@ -2684,7 +2737,7 @@ game_ns._draw_setup.select_on_player_color_change = function () {
     wrap.siblings().each(function (index, el) {
         let el2 = $(el).find('.player-color');
         let val2 = el2.val();
-        let is_already_present = colors_taken.indexOf(val2) != -1;
+        let is_already_present = colors_taken.indexOf(val2) !== -1;
         if (is_already_present) {
             // change its color to next available
             let colors_not_taken = arr_diff(game_ns.available_colors, colors_taken);
@@ -2699,6 +2752,9 @@ game_ns._draw_setup.select_on_player_color_change = function () {
 
 };
 
+/**
+ * Настройка параметров игры
+ */
 game_ns.setup = function () {
 
     pcount = parseInt(document.getElementById("playernumber").value, 10);
@@ -2740,21 +2796,13 @@ game_ns.setup = function () {
     play()
 };
 
-
-// function togglecheck(elementid) {
-// element = document.getElementById(elementid)
-
-// if (window.event.srcElement.id === elementid)
-// return
-
-// if (element.checked) {
-// element.checked = false
-// } else {
-// element.checked = true
-// }
-// }
-
-function getCheckedProperty () {
+/**
+ * Проверяет состояние свойства
+ *
+ * Возвращает номер включенного свойства, если таких нет, то возвращает -1
+ * @return {number} Возвращает номер свойства
+ */
+function getCheckedProperty() {
     for (let i = 0; i < 42; i++) {
         if (document.getElementById("propertycheckbox" + i) && document.getElementById("propertycheckbox" + i).checked) {
             return i
@@ -2763,31 +2811,25 @@ function getCheckedProperty () {
     return -1 // No property is checked.
 }
 
-// function propertycell_onclick(element, num) {
-// togglecheck("propertycheckbox" + num)
-// if (document.getElementById("propertycheckbox" + num).checked) {
-
-// // Uncheck all other boxes.
-// for (let i = 0 i < 40 i++) {
-// if (i !== num && document.getElementById("propertycheckbox" + i)) {
-// document.getElementById("propertycheckbox" + i).checked = false
-// }
-// }
-// }
-
-// updateOption()
-// }
-
-function menuitem_onmouseover (element) {
+/**
+ * Присваивает класс menuitem, menuitem_hover
+ * @param element - HTML элемент
+ */
+function menuitem_onmouseover(element) {
     element.className = "menuitem menuitem_hover";
-
 }
 
-function menuitem_onmouseout (element) {
+/**
+ * Присваивает класс menuitem
+ * @param element - HTML элемент
+ */
+function menuitem_onmouseout(element) {
     element.className = "menuitem";
-
 }
 
+/**
+ * Инициализация игры, отрисовка карты
+ */
 window.onload = function () {
     game_ns.draw_setup();
 
@@ -2865,6 +2907,9 @@ window.onload = function () {
 
     enlargeWrap.innerhtml = html;
 
+    /**
+     * Текущие значения клетки, позиции, владельца клетки
+     */
     let currentCell;
     let currentCellAnchor;
     let currentCellPositionHolder;
@@ -2921,8 +2966,19 @@ window.onload = function () {
 
     // Create event handlers for hovering and draging.
 
-    let drag, dragX, dragY, dragObj, dragTop, dragLeft;
+    /**
+     * Координаты для анимаций
+     */
+    let drag;
+    let dragX;
+    let dragY;
+    let dragObj;
+    let dragTop;
+    let dragLeft;
 
+    /**
+     * Анимация при попадании в тюрьму
+     */
     $(".cell-position-holder, #jail").on("mouseover", function () {
         $("#" + this.enlargeId).show()
 
@@ -2941,7 +2997,9 @@ window.onload = function () {
         element.style.left = (e.clientX + 10) + "px"
     });
 
-
+    /**
+     * Анимация объектов игры
+     */
     $("body").on("mousemove", function (e) {
         let object;
 
@@ -2974,10 +3032,17 @@ window.onload = function () {
     });
 
 
+    /**
+     * Изменение состояния перетаскивания
+     */
     $("body").on("mouseup", function () {
-
         drag = false
     });
+
+    /**
+     * Перетаскивание статистики игры
+     * @param {Object} e - ивент
+     */
     document.getElementById("statsdrag").onmousedown = function (e) {
         dragObj = document.getElementById("stats");
         dragObj.style.position = "relative";
@@ -2996,6 +3061,10 @@ window.onload = function () {
         drag = true
     };
 
+    /**
+     * Анимация хода игрока
+     * @param {Object} e - ивент
+     */
     document.getElementById("popupdrag").onmousedown = function (e) {
         dragObj = document.getElementById("popup");
         dragObj.style.position = "relative";
@@ -3014,6 +3083,9 @@ window.onload = function () {
         drag = true
     };
 
+    /**
+     * Заложить имущество игрока
+     */
     $("#mortgagebutton").click(function () {
         let checkedProperty = getCheckedProperty();
         let s = square[checkedProperty];
@@ -3025,16 +3097,19 @@ window.onload = function () {
             } else {
                 popup("<p>" + player[s.owner].name + ", are you sure you want to unmortgage " + s.name + " for $" + Math.round(s.price * 0.6) + "?</p>", function () {
                     unmortgage(checkedProperty)
-                }, "Yes/No")
+                }, "Да/Нет")
             }
         } else {
             popup("<p>" + player[s.owner].name + ", are you sure you want to mortgage " + s.name + " for $" + Math.round(s.price * 0.5) + "?</p>", function () {
                 mortgage(checkedProperty)
-            }, "Yes/No")
+            }, "Да/Нет")
         }
 
     });
 
+    /**
+     * Покупка имущества
+     */
     $("#buyHouseButton").on("click", function () {
         let checkedProperty = getCheckedProperty();
         let s = square[checkedProperty];
@@ -3072,16 +3147,25 @@ window.onload = function () {
 
     });
 
+    /**
+     * Продажа имущества
+     */
     $("#sellHouseButton").click(function () {
         sellHouse(getCheckedProperty())
     });
 
+    /**
+     * Показывает статистику
+     */
     $("#viewstats").on("click", showStats);
     $("#statsclose, #statsbackground").on("click", function () {
         $("#statswrap").hide();
         $("#statsbackground").fadeOut(400)
     });
 
+    /**
+     * Показывает блок покупки и скрывает блок управления
+     */
     $("#buy-menu-item").click(function () {
         $("#buy").show();
         $("#manage").hide();
@@ -3090,20 +3174,31 @@ window.onload = function () {
         $("#alert").scrollTop($("#alert").prop("scrollHeight"))
     });
 
-
+    /**
+     * Показывает блок управления и скрывает блок торговли
+     */
     $("#manage-menu-item").click(function () {
         $("#manage").show();
         $("#buy").hide()
     });
 
-
+    /**
+     * Начать торговлю
+     */
     $("#trade-menu-item").click(game.trade)
 
 
 };
 
-
-function arr_diff (a1, a2) {
+/**Функция для нахождения разницы массивов
+ * Используется для нахождения доступных во время хода клеток
+ *
+ * @param {Array} a1 - первый массив
+ * @param {Array} a2 - второй массив
+ * @return {Array} Возвращает разницу двух массивов.
+ *
+ */
+function arr_diff(a1, a2) {
     let a = [], diff = [];
 
     for (let i = 0; i < a1.length; i++) {
@@ -3121,6 +3216,5 @@ function arr_diff (a1, a2) {
     for (let k in a) {
         diff.push(k)
     }
-
     return diff
 }
