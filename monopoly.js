@@ -1263,7 +1263,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Name
      *
-     * @var string name
+     * @var {string} name
      */
     this.name = name;
     /**
@@ -1285,7 +1285,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Position
      *
-     * @var number position
+     * @var {number} position
      */
     this.position = 0;
     /**
@@ -1297,7 +1297,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Money
      *
-     * @var number money
+     * @var {number} money
      */
     this.money = 1500;
     /**
@@ -1308,7 +1308,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Creditor
      *
-     * @var string creditor
+     * @var {string} creditor
      */
     this.creditor = -1;
     /**
@@ -1319,7 +1319,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Jail
      *
-     * @var boolean jail
+     * @var {boolean} jail
      */
     this.jail = false;
     /**
@@ -1330,7 +1330,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Jailroll
      *
-     * @var number jailroll
+     * @var {number} jailroll
      */
     this.jailroll = 0;
     /**
@@ -1342,7 +1342,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс СommunityChestJailCard
      *
-     * @var boolean communityChestJailCard
+     * @var {boolean} communityChestJailCard
      */
     this.communityChestJailCard = false;
     /**
@@ -1354,7 +1354,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс СhanceJailCard
      *
-     * @var boolean chanceJailCard
+     * @var {boolean} chanceJailCard
      */
     this.chanceJailCard = false;
     /**
@@ -1366,7 +1366,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Bidding
      *
-     * @var boolean bidding
+     * @var {boolean} bidding
      */
     this.bidding = true;
     /**
@@ -1378,7 +1378,7 @@ function Player (name, color) {
      * необходима детализация, создадим
      * класс Human
      *
-     * @var boolean human
+     * @var {boolean} human
      */
     this.human = true;
     // this.AI = null
@@ -1390,8 +1390,8 @@ function Player (name, color) {
      * количество денег у кредитора, возвращается значение
      * true. Если больше, - false.
      *
-     * @param string brand Производитель
-     * @return Возвращается true или false
+     * @param {string} brand
+     * @return {boolean} pay Возвращает логическую переменную платежа
      */
     public function brand($brand=NULL);
     this.pay = function (amount, creditor) {
@@ -1429,9 +1429,9 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
      *
      * Метод для получения значения свойства initiator
      *
-     * @return initiator Возвращает текущее значение
-     * свойства или указатель на
-     * объект
+     * @return {string} initiator Возвращает текущее значение
+     *                   свойства или указатель на
+     *                   объект
      */
     this.getInitiator = function () {
         return initiator
@@ -1441,9 +1441,9 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
      *
      * Метод для получения значения свойства recipient
      *
-     * @return recipient Возвращает текущее значение
-     * свойства или указатель на
-     * объект
+     * @return {string} recipient Возвращает текущее значение
+     *                            свойства или указатель на
+     *                            объект
      */
     this.getRecipient = function () {
         return recipient
@@ -1453,9 +1453,9 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
      *
      * Метод для получения значения свойства property
      *
-     * @param number index Индекс
-     * @return property[index] Возвращает элемент массива
-     * номером index
+     * @param {number} index
+     * @return {string} property[index] Возвращает элемент массива
+     *                                  номером index
      */
     this.getProperty = function (index) {
         return property[index]
@@ -1465,9 +1465,9 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
      *
      * Метод для получения значения свойства money
      *
-     * @return money Возвращает текущее значение
-     * свойства или указатель на
-     * объект
+     * @return {number} money Возвращает текущее значение
+     *                        свойства или указатель на
+     *                        объект
      */
     this.getMoney = function () {
         return money
@@ -1477,9 +1477,9 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
      *
      * Метод для получения значения свойства communityChestJailCard
      *
-     * @return communityChestJailCard Возвращает текущее значение
-     * свойства или указатель на
-     * объект
+     * @return {boolean} communityChestJailCard Возвращает текущее значение
+     *                                          свойства или указатель на
+     *                                          объект
      */
     this.getCommunityChestJailCard = function () {
         return communityChestJailCard
@@ -1489,9 +1489,9 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
      *
      * Метод для получения значения свойства chanceJailCard
      *
-     * @return chanceJailCard Возвращает текущее значение
-     * свойства или указатель на
-     * объект
+     * @return {boolean} chanceJailCard Возвращает текущее значение
+     *                                  свойства или указатель на
+     *                                  объект
      */
     this.getchanceJailCard = function () {
         return chanceJailCard
@@ -1503,7 +1503,7 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
  * Используем список типа string
  * для хранения имён игроков.
  *
- * @var list player
+ * @var {list} player
  */
 let player = [];
 /**
@@ -1512,7 +1512,7 @@ let player = [];
  * Используем простое целочисленное обозначение
  * для количества игроков.
  *
- * @var number pcount
+ * @var {number} pcount
  */
 let pcount;
 /**
@@ -1521,7 +1521,7 @@ let pcount;
  * Используем простое целочисленное обозначение
  * для количества игроков в очереди.
  *
- * @var number turn
+ * @var {number} turn
  */
 let turn = 0;
 /**
@@ -1530,16 +1530,17 @@ let turn = 0;
  * Используем простое целочисленное обозначение
  * для удвоенного количества игроков.
  *
- * @var number doublecount
+ * @var {number} doublecount
  */
 let doublecount = 0;
 /**
- * Работа со свойством {@link $Array}
+ * Работа со свойством {@link Array}
  *
  * Массив перезаписывается с номерами от одного
  * до длины массива в случайном порядке.
  *
- * @param number length Длина
+ * @param {number} length
+ * @return {list} Array Возвращается массив
  */
 Array.prototype.randomize = function (length) {
     length = (length || this.length);
@@ -1549,7 +1550,7 @@ Array.prototype.randomize = function (length) {
      * Используем простое целочисленное
      * обозначение номера элемента в массиве.
      *
-     * @var number num
+     * @var {number} num
      */
     let num;
     /**
@@ -1558,7 +1559,7 @@ Array.prototype.randomize = function (length) {
      * Используем список типа number
      * для хранения индексов массива.
      *
-     * @var list indexArray
+     * @var {list} indexArray
      */
     let indexArray = [];
 
