@@ -137,14 +137,14 @@ class Game {
         };
 
         /**
-         * Получение костей {@link die}
+         * Получение костей
          *
          * Возвращает значение первой или второй
          * кости, в зависимости от значения переменной
          *
          * @returns {int} Возвращает значение первой
          * или второй кости
-         * @param die
+         * @param {boolean} die
          */
         this.getDie = function (die) {
             if (die) {
@@ -187,11 +187,11 @@ class Game {
         };
 
         /**
-         * Добавление собственности в аукцион({@link propertyIndex})
+         * Добавление собственности в аукцион
          *
          * Добавляет в очередь аукционов новое имущество
          *
-         * @param propertyIndex
+         * @param {int} propertyIndex
          */
         this.addPropertyToAuctionQueue = function (propertyIndex) {
             auctionQueue.push(propertyIndex)
