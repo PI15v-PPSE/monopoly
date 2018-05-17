@@ -1,31 +1,156 @@
 /**
- * Игровое поле
+ * Игровая клетка
  *
- * Класс описывает поле
- * для игры в монополию.
+ * Класс описывает игровую клетку
  *
- * @author John Doe
- * @version 1.0.1
+ * @author Gumbeat
+ * @version 0.0.1
  * @copyright GNU Public License
- * @todo Реализовать все методы
  */
 function Square(name, pricetext, color, price, groupNumber, baseRent, rent1, rent2, rent3, rent4, rent5) {
+    /**
+     *
+     * Название клетки
+     *
+     * @var string name
+     *
+     */
     this.name = name;
+    /**
+     *
+     * Информация о стоимости
+     *
+     * @var string pricetext
+     *
+     */
     this.pricetext = pricetext;
+    /**
+     *
+     * Цвет клетки
+     *
+     * @var string color
+     *
+     */
     this.color = color;
+    /**
+     *
+     * Владелец
+     *
+     * Id владельца
+     *
+     * @var int owner
+     *
+     */
     this.owner = 0;
+    /**
+     *
+     * Закладка
+     *
+     * @var string mortgage
+     *
+     */
     this.mortgage = false;
+    /**
+     *
+     * Дом
+     * 
+     * Количество домов на клетке
+     *
+     * @var int house
+     *
+     */
     this.house = 0;
+    /**
+     *
+     * Отель
+     *
+     * Количество отелей на клетке
+     *
+     * @var int hotel
+     *
+     */
     this.hotel = 0;
+    /**
+     *
+     * Номер группы
+     *
+     * @var int mortgage
+     *
+     */
     this.groupNumber = groupNumber || 0;
+    /**
+     *
+     * Цена
+     * 
+     * Цена, указанная на клетке
+     *
+     * @var int price
+     *
+     */
     this.price = (price || 0);
+    /**
+     *
+     * Стандартная арендная плата
+     *
+     * @var int baseRent
+     *
+     */
     this.baseRent = (baseRent || 0);
+    /**
+     *
+     * Арендная плата первого уровня
+     *
+     * @var int rent1
+     *
+     */
     this.rent1 = (rent1 || 0);
+    /**
+     *
+     * Арендная плата второго уровня
+     *
+     * @var int rent2
+     *
+     */
     this.rent2 = (rent2 || 0);
-    this.rent3 = (rent3 || 0);
+    /**
+     *
+     * Арендная плата третьего уровня
+     *
+     * @var int rent3
+     *
+     */
+    this.rent3 = (rent3 || 0);/**
+     *
+     * Арендная плата четвёртого уровня
+     *
+     * @var int rent4
+     *
+     */
     this.rent4 = (rent4 || 0);
+    /**
+     *
+     * Арендная плата пятого уровня
+     *
+     * @var int rent5
+     *
+     */
     this.rent5 = (rent5 || 0);
-    this.landcount = 0;
+    /**
+     *
+     * Количество попаданий клетку
+     *
+     * @var int landCount
+     *
+     */
+    this.landCount = 0;
+    /**
+     *
+     * Цена дома
+     *
+     * @var int housePrice
+     *
+     */
+    this.housePrice = 0;
 
     if (groupNumber === 3 || groupNumber === 4) {
         this.housePrice = 50;
@@ -35,18 +160,39 @@ function Square(name, pricetext, color, price, groupNumber, baseRent, rent1, ren
         this.housePrice = 150;
     } else if (groupNumber === 9 || groupNumber === 10) {
         this.housePrice = 200;
-    } else {
-        this.housePrice = 0;
     }
 }
 
+/**
+ * Карточка
+ *
+ * Класс описывает игровую карточку
+ *
+ * @author Gumbeat
+ * @version 0.0.1
+ * @copyright GNU Public License
+ */
 class Card {
+    /**
+     *
+     * Конструктор класса Card
+     *
+     * @param {string} text
+     * @param {function} action
+     */
     constructor (text, action) {
         this.text = text;
         this.action = action
     }
 }
 
+/**
+ *
+ * Корректировки
+ *
+ * Загрузка новых изображений для улучшенных предприятий
+ *
+ */
 function corrections() {
     document.getElementById("cell1name").textcontent = "mediter-ranean avenue";
 
@@ -59,14 +205,27 @@ function corrections() {
     document.getElementById("enlarge28token").innerhtml += '<img src="../images/water_icon.png" height="60" width="78" alt="" style="position: relative; top: -20px;" />';
 }
 
+/**
+ *
+ * Текст утилиты
+ *
+ * @returns {string}
+ */
 function utilText() {
-    return '&nbsp;&nbsp;&nbsp;&nbsp;if one "utility" is owned rent is 4 times amount shown on dice.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;if both "utilitys" are owned rent is 10 times amount shown on dice.';
+    return '&nbsp;&nbsp;&nbsp;&nbsp;if one "utility" is owned rent is 4 times amount shown on dice.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;if both "utilities" are owned rent is 10 times amount shown on dice.';
 }
 
 function transText() {
     return '<div style="font-size: 14px; line-height: 1.5;">rent<span style="float: right;">$25.</span><br />if 2 railroads are owned<span style="float: right;">50.</span><br />if 3 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">100.</span><br />if 4 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">200.</span></div>';
 }
 
+/**
+ *
+ * Налоги на роскошь
+ *
+ * Описание действий при попадании на клетку "Налоги на роскошь"
+ *
+ */
 function luxuryTax() {
     addalert(player[turn].name + " заплатите $100 за попадание на luxury tax.");
     player[turn].pay(100, 0);
@@ -74,6 +233,13 @@ function luxuryTax() {
     $("#landed").show().text("вы попали на luxury tax. заплатите $100.");
 }
 
+/**
+ *
+ * Городские налоги
+ *
+ * Описание действий при попадании на клетку "Городские налоги"
+ *
+ */
 function cityTax () {
     addalert(player[turn].name + " заплатите $100 за попадание на city tax.");
     player[turn].pay(200, 0);
