@@ -1,3 +1,14 @@
+/**
+ * Игровое поле
+ *
+ * Класс описывает поле
+ * для игры в монополию.
+ *
+ * @author John Doe
+ * @version 1.0.1
+ * @copyright GNU Public License
+ * @todo Реализовать все методы
+ */
 function Square(name, pricetext, color, price, groupNumber, baseRent, rent1, rent2, rent3, rent4, rent5) {
     this.name = name;
     this.pricetext = pricetext;

@@ -1,24 +1,124 @@
+/**
+ * Игра
+ *
+ * Класс описывает игровой процесс.
+ *
+ * @author Gumbeat
+ * @version 0.0.1
+ * @copyright GNU Public License
+ */
+
 function Game() {
+    /**
+     * Первая игровая кость
+     *
+     * Используем целочисленное значение
+     * переменной для обозначения
+     * количества очков на первом кубике.
+     *
+     * @var int $die1
+     */
     let die1;
+    /**
+     * Вторая игровая кость
+     *
+     * Используем целочисленное значение
+     * переменной для обозначения
+     * количества очков на втором кубике.
+     *
+     * @var int die2
+     */
     let die2;
+    /**
+     * Состояние костей
+     *
+     * Булевая переменная,
+     * показывающая, брошены ли кубики
+     *
+     * @var boolean areDiceRolled
+     */
     let areDiceRolled = false;
 
+    /**
+     * Аукционная очередь
+     *
+     * Очередь, в которой содержаться
+     * всё текущее аукционное
+     * имущество
+     *
+     * @var array auctionQueue
+     */
     let auctionQueue = [];
-    let highestbidder;
-    let highestbid;
-    let currentbidder = 1;
-    let auctionproperty;
+    /**
+     * Игрок с наивысшей ставкой
+     *
+     * Id игрока, сделавшего
+     * наивысшую ставку в аукционе
+     * на данный момент
+     *
+     * @var int highestBidder
+     */
+    let highestBidder;
+    /**
+     * Наивысшая ставка
+     *
+     * Еаивысшая ставка в аукционе
+     * на данный момент
+     *
+     * @var int highestBid
+     */
+    let highestBid;
+    /**
+     * Участник, делающий ставку
+     *
+     * Id игрока, очередь которого
+     * делать ставку
+     *
+     * @var int currentBidder
+     */
+    let currentBidder = 1;
+    /**
+     * Аукционное имущество
+     *
+     * Id имущества, находящегося
+     * на аукционе
+     *
+     * @var int auctionProperty
+     */
+    let auctionProperty;
 
+    /**
+     * Бросок кубиков
+     *
+     * Получение случайных значений (в пределах от 1 до 6) очков
+     * первой и второй игральной кости и присваивает значение
+     * true полю @areDiceRolled
+     *
+     */
     this.rollDice = function () {
         die1 = Math.floor(Math.random() * 6) + 1;
         die2 = Math.floor(Math.random() * 6) + 1;
         areDiceRolled = true
     };
 
+    /**
+     * Сброс очков кубиков
+     *
+     * Присваивает значение
+     * false полю @areDiceRolled
+     *
+     */
     this.resetDice = function () {
         areDiceRolled = false
     };
 
+    /**
+     * Следующий ход
+     *
+     * Производится моделирование сценария
+     * для хода следующего игрока.
+     *
+     */
     this.next = function () {
         if (!p.human && p.money < 0) {
             p.AI.payDebt();
@@ -36,29 +136,42 @@ function Game() {
         }
     };
 
+    /**
+     * Получение костей
+     *
+     * Возвращает значение первой или второй
+     * кости, в зависимости от значения переменной
+     *
+     * @returns {int} Возвращает значение первой
+     * или второй кости
+     * @param {boolean} die
+     */
     this.getDie = function (die) {
-        if (die === 1) {
-
+        if (die) {
             return die1
-        } else {
-
-            return die2
         }
-
+        return die2
     };
 
 
     // Auction functions:
 
 
+    /**
+     * Расчеты для аукциона
+     *
+     * Исполняет расчеты для определения
+     * результатов аукциона
+     *
+     */
     let finalizeAuction = function () {
-        let p = player[highestbidder];
-        let sq = square[auctionproperty];
+        let p = player[highestBidder];
+        let sq = square[auctionProperty];
 
-        if (highestbid > 0) {
-            p.pay(highestbid, 0);
-            sq.owner = highestbidder;
-            addAlert(p.name + " bought " + sq.name + " for $" + highestbid + ".")
+        if (highestBid > 0) {
+            p.pay(highestBid, 0);
+            sq.owner = highestBidder;
+            addAlert(p.name + " bought " + sq.name + " for $" + highestBid + ".")
         }
 
         for (let i = 1; i <= pcount; i++) {
@@ -73,10 +186,26 @@ function Game() {
         }
     };
 
+    /**
+     * Добавление собственности в аукцион
+     *
+     * Добавляет в очередь аукционов новое имущество
+     *
+     * @param {int} propertyIndex
+     */
     this.addPropertyToAuctionQueue = function (propertyIndex) {
         auctionQueue.push(propertyIndex)
     };
 
+    /**
+     * Аукцион
+     *
+     * Производит моделирование
+     * сценария аукциона
+     *
+     * @returns {*} Возвращает true при
+     * продолжении аукциона, false при завершении
+     */
     this.auction = function () {
         if (auctionQueue.length === 0) {
             return false
@@ -90,21 +219,21 @@ function Game() {
             return game.auction()
         }
 
-        auctionproperty = index;
-        highestbidder = 0;
-        highestbid = 0;
-        currentbidder = turn + 1;
+        auctionProperty = index;
+        highestBidder = 0;
+        highestBid = 0;
+        currentBidder = turn + 1;
 
-        if (currentbidder > pcount) {
-            currentbidder -= pcount
+        if (currentBidder > pcount) {
+            currentBidder -= pcount
         }
 
-        popup("<div style='font-weight: bold font-size: 16px margin-bottom: 10px'>Auction <span id='propertyname'></span></div><div>Highest Bid = $<span id='highestbid'></span> (<span id='highestbidder'></span>)</div><div><span id='currentbidder'></span>, it is your turn to bid.</div<div><input id='bid' title='Enter an amount to bid on " + s.name + ".' style='width: 291px' /></div><div><input type='button' value='Bid' onclick='game.auctionBid()' title='Place your bid.' /><input type='button' value='Pass' title='Skip bidding this time.' onclick='game.auctionPass()' /><input type='button' value='Exit Auction' title='Stop bidding on " + s.name + " altogether.' onclick='if (confirm(\"Are you sure you want to stop bidding on this property altogether?\")) game.auctionExit()' /></div>", "blank");
+        popup("<div style='font-weight: bold font-size: 16px margin-bottom: 10px'>Auction <span id='propertyname'></span></div><div>Highest Bid = $<span id='highestBid'></span> (<span id='highestBidder'></span>)</div><div><span id='currentBidder'></span>, it is your turn to bid.</div<div><input id='bid' title='Enter an amount to bid on " + s.name + ".' style='width: 291px' /></div><div><input type='button' value='Bid' onclick='game.auctionBid()' title='Place your bid.' /><input type='button' value='Pass' title='Skip bidding this time.' onclick='game.auctionPass()' /><input type='button' value='Exit Auction' title='Stop bidding on " + s.name + " altogether.' onclick='if (confirm(\"Are you sure you want to stop bidding on this property altogether?\")) game.auctionExit()' /></div>", "blank");
 
-        document.getElementById("propertyname").innerhtml = "<a href='javascript:void(0)' onmouseover='showdeed(" + auctionproperty + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>";
-        document.getElementById("highestbid").innerhtml = "0";
-        document.getElementById("highestbidder").innerhtml = "N/A";
-        document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
+        document.getElementById("propertyname").innerHTML = "<a href='javascript:void(0)' onmouseover='showdeed(" + auctionProperty + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>";
+        document.getElementById("highestBid").innerHTML = "0";
+        document.getElementById("highestBidder").innerHTML = "N/A";
+        document.getElementById("currentBidder").innerHTML = player[currentBidder].name;
         document.getElementById("bid").onkeydown = function (e) {
             let key = 0;
             let isCtrl = false;
@@ -151,35 +280,43 @@ function Game() {
 
         updateMoney();
 
-        if (!player[currentbidder].human) {
-            currentbidder = turn; // auctionPass advances currentbidder.
+        if (!player[currentBidder].human) {
+            currentBidder = turn; // auctionPass advances currentBidder.
             this.auctionPass()
         }
         return true
     };
 
+    /**
+     *
+     * Пасс на аукционе
+     *
+     * Производит моделирование сценария
+     * пасса игроком во время аукциона
+     *
+     */
     this.auctionPass = function () {
-        if (highestbidder === 0) {
-            highestbidder = currentbidder
+        if (highestBidder === 0) {
+            highestBidder = currentBidder
         }
 
         while (true) {
-            currentbidder++;
+            currentBidder++;
 
-            if (currentbidder > pcount) {
-                currentbidder -= pcount
+            if (currentBidder > pcount) {
+                currentBidder -= pcount
             }
 
-            if (currentbidder === highestbidder) {
+            if (currentBidder === highestBidder) {
                 finalizeAuction();
                 return
-            } else if (player[currentbidder].bidding) {
-                let p = player[currentbidder];
+            } else if (player[currentBidder].bidding) {
+                let p = player[currentBidder];
 
                 if (!p.human) {
-                    let bid = p.AI.bid(auctionproperty, highestbid);
+                    let bid = p.AI.bid(auctionProperty, highestBid);
 
-                    if (bid === -1 || highestbid >= p.money) {
+                    if (bid === -1 || highestBid >= p.money) {
                         p.bidding = false;
 
                         window.alert(p.name + " exited the auction.");
@@ -202,11 +339,19 @@ function Game() {
 
         }
 
-        document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
+        document.getElementById("currentBidder").innerHTML = player[currentBidder].name;
         document.getElementById("bid").value = "";
         document.getElementById("bid").style.color = "black"
     };
 
+    /**
+     *
+     * Ставка на аукционе
+     *
+     * Производит моделирование сценария
+     * ставки игрока во время аукциона
+     *
+     */
     this.auctionBid = function (bid) {
         bid = bid || parseInt(document.getElementById("bid").value, 10);
 
@@ -218,41 +363,71 @@ function Game() {
             document.getElementById("bid").style.color = "red"
         } else {
 
-            if (bid > player[currentbidder].money) {
+            if (bid > player[currentBidder].money) {
                 document.getElementById("bid").value = "You don't have enough money to bid $" + bid + ".";
                 document.getElementById("bid").style.color = "red"
-            } else if (bid > highestbid) {
-                highestbid = bid;
-                document.getElementById("highestbid").innerhtml = parseInt(bid, 10);
-                highestbidder = currentbidder;
-                document.getElementById("highestbidder").innerhtml = player[highestbidder].name;
+            } else if (bid > highestBid) {
+                highestBid = bid;
+                document.getElementById("highestBid").innerHTML = parseInt(bid, 10);
+                highestBidder = currentBidder;
+                document.getElementById("highestBidder").innerHTML = player[highestBidder].name;
 
                 document.getElementById("bid").focus();
 
-                if (player[currentbidder].human) {
+                if (player[currentBidder].human) {
                     this.auctionPass()
                 }
             } else {
-                document.getElementById("bid").value = "Your bid must be greater than highest bid. ($" + highestbid + ")";
+                document.getElementById("bid").value = "Your bid must be greater than highest bid. ($" + highestBid + ")";
                 document.getElementById("bid").style.color = "red"
             }
         }
     };
 
+    /**
+     *
+     * Выход из аукциона
+     *
+     * Производит моделирование сценария
+     * пасса игрока из аукциона
+     *
+     */
     this.auctionExit = function () {
-        player[currentbidder].bidding = false;
+        player[currentBidder].bidding = false;
         this.auctionPass()
     };
 
 
-    // Trade functions:
+// Trade functions:
 
-
+    /**
+     * Инициатор сделки
+     *
+     * Переменная указывает на игрока, который начал сделку
+     *
+     * @var Player currentInitiator
+     */
     let currentInitiator;
+
+    /**
+     * Участник сделки сделки
+     *
+     * Переменная указывает на игрока, с которым начали сделку
+     *
+     * @var Player currentRecipient
+     */
     let currentRecipient;
 
-    // Define event handlers:
+// Define event handlers:
 
+    /**
+     * Функция-событие на ввод в поле суммы сделки
+     *
+     * Проверка на ввод символов, которые допустимы
+     *
+     * @param e
+     * @returns {boolean} Возвращает true, если допустить символ
+     */
     let tradeMoneyOnKeyDown = function (e) {
         let key = 0;
         let isCtrl = false;
@@ -288,15 +463,25 @@ function Game() {
         // Only allow number keys.
         return (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
     };
-
+    /**
+     * Функция-событие на наведение на поле суммы сделки
+     *
+     * Применяет визуальный эффект при наведении на поле
+     */
     let tradeMoneyOnFocus = function () {
         this.style.color = "black";
         if (isNaN(this.value) || this.value === "0") {
             this.value = ""
         }
     };
-
-    let tradeMoneyOnChange = function (e) {
+    /**
+     * Функция-событие на поле суммы сделки
+     *
+     * Проводит валидацию значения
+     *
+     * @returns {boolean} Возвращает true, если допустить изменение
+     */
+    let tradeMoneyOnChange = function () {
         $("#proposetradebutton").show();
         $("#canceltradebutton").show();
         $("#accepttradebutton").hide();
@@ -925,7 +1110,7 @@ function Game() {
     };
 
 
-    // Bankrupcy functions:
+// Bankrupcy functions:
 
 
     this.eliminatePlayer = function () {
@@ -966,7 +1151,7 @@ function Game() {
             // else
             // text += " " + square[i].landcount
             // }
-            // document.getElementById("refresh").innerhtml += "<br><br><div><textarea type='text' style='width: 980px' onclick='javascript:select()' />" + text + "</textarea></div>"
+            // document.getElementById("refresh").innerHTML += "<br><br><div><textarea type='text' style='width: 980px' onclick='javascript:select()' />" + text + "</textarea></div>"
 
             popup("<p>Congratulations, " + player[1].name + ", you have won the game.</p><div>")
 
@@ -1083,22 +1268,159 @@ function Game() {
 
 }
 
+
 let game;
 
+/**
+ * Игрок
+ *
+ * Класс описывает абстрактного игрока,
+ * который принимает участие в партии.
+ *
+ * @author virvira
+ * @version 0.0.1
+ * @copyright GNU Public License
+ */
 function Player(name, color) {
+    /**
+     * Имя игрока
+     *
+     * Используем только простое символьное
+     * имя игрока. Если будет
+     * необходима детализация, создадим
+     * класс Name
+     *
+     * @var {string} name
+     */
     this.name = name;
+    /**
+     * Цвет полей игрока
+     *
+     * Используем только простое символьное
+     * название цвета. Если будет
+     * необходима детализация, создадим
+     * класс Color
+     *
+     * @var string color
+     */
     this.color = color;
+    /**
+     * Позиция игрока
+     *
+     * Используем только целочисленное обозначение
+     * позиции. Если будет
+     * необходима детализация, создадим
+     * класс Position
+     *
+     * @var {number} position
+     */
     this.position = 0;
+    /**
+     * Деньги игрока
+     *
+     * Используем целочисленное обозначение
+     * количества денег, имеющихся у игрока.
+     * Если будет
+     * необходима детализация, создадим
+     * класс Money
+     *
+     * @var {number} money
+     */
     this.money = 1500;
+    /**
+     * Кредиторы игрока
+     *
+     * Используем целочисленное обозначение
+     * количества кредиторов игрока. Если будет
+     * необходима детализация, создадим
+     * класс Creditor
+     *
+     * @var {string} creditor
+     */
     this.creditor = -1;
+    /**
+     * Тюремное заключение
+     *
+     * Используем логическую переменную
+     * для обозначения свободы игрока. Если будет
+     * необходима детализация, создадим
+     * класс Jail
+     *
+     * @var {boolean} jail
+     */
     this.jail = false;
+    /**
+     * Поле с тюрьмой
+     *
+     * Используем целочисленное обозначение
+     * для номера поля с тюрьмой. Если будет
+     * необходима детализация, создадим
+     * класс Jailroll
+     *
+     * @var {number} jailroll
+     */
     this.jailroll = 0;
+    /**
+     * Общественное тюремное заключение
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, попадал ли игрок
+     * на поле общественных работ. Если будет
+     * необходима детализация, создадим
+     * класс СommunityChestJailCard
+     *
+     * @var {boolean} communityChestJailCard
+     */
     this.communityChestJailCard = false;
+    /**
+     * Шанс на заключение
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, получает ли игрок
+     * тюремное заключение. Если будет
+     * необходима детализация, создадим
+     * класс СhanceJailCard
+     *
+     * @var {boolean} chanceJailCard
+     */
     this.chanceJailCard = false;
+    /**
+     * Торги
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, принимает ли игрок
+     * участие в торгах. Если будет
+     * необходима детализация, создадим
+     * класс Bidding
+     *
+     * @var {boolean} bidding
+     */
     this.bidding = true;
+    /**
+     * Человек
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, является ли игрок
+     * человеком. Если будет
+     * необходима детализация, создадим
+     * класс Human
+     *
+     * @var {boolean} human
+     */
     this.human = true;
     // this.AI = null
 
+    /**
+     * Работа со свойством
+     *
+     * Если сумма запроса на кредит меньше, чем
+     * количество денег у кредитора, возвращается значение
+     * true. Если больше, - false.
+     *
+     * @param {string} amount
+     * @param {string} creditor
+     * @return {boolean} pay Возвращает логическую переменную платежа
+     */
     this.pay = function (amount, creditor) {
         if (amount <= this.money) {
             this.money -= amount;
@@ -1117,48 +1439,156 @@ function Player(name, color) {
     }
 }
 
-// paramaters:
-// initiator: object Player
-// recipient: object Player
-// money: integer, positive for offered, negative for requested
-// property: array of integers, length: 40
-// communityChestJailCard: integer, 1 means offered, -1 means requested, 0 means neither
-// chanceJailCard: integer, 1 means offered, -1 means requested, 0 means neither
+/**
+ * Сделка
+ *
+ * Класс описывает абстрактную сделку,
+ * которая может произойти в игре.
+ *
+ * @author virvira
+ * @version 0.0.1
+ * @copyright GNU Public License
+ */
 function Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard) {
-    // For each property and get out of jail free cards, 1 means offered, -1 means requested, 0 means neither.
 
+    /**
+     * Работа со свойством
+     *
+     * Метод для получения значения свойства initiator
+     *
+     * @return {string} initiator Возвращает текущее значение
+     *                   свойства или указатель на
+     *                   объект
+     */
     this.getInitiator = function () {
         return initiator
     };
-
+    /**
+     * Работа со свойством
+     *
+     * Метод для получения значения свойства recipient
+     *
+     * @return {string} recipient Возвращает текущее значение
+     *                            свойства или указатель на
+     *                            объект
+     */
     this.getRecipient = function () {
         return recipient
     };
-
+    /**
+     * Работа со свойством
+     *
+     * Метод для получения значения свойства property
+     *
+     * @param {number} index
+     * @return {string} property[index] Возвращает элемент массива
+     *                                  номером index
+     */
     this.getProperty = function (index) {
         return property[index]
     };
-
+    /**
+     * Работа со свойством {@link money}
+     *
+     * Метод для получения значения свойства money
+     *
+     * @return {number} money Возвращает текущее значение
+     *                        свойства или указатель на
+     *                        объект
+     */
     this.getMoney = function () {
         return money
     };
-
+    /**
+     * Работа со свойством
+     *
+     * Метод для получения значения свойства communityChestJailCard
+     *
+     * @return {boolean} communityChestJailCard Возвращает текущее значение
+     *                                          свойства или указатель на
+     *                                          объект
+     */
     this.getCommunityChestJailCard = function () {
         return communityChestJailCard
     };
-
+    /**
+     * Работа со свойством
+     *
+     * Метод для получения значения свойства chanceJailCard
+     *
+     * @return {boolean} chanceJailCard Возвращает текущее значение
+     *                                  свойства или указатель на
+     *                                  объект
+     */
     this.getchanceJailCard = function () {
         return chanceJailCard
     }
 }
 
+/**
+ * Набор игроков
+ *
+ * Используем список типа string
+ * для хранения имён игроков.
+ *
+ * @var {list} player
+ */
 let player = [];
+/**
+ * Количество игроков
+ *
+ * Используем простое целочисленное обозначение
+ * для количества игроков.
+ *
+ * @var {number} pcount
+ */
 let pcount;
-let turn = 0, doublecount = 0;
-// Overwrite an array with numbers from one to the array's length in a random order.
+/**
+ * Очередь
+ *
+ * Используем простое целочисленное обозначение
+ * для количества игроков в очереди.
+ *
+ * @var {number} turn
+ */
+let turn = 0;
+/**
+ * Удвоенное количество
+ *
+ * Используем простое целочисленное обозначение
+ * для удвоенного количества игроков.
+ *
+ * @var {number} doublecount
+ */
+let doublecount = 0;
+/**
+ * Работа со свойством
+ *
+ * Массив перезаписывается с номерами от одного
+ * до длины массива в случайном порядке.
+ *
+ * @param {number} length
+ * @return {list} Array Возвращается массив
+ */
 Array.prototype.randomize = function (length) {
     length = (length || this.length);
+    /**
+     * Номер в массиве
+     *
+     * Используем простое целочисленное
+     * обозначение номера элемента в массиве.
+     *
+     * @var {number} num
+     */
     let num;
+    /**
+     * Индексы массиа
+     *
+     * Используем список типа number
+     * для хранения индексов массива.
+     *
+     * @var {list} indexArray
+     */
     let indexArray = [];
 
     for (let i = 0; i < length; i++) {
@@ -1166,35 +1596,12 @@ Array.prototype.randomize = function (length) {
     }
 
     for (let i = 0; i < length; i++) {
-        // Generate random number between 0 and indexArray.length - 1.
         num = Math.floor(Math.random() * indexArray.length);
         this[i] = indexArray[num] + 1;
 
         indexArray.splice(num, 1)
     }
 };
-
-// function show(element) {
-// // Element may be an html element or the id of one passed as a string.
-// if (element.constructor === String) {
-// element = document.getElementById(element)
-// }
-
-// if (element.tagName === "INPUT" || element.tagName === "SPAN" || element.tagName === "LABEL") {
-// element.style.display = "inline"
-// } else {
-// element.style.display = "block"
-// }
-// }
-
-// function hide(element) {
-// // Element may be an html element or the id of one passed as a string.
-// if (element.constructor === String) {
-// document.getElementById(element).style.display = "none"
-// } else {
-// element.style.display = "none"
-// }
-// }
 
 function addAlert(alertText) {
     $alert = $("#alert");
@@ -1210,7 +1617,7 @@ function addAlert(alertText) {
 }
 
 function popup(html, action, option) {
-    document.getElementById("popuptext").innerhtml = html;
+    document.getElementById("popuptext").innerHTML = html;
     document.getElementById("popup").style.width = "300px";
     document.getElementById("popup").style.top = "0px";
     document.getElementById("popup").style.left = "0px";
@@ -1231,7 +1638,7 @@ function popup(html, action, option) {
 
         // Yes/No
     } else if (option === "yes/no") {
-        document.getElementById("popuptext").innerhtml += "<div><input type=\"button\" value=\"Yes\" id=\"popupyes\" /><input type=\"button\" value=\"No\" id=\"popupno\" /></div>";
+        document.getElementById("popuptext").innerHTML += "<div><input type=\"button\" value=\"Yes\" id=\"popupyes\" /><input type=\"button\" value=\"No\" id=\"popupno\" /></div>";
 
         $("#popupyes, #popupno").on("click", function () {
             $("#popupwrap").hide();
@@ -1262,14 +1669,13 @@ function popup(html, action, option) {
 
 }
 
-
 function updatePosition() {
     // Reset borders
     document.getElementById("jail").style.border = "1px solid black";
-    document.getElementById("jailpositionholder").innerhtml = "";
+    document.getElementById("jailpositionholder").innerHTML = "";
     for (let i = 0; i < 40; i++) {
         document.getElementById("cell" + i).style.border = "1px solid black";
-        document.getElementById("cell" + i + "positionholder").innerhtml = ""
+        document.getElementById("cell" + i + "positionholder").innerHTML = ""
 
     }
 
@@ -1284,7 +1690,7 @@ function updatePosition() {
 
             if (player[y].position === x && !player[y].jail) {
 
-                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>";
+                document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>";
                 if (left === 36) {
                     left = 0;
                     top = 12
@@ -1296,7 +1702,7 @@ function updatePosition() {
         for (let y = 1; y < turn; y++) {
 
             if (player[y].position === x && !player[y].jail) {
-                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>";
+                document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>";
                 if (left === 36) {
                     left = 0;
                     top = 12
@@ -1310,7 +1716,7 @@ function updatePosition() {
     top = 53;
     for (let i = turn; i <= pcount; i++) {
         if (player[i].jail) {
-            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>";
+            document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>";
 
             if (left === 36) {
                 left = 0;
@@ -1323,7 +1729,7 @@ function updatePosition() {
 
     for (let i = 1; i < turn; i++) {
         if (player[i].jail) {
-            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>";
+            document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>";
             if (left === 36) {
                 left = 0;
                 top = 41
@@ -1341,14 +1747,14 @@ function updatePosition() {
     }
 
     // for (let i=1 i <= pcount i++) {
-    // document.getElementById("enlarge"+player[i].position+"token").innerhtml+="<img src='"+tokenArray[i].src+"' height='30' width='30' />"
+    // document.getElementById("enlarge"+player[i].position+"token").innerHTML+="<img src='"+tokenArray[i].src+"' height='30' width='30' />"
     // }
 }
 
 function updateMoney() {
     let p = player[turn];
 
-    document.getElementById("pmoney").innerhtml = "$" + p.money;
+    document.getElementById("pmoney").innerHTML = "$" + p.money;
     $(".money-bar-row").hide();
 
     for (let i = 1; i <= pcount; i++) {
@@ -1356,12 +1762,12 @@ function updateMoney() {
 
         $("#moneybarrow" + i).show();
         document.getElementById("p" + i + "moneybar").style.border = "2px solid " + p_i.color;
-        document.getElementById("p" + i + "money").innerhtml = p_i.money;
-        document.getElementById("p" + i + "moneyname").innerhtml = p_i.name
+        document.getElementById("p" + i + "money").innerHTML = p_i.money;
+        document.getElementById("p" + i + "moneyname").innerHTML = p_i.name
     }
     // show("moneybarrow9") // Don't remove this line or make the first for-loop stop when i <= 8, because this affects how the table is displayed.
 
-    if (document.getElementById("landed").innerhtml === "") {
+    if (document.getElementById("landed").innerHTML === "") {
         $("#landed").hide()
     }
 
@@ -1379,8 +1785,8 @@ function updateMoney() {
 }
 
 function updateDice() {
-    let die0 = game.getDie(1);
-    let die1 = game.getDie(2);
+    let die0 = game.getDie(true);
+    let die1 = game.getDie(false);
 
     $("#die0").show();
     $("#die1").show();
@@ -1503,7 +1909,7 @@ function updateOwned() {
         html += "</table>"
     }
 
-    document.getElementById("owned").innerhtml = html;
+    document.getElementById("owned").innerHTML = html;
 
     // Select previously selected property.
     if (checkedProperty > -1 && document.getElementById("propertycheckbox" + checkedProperty)) {
@@ -1556,7 +1962,7 @@ function updateOption() {
         }
 
         $("#buildings").show();
-        document.getElementById("buildings").innerhtml = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum;
+        document.getElementById("buildings").innerHTML = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum;
 
         return
     }
@@ -1789,7 +2195,7 @@ function subtractAmount(amount, cause) {
 function gotoJail() {
     let p = player[turn];
     addAlert(p.name + " was sent directly to jail.");
-    document.getElementById("landed").innerhtml = "You are in jail.";
+    document.getElementById("landed").innerHTML = "You are in jail.";
 
     p.jail = true;
     doublecount = 0;
@@ -2148,7 +2554,7 @@ function showStats() {
     }
     html += "</tr></table><div id='titledeed'></div>";
 
-    document.getElementById("statstext").innerhtml = html;
+    document.getElementById("statstext").innerHTML = html;
     // Show using animation.
     $("#statsbackground").fadeIn(350, function () {
         $("#statswrap").show()
@@ -2187,13 +2593,13 @@ function showdeed(property) {
         } else if (sq.groupNumber === 2) {
             $("#deed-special").show();
             document.getElementById("deed-special-name").textContent = sq.name;
-            document.getElementById("deed-special-text").innerhtml = utilText();
+            document.getElementById("deed-special-text").innerHTML = utilText();
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
 
         } else if (sq.groupNumber === 1) {
             $("#deed-special").show();
             document.getElementById("deed-special-name").textContent = sq.name;
-            document.getElementById("deed-special-text").innerhtml = transText();
+            document.getElementById("deed-special-text").innerHTML = transText();
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
         }
     }
@@ -2294,11 +2700,11 @@ function land(increasedRent) {
     let p = player[turn];
     let s = square[p.position];
 
-    let die1 = game.getDie(1);
-    let die2 = game.getDie(2);
+    let die1 = game.getDie(true);
+    let die2 = game.getDie(false);
 
     $("#landed").show();
-    document.getElementById("landed").innerhtml = "You landed on " + s.name + ".";
+    document.getElementById("landed").innerHTML = "You landed on " + s.name + ".";
     s.landcount++;
     addAlert(p.name + " landed on " + s.name + ".");
 
@@ -2311,7 +2717,7 @@ function land(increasedRent) {
                 buy()
             }
         } else {
-            document.getElementById("landed").innerhtml = "<div>You landed on <a href='javascript:void(0)' onmouseover='showdeed(" + p.position + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>.<input type='button' onclick='buy()' value='Buy ($" + s.price + ")' title='Buy " + s.name + " for " + s.pricetext + ".'/></div>"
+            document.getElementById("landed").innerHTML = "<div>You landed on <a href='javascript:void(0)' onmouseover='showdeed(" + p.position + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>.<input type='button' onclick='buy()' value='Buy ($" + s.price + ")' title='Buy " + s.name + " for " + s.pricetext + ".'/></div>"
         }
 
 
@@ -2382,9 +2788,9 @@ function land(increasedRent) {
         p.pay(rent, s.owner);
         player[s.owner].money += rent;
 
-        document.getElementById("landed").innerhtml = "You landed on " + s.name + ". " + player[s.owner].name + " collected $" + rent + " rent."
+        document.getElementById("landed").innerHTML = "You landed on " + s.name + ". " + player[s.owner].name + " collected $" + rent + " rent."
     } else if (s.owner > 0 && s.owner != turn && s.mortgage) {
-        document.getElementById("landed").innerhtml = "You landed on " + s.name + ". Property is mortgaged no rent was collected."
+        document.getElementById("landed").innerHTML = "You landed on " + s.name + ". Property is mortgaged no rent was collected."
     }
 
     // City Tax
@@ -2440,8 +2846,8 @@ function roll() {
     document.getElementById("nextbutton").title = "End turn and advance to the next player.";
 
     game.rollDice();
-    let die1 = game.getDie(1);
-    let die2 = game.getDie(2);
+    let die1 = game.getDie(true);
+    let die2 = game.getDie(false);
 
     doublecount++;
 
@@ -2518,7 +2924,7 @@ function roll() {
                 }
             } else {
                 $("#landed").show();
-                document.getElementById("landed").innerhtml = "You are in jail.";
+                document.getElementById("landed").innerHTML = "You are in jail.";
 
                 if (!p.human) {
                     popup(p.AI.alertList, game.next);
@@ -2561,7 +2967,7 @@ function play() {
     let p = player[turn];
     game.resetDice();
 
-    document.getElementById("pname").innerhtml = p.name;
+    document.getElementById("pname").innerHTML = p.name;
 
     addAlert("It is " + p.name + "'s turn.");
 
@@ -2583,10 +2989,10 @@ function play() {
 
     if (p.jail) {
         $("#landed").show();
-        document.getElementById("landed").innerhtml = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty()' />";
+        document.getElementById("landed").innerHTML = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty()' />";
 
         if (p.communityChestJailCard || p.chanceJailCard) {
-            document.getElementById("landed").innerhtml += "<input type='button' id='gojfbutton' title='Use &quotGet Out of Jail Free&quot card.' onclick='useJailCard()' value='Use Card' />"
+            document.getElementById("landed").innerHTML += "<input type='button' id='gojfbutton' title='Use &quotGet Out of Jail Free&quot card.' onclick='useJailCard()' value='Use Card' />"
         }
 
         document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail.";
@@ -2596,7 +3002,7 @@ function play() {
         else if (p.jailroll === 1)
             addAlert("This is " + p.name + "'s second turn in jail.");
         else if (p.jailroll === 2) {
-            document.getElementById("landed").innerhtml += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>";
+            document.getElementById("landed").innerHTML += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>";
             addAlert("This is " + p.name + "'s third turn in jail.")
         }
 
@@ -2796,6 +3202,7 @@ game_ns.setup = function () {
     play()
 };
 
+
 /**
  * Проверяет состояние свойства
  *
@@ -2905,7 +3312,7 @@ window.onload = function () {
         html += "<br /><div id='enlarge" + i + "token' class='enlarge-token'></div></div>"
     }
 
-    enlargeWrap.innerhtml = html;
+    enlargeWrap.innerHTML = html;
 
     /**
      * Текущие значения клетки, позиции, владельца клетки
@@ -2948,9 +3355,9 @@ window.onload = function () {
 
 
     // Add images to enlarges.
-    document.getElementById("enlarge0token").innerhtml += '<img src="images/arrow_icon.png" height="40" width="136" alt="" />';
-    document.getElementById("enlarge20price").innerhtml += "<img src='images/free_parking_icon.png' height='80' width='72' alt='' style='position: relative top: -20px' />";
-    document.getElementById("enlarge38token").innerhtml += '<img src="images/tax_icon.png" height="60" width="70" alt="" style="position: relative top: -20px" />';
+    document.getElementById("enlarge0token").innerHTML += '<img src="images/arrow_icon.png" height="40" width="136" alt="" />';
+    document.getElementById("enlarge20price").innerHTML += "<img src='images/free_parking_icon.png' height='80' width='72' alt='' style='position: relative top: -20px' />";
+    document.getElementById("enlarge38token").innerHTML += '<img src="images/tax_icon.png" height="60" width="70" alt="" style="position: relative top: -20px" />';
 
     corrections();
 
@@ -2960,9 +3367,9 @@ window.onload = function () {
 
     document.getElementById("jail").enlargeId = "enlarge40";
 
-    document.getElementById("enlarge-wrap").innerhtml += "<div id='enlarge40' class='enlarge'><div id='enlarge40color' class='enlarge-color'></div><br /><div id='enlarge40name' class='enlarge-name'>Jail</div><br /><div id='enlarge40price' class='enlarge-price'><img src='images/jake_icon.png' height='80' width='80' alt='' style='position: relative top: -20px' /></div><br /><div id='enlarge40token' class='enlarge-token'></div></div>";
+    document.getElementById("enlarge-wrap").innerHTML += "<div id='enlarge40' class='enlarge'><div id='enlarge40color' class='enlarge-color'></div><br /><div id='enlarge40name' class='enlarge-name'>Jail</div><br /><div id='enlarge40price' class='enlarge-price'><img src='images/jake_icon.png' height='80' width='80' alt='' style='position: relative top: -20px' /></div><br /><div id='enlarge40token' class='enlarge-token'></div></div>";
 
-    document.getElementById("enlarge40name").innerhtml = "Jail";
+    document.getElementById("enlarge40name").innerHTML = "Jail";
 
     // Create event handlers for hovering and draging.
 
