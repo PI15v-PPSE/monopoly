@@ -2216,14 +2216,22 @@ function gotoJail() {
     }
 }
 
+/**
+ * Назад на 3 хода
+ */
 function goBackThreeSpaces() {
     let p = player[turn];
 
     p.position -= 3;
 
-    land()
+    land();
 }
 
+/**
+ * Заплатить каждому игроку сумму
+ * @param {int} amount - Сумма
+ * @param {string} cause - Причина
+ */
 function payEachPlayer(amount, cause) {
     let p = player[turn];
     let total = 0;
@@ -2241,6 +2249,11 @@ function payEachPlayer(amount, cause) {
     addAlert(p.name + " lost $" + total + " from " + cause + ".")
 }
 
+/**
+ * Списать со счёта всех игроков сумму
+ * @param {int} amount - Сумма
+ * @param {string} cause - Причина
+ */
 function collectfromeachplayer(amount, cause) {
     let p = player[turn];
     let total = 0;
@@ -2263,6 +2276,11 @@ function collectfromeachplayer(amount, cause) {
     addAlert(p.name + " received $" + total + " from " + cause + ".")
 }
 
+/**
+ * Переместить
+ * @param {int} destination - Точка назначения
+ * @param {int} pass - Количество клеток пройденного пути
+ */
 function advance(destination, pass) {
     let p = player[turn];
 
@@ -2286,6 +2304,9 @@ function advance(destination, pass) {
     land()
 }
 
+/**
+ * Продвижение к ближайшей утилите!
+ */
 function advanceToNearestUtility() {
     let p = player[turn];
 
@@ -2302,6 +2323,9 @@ function advanceToNearestUtility() {
     land(true)
 }
 
+/**
+ * Продвижение к железной дороге
+ */
 function advanceToNearestRailRoad() {
     let p = player[turn];
 
@@ -2320,6 +2344,11 @@ function advanceToNearestRailRoad() {
     land(true)
 }
 
+/**
+ * Расходы в общественный фонд
+ * @param {int} housePrice
+ * @param {int} hotelprice
+ */
 function streetRepairs(housePrice, hotelprice) {
     let cost = 0;
     for (let i = 0; i < 40; i++) {
@@ -2347,6 +2376,9 @@ function streetRepairs(housePrice, hotelprice) {
 
 }
 
+/**
+ * Заплатить 50 долларов, чтобы выйти из тюрьмы
+ */
 function payfifty() {
     let p = player[turn];
 
@@ -2366,6 +2398,9 @@ function payfifty() {
     updatePosition()
 }
 
+/**
+ * Выйти из тюрьмы
+ */
 function useJailCard() {
     let p = player[turn];
 
@@ -2409,6 +2444,11 @@ function useJailCard() {
     updatePosition()
 }
 
+/**
+ * Купить имущество
+ * @param {int} index - Номер клетки
+ * @return {boolean} Возвращает состояние покупки
+ */
 function buyHouse(index) {
     let sq = square[index];
     let p = player[sq.owner];
@@ -2460,7 +2500,7 @@ function buyHouse(index) {
 
 /**
  * Продажа имущества
- * @param index
+ * @param {int} index
  */
 function sellHouse(index) {
     let sq = square[index];
@@ -2480,6 +2520,9 @@ function sellHouse(index) {
     updateMoney()
 }
 
+/**
+ * Показать статистику
+ */
 function showStats() {
     let html, sq, p;
     let mortgageText,
@@ -2561,6 +2604,10 @@ function showStats() {
     })
 }
 
+/**
+ * Показать действие
+ * @param {int} property - Свойство клетки
+ */
 function showdeed(property) {
     let sq = square[property];
     $("#deed").show();
@@ -2606,7 +2653,7 @@ function showdeed(property) {
 }
 
 /**
- * Скрыть элемент
+ * Скрыть действие
  */
 function hidedeed() {
     $("#deed").hide()
@@ -2638,7 +2685,7 @@ function buy() {
 
 /**
  * Заложить имущество
- * @param index - Номер клетки
+ * @param {int} index - Номер клетки
  * @return {boolean} Возвращает состояние
  */
 function mortgage(index) {
@@ -2667,7 +2714,7 @@ function mortgage(index) {
 
 /**
  * Выкупить заложенное имущество
- * @param index - номер клетки
+ * @param {int} index - номер клетки
  * @return {boolean} Возвращает состояние
  */
 function unmortgage(index) {
@@ -2692,7 +2739,7 @@ function unmortgage(index) {
 
 /**
  * Попадание на клетку
- * @param increasedRent - Повышенная аренда
+ * @param {boolean} increasedRent - Повышенная аренда
  */
 function land(increasedRent) {
     increasedRent = !!increasedRent; // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
@@ -2789,7 +2836,7 @@ function land(increasedRent) {
         player[s.owner].money += rent;
 
         document.getElementById("landed").innerHTML = "You landed on " + s.name + ". " + player[s.owner].name + " collected $" + rent + " rent."
-    } else if (s.owner > 0 && s.owner != turn && s.mortgage) {
+    } else if (s.owner > 0 && s.owner !== turn && s.mortgage) {
         document.getElementById("landed").innerHTML = "You landed on " + s.name + ". Property is mortgaged no rent was collected."
     }
 
@@ -3053,7 +3100,7 @@ game_ns._draw_setup = {};
 
 /**
  * Отрисовка игроков на карте
- * @param max
+ * @param {int} max
  */
 game_ns._draw_setup.draw_player_wrappers = function (max) {
     let i, color;
@@ -3085,6 +3132,7 @@ game_ns._draw_setup.draw_player_wrappers = function (max) {
 
     $("#player-wrappers").append(content)
 };
+
 /**
  * Настройка ботов
  */
@@ -3099,6 +3147,7 @@ game_ns._draw_setup.bind_player_inteligence_change = function () {
         wrap.nextAll().find('.player-intel').val(val)
     })
 };
+
 /**
  * Изменение цветов игроков
  */
