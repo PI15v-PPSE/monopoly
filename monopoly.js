@@ -1137,9 +1137,9 @@ function Game() {
                 // let text
                 // for (let i = 0 i < 40 i++) {
                 // if (i === 0)
-                // text = square[i].landcount
+                // text = square[i].landCount
                 // else
-                // text += " " + square[i].landcount
+                // text += " " + square[i].landCount
                 // }
                 // document.getElementById("refresh").innerhtml += "<br><br><div><textarea type='text' style='width: 980px' onclick='javascript:select()' />" + text + "</textarea></div>"
 
@@ -2693,7 +2693,7 @@ function land(increasedRent) {
 
     $("#landed").show();
     document.getElementById("landed").innerhtml = "You landed on " + s.name + ".";
-    s.landcount++;
+    s.landCount++;
     addAlert(p.name + " landed on " + s.name + ".");
 
     // Allow player to buy the property on which he landed.
