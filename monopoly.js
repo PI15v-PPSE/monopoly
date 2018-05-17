@@ -18,7 +18,7 @@ class Game {
          *
          * @var int $die1
          */
-         let die1;
+        let die1;
         /**
          * Вторая игровая кость
          *
@@ -344,11 +344,6 @@ class Game {
             document.getElementById("bid").style.color = "black"
         };
 
-        document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
-        document.getElementById("bid").value = "";
-        document.getElementById("bid").style.color = "black"
-    };
-
         /**
          *
          * Ставка на аукционе
@@ -405,12 +400,34 @@ class Game {
 
         // Trade functions:
 
-
+        /**
+         * Инициатор сделки
+         *
+         * Переменная указывает на игрока, который начал сделку
+         *
+         * @var Player currentInitiator
+         */
         let currentInitiator;
+
+        /**
+         * Участник сделки сделки
+         *
+         * Переменная указывает на игрока, с которым начали сделку
+         *
+         * @var Player currentRecipient
+         */
         let currentRecipient;
 
         // Define event handlers:
 
+        /**
+         * Функция-событие на ввод в поле суммы сделки
+         *
+         * Проверка на ввод символов, которые допустимы
+         *
+         * @param e
+         * @returns {boolean} Возвращает true, если допустить символ
+         */
         let tradeMoneyOnKeyDown = function (e) {
             let key = 0;
             let isCtrl = false;
@@ -1254,7 +1271,7 @@ let game;
  * @version 0.0.1
  * @copyright GNU Public License
  */
-function Player (name, color) {
+function Player(name, color) {
     /**
      * Имя игрока
      *
@@ -1393,7 +1410,6 @@ function Player (name, color) {
      * @param string brand Производитель
      * @return Возвращается true или false
      */
-    public function brand($brand=NULL);
     this.pay = function (amount, creditor) {
         if (amount <= this.money) {
             this.money -= amount;
@@ -1596,7 +1612,7 @@ Array.prototype.randomize = function (length) {
 // }
 // }
 
-function addAlert (alertText) {
+function addAlert(alertText) {
     $alert = $("#alert");
 
     $(document.createElement("div")).text(alertText).appendTo($alert);
@@ -1609,7 +1625,7 @@ function addAlert (alertText) {
     }
 }
 
-function popup (html, action, option) {
+function popup(html, action, option) {
     document.getElementById("popuptext").innerhtml = html;
     document.getElementById("popup").style.width = "300px";
     document.getElementById("popup").style.top = "0px";
@@ -1663,7 +1679,7 @@ function popup (html, action, option) {
 }
 
 
-function updatePosition () {
+function updatePosition() {
     // Reset borders
     document.getElementById("jail").style.border = "1px solid black";
     document.getElementById("jailpositionholder").innerhtml = "";
@@ -1745,7 +1761,7 @@ function updatePosition () {
     // }
 }
 
-function updateMoney () {
+function updateMoney() {
     let p = player[turn];
 
     document.getElementById("pmoney").innerhtml = "$" + p.money;
@@ -1778,7 +1794,7 @@ function updateMoney () {
     }
 }
 
-function updateDice () {
+function updateDice() {
     let die0 = game.getDie(true);
     let die1 = game.getDie(false);
 
@@ -1821,7 +1837,7 @@ function updateDice () {
     }
 }
 
-function updateOwned () {
+function updateOwned() {
     let p = player[turn];
     let checkedProperty = getCheckedProperty();
     $("#option").show();
@@ -1931,7 +1947,7 @@ function updateOwned () {
     updateOption()
 }
 
-function updateOption () {
+function updateOption() {
     $("#option").show();
 
     let allGroupUninproved = true;
@@ -2089,7 +2105,7 @@ function updateOption () {
     }
 }
 
-function chanceCommunityChest () {
+function chanceCommunityChest() {
     let p = player[turn];
 
     // Community Chest
@@ -2140,7 +2156,7 @@ function chanceCommunityChest () {
     }
 }
 
-function chanceAction (chanceIndex) {
+function chanceAction(chanceIndex) {
     let p = player[turn]; // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
@@ -2155,7 +2171,7 @@ function chanceAction (chanceIndex) {
     }
 }
 
-function communityChestAction (communityChestIndex) {
+function communityChestAction(communityChestIndex) {
     let p = player[turn]; // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
@@ -2170,7 +2186,7 @@ function communityChestAction (communityChestIndex) {
     }
 }
 
-function addAmount (amount, cause) {
+function addAmount(amount, cause) {
     let p = player[turn];
 
     p.money += amount;
@@ -2178,7 +2194,7 @@ function addAmount (amount, cause) {
     addAlert(p.name + " received $" + amount + " from " + cause + ".")
 }
 
-function subtractAmount (amount, cause) {
+function subtractAmount(amount, cause) {
     let p = player[turn];
 
     p.pay(amount, 0);
@@ -2186,7 +2202,7 @@ function subtractAmount (amount, cause) {
     addAlert(p.name + " lost $" + amount + " from " + cause + ".")
 }
 
-function gotoJail () {
+function gotoJail() {
     let p = player[turn];
     addAlert(p.name + " was sent directly to jail.");
     document.getElementById("landed").innerhtml = "You are in jail.";
@@ -2210,7 +2226,7 @@ function gotoJail () {
     }
 }
 
-function goBackThreeSpaces () {
+function goBackThreeSpaces() {
     let p = player[turn];
 
     p.position -= 3;
@@ -2218,7 +2234,7 @@ function goBackThreeSpaces () {
     land()
 }
 
-function payEachPlayer (amount, cause) {
+function payEachPlayer(amount, cause) {
     let p = player[turn];
     let total = 0;
 
@@ -2235,7 +2251,7 @@ function payEachPlayer (amount, cause) {
     addAlert(p.name + " lost $" + total + " from " + cause + ".")
 }
 
-function collectfromeachplayer (amount, cause) {
+function collectfromeachplayer(amount, cause) {
     let p = player[turn];
     let total = 0;
 
@@ -2257,7 +2273,7 @@ function collectfromeachplayer (amount, cause) {
     addAlert(p.name + " received $" + total + " from " + cause + ".")
 }
 
-function advance (destination, pass) {
+function advance(destination, pass) {
     let p = player[turn];
 
     if (typeof pass === "number") {
@@ -2280,7 +2296,7 @@ function advance (destination, pass) {
     land()
 }
 
-function advanceToNearestUtility () {
+function advanceToNearestUtility() {
     let p = player[turn];
 
     if (p.position < 12) {
@@ -2296,7 +2312,7 @@ function advanceToNearestUtility () {
     land(true)
 }
 
-function advanceToNearestRailRoad () {
+function advanceToNearestRailRoad() {
     let p = player[turn];
 
     updatePosition();
@@ -2314,7 +2330,7 @@ function advanceToNearestRailRoad () {
     land(true)
 }
 
-function streetRepairs (housePrice, hotelprice) {
+function streetRepairs(housePrice, hotelprice) {
     let cost = 0;
     for (let i = 0; i < 40; i++) {
         let s = square[i];
@@ -2341,7 +2357,7 @@ function streetRepairs (housePrice, hotelprice) {
 
 }
 
-function payfifty () {
+function payfifty() {
     let p = player[turn];
 
     document.getElementById("jail").style.border = '1px solid black';
@@ -2360,7 +2376,7 @@ function payfifty () {
     updatePosition()
 }
 
-function useJailCard () {
+function useJailCard() {
     let p = player[turn];
 
     document.getElementById("jail").style.border = '1px solid black';
@@ -2403,7 +2419,7 @@ function useJailCard () {
     updatePosition()
 }
 
-function buyHouse (index) {
+function buyHouse(index) {
     let sq = square[index];
     let p = player[sq.owner];
     let houseSum = 0;
@@ -2452,7 +2468,7 @@ function buyHouse (index) {
     }
 }
 
-function sellHouse (index) {
+function sellHouse(index) {
     sq = square[index];
     p = player[sq.owner];
 
@@ -2470,7 +2486,7 @@ function sellHouse (index) {
     updateMoney()
 }
 
-function showStats () {
+function showStats() {
     let html, sq, p;
     let mortgageText,
         houseText;
@@ -2551,7 +2567,7 @@ function showStats () {
     })
 }
 
-function showdeed (property) {
+function showdeed(property) {
     let sq = square[property];
     $("#deed").show();
 
@@ -2595,11 +2611,11 @@ function showdeed (property) {
     }
 }
 
-function hidedeed () {
+function hidedeed() {
     $("#deed").hide()
 }
 
-function buy () {
+function buy() {
     let p = player[turn];
     let property = square[p.position];
     let cost = property.price;
@@ -2620,7 +2636,7 @@ function buy () {
     }
 }
 
-function mortgage (index) {
+function mortgage(index) {
     let sq = square[index];
     let p = player[sq.owner];
 
@@ -2644,7 +2660,7 @@ function mortgage (index) {
     return true
 }
 
-function unmortgage (index) {
+function unmortgage(index) {
     let sq = square[index];
     let p = player[sq.owner];
     let unmortgagePrice = Math.round(sq.price * 0.6);
@@ -2665,7 +2681,7 @@ function unmortgage (index) {
 }
 
 
-function land (increasedRent) {
+function land(increasedRent) {
     increasedRent = !!increasedRent; // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
 
     let p = player[turn];
@@ -2800,7 +2816,7 @@ function land (increasedRent) {
     }
 }
 
-function roll () {
+function roll() {
     let p = player[turn];
 
     $("#option").hide();
@@ -2919,7 +2935,7 @@ function roll () {
     }
 }
 
-function play () {
+function play() {
     if (game.auction()) {
         return
     }
@@ -3154,7 +3170,7 @@ game_ns.setup = function () {
 // }
 // }
 
-function getCheckedProperty () {
+function getCheckedProperty() {
     for (let i = 0; i < 42; i++) {
         if (document.getElementById("propertycheckbox" + i) && document.getElementById("propertycheckbox" + i).checked) {
             return i
@@ -3178,12 +3194,12 @@ function getCheckedProperty () {
 // updateOption()
 // }
 
-function menuitem_onmouseover (element) {
+function menuitem_onmouseover(element) {
     element.className = "menuitem menuitem_hover";
 
 }
 
-function menuitem_onmouseout (element) {
+function menuitem_onmouseout(element) {
     element.className = "menuitem";
 
 }
@@ -3503,7 +3519,7 @@ window.onload = function () {
 };
 
 
-function arr_diff (a1, a2) {
+function arr_diff(a1, a2) {
     let a = [], diff = [];
 
     for (let i = 0; i < a1.length; i++) {
