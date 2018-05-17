@@ -7,8 +7,8 @@
  * @version 0.0.1
  * @copyright GNU Public License
  */
-class Game {
-    constructor() {
+
+function Game() {
         /**
          * Первая игровая кость
          *
@@ -1257,7 +1257,7 @@ class Game {
         }
 
     }
-}
+
 
 let game;
 
@@ -1401,13 +1401,13 @@ function Player(name, color) {
     // this.AI = null
 
     /**
-     * Работа со свойством {@link brand}
+     * Работа со свойством
      *
      * Если сумма запроса на кредит меньше, чем
      * количество денег у кредитора, возвращается значение
      * true. Если больше, - false.
      *
-     * @param {string} brand
+     * @param {string} amount
      * @return {boolean} pay Возвращает логическую переменную платежа
      */
     this.pay = function (amount, creditor) {
