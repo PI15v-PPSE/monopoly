@@ -1567,7 +1567,6 @@ Array.prototype.randomize = function (length) {
     }
 
     for (let i = 0; i < length; i++) {
-        // Generate random number between 0 and indexArray.length - 1.
         num = Math.floor(Math.random() * indexArray.length);
         this[i] = indexArray[num] + 1;
 
