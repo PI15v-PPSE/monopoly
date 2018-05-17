@@ -202,6 +202,7 @@ function Game () {
 
         }
 
+
         document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
         document.getElementById("bid").value = "";
         document.getElementById("bid").style.color = "black"
@@ -1085,20 +1086,156 @@ function Game () {
 
 let game;
 
+/**
+ * Игрок
+ *
+ * Класс описывает абстрактного игрока,
+ * который принимает участие в партии.
+ *
+ * @author virvira
+ * @version 0.0.1
+ * @copyright GNU Public License
+ */
 function Player (name, color) {
+    /**
+     * Имя игрока
+     *
+     * Используем только простое символьное
+     * имя игрока. Если будет
+     * необходима детализация, создадим
+     * класс Name
+     *
+     * @var string name
+     */
     this.name = name;
+    /**
+     * Цвет полей игрока
+     *
+     * Используем только простое символьное
+     * название цвета. Если будет
+     * необходима детализация, создадим
+     * класс Color
+     *
+     * @var string color
+     */
     this.color = color;
+    /**
+     * Позиция игрока
+     *
+     * Используем только целочисленное обозначение
+     * позиции. Если будет
+     * необходима детализация, создадим
+     * класс Position
+     *
+     * @var number position
+     */
     this.position = 0;
+    /**
+     * Деньги игрока
+     *
+     * Используем целочисленное обозначение
+     * количества денег, имеющихся у игрока.
+     * Если будет
+     * необходима детализация, создадим
+     * класс Money
+     *
+     * @var number money
+     */
     this.money = 1500;
+    /**
+     * Кредиторы игрока
+     *
+     * Используем целочисленное обозначение
+     * количества кредиторов игрока. Если будет
+     * необходима детализация, создадим
+     * класс Creditor
+     *
+     * @var string creditor
+     */
     this.creditor = -1;
+    /**
+     * Тюремное заключение
+     *
+     * Используем логическую переменную
+     * для обозначения свободы игрока. Если будет
+     * необходима детализация, создадим
+     * класс Jail
+     *
+     * @var boolean jail
+     */
     this.jail = false;
+    /**
+     * Роль тюрьме
+     *
+     * Используем целочисленное обозначение
+     * для роли игрока в тюрьме. Если будет
+     * необходима детализация, создадим
+     * класс Jailroll
+     *
+     * @var number jailroll
+     */
     this.jailroll = 0;
+    /**
+     * Общественное тюремное заключение
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, попадал ли игрок
+     * на поле общественных работ. Если будет
+     * необходима детализация, создадим
+     * класс СommunityChestJailCard
+     *
+     * @var boolean communityChestJailCard
+     */
     this.communityChestJailCard = false;
+    /**
+     * Шанс на заключение
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, получает ли игрок
+     * тюремное заключение. Если будет
+     * необходима детализация, создадим
+     * класс СhanceJailCard
+     *
+     * @var boolean chanceJailCard
+     */
     this.chanceJailCard = false;
+    /**
+     * Торги
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, принимает ли игрок
+     * участие в торгах. Если будет
+     * необходима детализация, создадим
+     * класс Bidding
+     *
+     * @var boolean bidding
+     */
     this.bidding = true;
+    /**
+     * Человек
+     *
+     * Используем логическое обозначение для
+     * того, чтобы узнать, является ли игрок
+     * человеком. Если будет
+     * необходима детализация, создадим
+     * класс Human
+     *
+     * @var boolean human
+     */
     this.human = true;
     // this.AI = null
 
+    /**
+     * Работа со свойством {@link brand}
+     *
+     * Если сумма запроса на кредит меньше, чем
+     * количество денег у кредитора, возвращается значение
+     * true. Если больше, - false.
+     *
+     * @param string brand Производитель
+     * @return Возвращается true или false
+     */
+    public function brand($brand=NULL);
     this.pay = function (amount, creditor) {
         if (amount <= this.money) {
             this.money -= amount;
@@ -1117,48 +1254,154 @@ function Player (name, color) {
     }
 }
 
-// paramaters:
-// initiator: object Player
-// recipient: object Player
-// money: integer, positive for offered, negative for requested
-// property: array of integers, length: 40
-// communityChestJailCard: integer, 1 means offered, -1 means requested, 0 means neither
-// chanceJailCard: integer, 1 means offered, -1 means requested, 0 means neither
+/**
+ * Сделка
+ *
+ * Класс описывает абстрактную сделку,
+ * которая может произойти в игре.
+ *
+ * @author virvira
+ * @version 0.0.1
+ * @copyright GNU Public License
+ */
 function Trade (initiator, recipient, money, property, communityChestJailCard, chanceJailCard) {
-    // For each property and get out of jail free cards, 1 means offered, -1 means requested, 0 means neither.
 
+    /**
+     * Работа со свойством {@link initiator}
+     *
+     * Метод для получения значения свойства initiator
+     *
+     * @return initiator Возвращает текущее значение
+     * свойства или указатель на
+     * объект
+     */
     this.getInitiator = function () {
         return initiator
     };
-
+    /**
+     * Работа со свойством {@link recipient}
+     *
+     * Метод для получения значения свойства recipient
+     *
+     * @return recipient Возвращает текущее значение
+     * свойства или указатель на
+     * объект
+     */
     this.getRecipient = function () {
         return recipient
     };
-
+    /**
+     * Работа со свойством {@link property}
+     *
+     * Метод для получения значения свойства property
+     *
+     * @param number index Индекс
+     * @return property[index] Возвращает элемент массива
+     * номером index
+     */
     this.getProperty = function (index) {
         return property[index]
     };
-
+    /**
+     * Работа со свойством {@link money}
+     *
+     * Метод для получения значения свойства money
+     *
+     * @return money Возвращает текущее значение
+     * свойства или указатель на
+     * объект
+     */
     this.getMoney = function () {
         return money
     };
-
+    /**
+     * Работа со свойством {@link communityChestJailCard}
+     *
+     * Метод для получения значения свойства communityChestJailCard
+     *
+     * @return communityChestJailCard Возвращает текущее значение
+     * свойства или указатель на
+     * объект
+     */
     this.getCommunityChestJailCard = function () {
         return communityChestJailCard
     };
-
+    /**
+     * Работа со свойством {@link chanceJailCard}
+     *
+     * Метод для получения значения свойства chanceJailCard
+     *
+     * @return chanceJailCard Возвращает текущее значение
+     * свойства или указатель на
+     * объект
+     */
     this.getchanceJailCard = function () {
         return chanceJailCard
     }
 }
-
+/**
+ * Набор игроков
+ *
+ * Используем список типа string
+ * для хранения имён игроков.
+ *
+ * @var list player
+ */
 let player = [];
+/**
+ * Количество игроков
+ *
+ * Используем простое целочисленное обозначение
+ * для количества игроков.
+ *
+ * @var number pcount
+ */
 let pcount;
-let turn = 0, doublecount = 0;
-// Overwrite an array with numbers from one to the array's length in a random order.
+/**
+ * Очередь
+ *
+ * Используем простое целочисленное обозначение
+ * для количества игроков в очереди.
+ *
+ * @var number turn
+ */
+let turn = 0;
+/**
+ * Удвоенное количество
+ *
+ * Используем простое целочисленное обозначение
+ * для удвоенного количества игроков.
+ *
+ * @var number doublecount
+ */
+let doublecount = 0;
+/**
+ * Работа со свойством {@link $Array}
+ *
+ * Массив перезаписывается с номерами от одного
+ * до длины массива в случайном порядке.
+ *
+ * @param number length Длина
+ */
 Array.prototype.randomize = function (length) {
     length = (length || this.length);
+    /**
+     * Номер в массиве
+     *
+     * Используем простое целочисленное
+     * обозначение номера элемента в массиве.
+     *
+     * @var number num
+     */
     let num;
+    /**
+     * Индексы массиа
+     *
+     * Используем список типа number
+     * для хранения индексов массива.
+     *
+     * @var list indexArray
+     */
     let indexArray = [];
 
     for (let i = 0; i < length; i++) {
