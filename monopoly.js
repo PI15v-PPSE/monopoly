@@ -344,6 +344,11 @@ function Game() {
             document.getElementById("bid").style.color = "black"
         };
 
+        document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
+        document.getElementById("bid").value = "";
+        document.getElementById("bid").style.color = "black"
+    };
+
         /**
          *
          * Ставка на аукционе
@@ -1340,10 +1345,10 @@ function Player(name, color) {
      */
     this.jail = false;
     /**
-     * Роль тюрьме
+     * Поле с тюрьмой
      *
      * Используем целочисленное обозначение
-     * для роли игрока в тюрьме. Если будет
+     * для номера поля с тюрьмой. Если будет
      * необходима детализация, создадим
      * класс Jailroll
      *
@@ -1408,6 +1413,7 @@ function Player(name, color) {
      * true. Если больше, - false.
      *
      * @param {string} amount
+     * @param {string} creditor
      * @return {boolean} pay Возвращает логическую переменную платежа
      */
     this.pay = function (amount, creditor) {
@@ -1441,7 +1447,7 @@ function Player(name, color) {
 function Trade (initiator, recipient, money, property, communityChestJailCard, chanceJailCard) {
 
     /**
-     * Работа со свойством {@link initiator}
+     * Работа со свойством
      *
      * Метод для получения значения свойства initiator
      *
@@ -1453,7 +1459,7 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
         return initiator
     };
     /**
-     * Работа со свойством {@link recipient}
+     * Работа со свойством
      *
      * Метод для получения значения свойства recipient
      *
@@ -1465,7 +1471,7 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
         return recipient
     };
     /**
-     * Работа со свойством {@link property}
+     * Работа со свойством
      *
      * Метод для получения значения свойства property
      *
@@ -1489,7 +1495,7 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
         return money
     };
     /**
-     * Работа со свойством {@link communityChestJailCard}
+     * Работа со свойством
      *
      * Метод для получения значения свойства communityChestJailCard
      *
@@ -1501,7 +1507,7 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
         return communityChestJailCard
     };
     /**
-     * Работа со свойством {@link chanceJailCard}
+     * Работа со свойством
      *
      * Метод для получения значения свойства chanceJailCard
      *
@@ -1550,7 +1556,7 @@ let turn = 0;
  */
 let doublecount = 0;
 /**
- * Работа со свойством {@link Array}
+ * Работа со свойством
  *
  * Массив перезаписывается с номерами от одного
  * до длины массива в случайном порядке.
