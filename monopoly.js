@@ -1,27 +1,27 @@
 function Game () {
-    let die1
-    let die2
-    let areDiceRolled = false
+    let die1;
+    let die2;
+    let areDiceRolled = false;
 
-    let auctionQueue = []
-    let highestbidder
-    let highestbid
-    let currentbidder = 1
-    let auctionproperty
+    let auctionQueue = [];
+    let highestbidder;
+    let highestbid;
+    let currentbidder = 1;
+    let auctionproperty;
 
     this.rollDice = function () {
-        die1 = Math.floor(Math.random() * 6) + 1
-        die2 = Math.floor(Math.random() * 6) + 1
+        die1 = Math.floor(Math.random() * 6) + 1;
+        die2 = Math.floor(Math.random() * 6) + 1;
         areDiceRolled = true
-    }
+    };
 
     this.resetDice = function () {
         areDiceRolled = false
-    }
+    };
 
     this.next = function () {
         if (!p.human && p.money < 0) {
-            p.AI.payDebt()
+            p.AI.payDebt();
 
             if (p.money < 0) {
                 popup("<p>" + p.name + " стал банкротом. All of its assets will be turned over to " + player[p.creditor].name + ".</p>", game.bankruptcy)
@@ -34,7 +34,7 @@ function Game () {
         } else {
             roll()
         }
-    }
+    };
 
     this.getDie = function (die) {
         if (die === 1) {
@@ -45,19 +45,19 @@ function Game () {
             return die2
         }
 
-    }
+    };
 
 
     // Auction functions:
 
 
     let finalizeAuction = function () {
-        let p = player[highestbidder]
-        let sq = square[auctionproperty]
+        let p = player[highestbidder];
+        let sq = square[auctionproperty];
 
         if (highestbid > 0) {
-            p.pay(highestbid, 0)
-            sq.owner = highestbidder
+            p.pay(highestbid, 0);
+            sq.owner = highestbidder;
             addAlert(p.name + " bought " + sq.name + " for $" + highestbid + ".")
         }
 
@@ -65,58 +65,58 @@ function Game () {
             player[i].bidding = true
         }
 
-        $("#popupbackground").hide()
-        $("#popupwrap").hide()
+        $("#popupbackground").hide();
+        $("#popupwrap").hide();
 
         if (!game.auction()) {
             play()
         }
-    }
+    };
 
     this.addPropertyToAuctionQueue = function (propertyIndex) {
         auctionQueue.push(propertyIndex)
-    }
+    };
 
     this.auction = function () {
         if (auctionQueue.length === 0) {
             return false
         }
 
-        index = auctionQueue.shift()
+        index = auctionQueue.shift();
 
-        let s = square[index]
+        let s = square[index];
 
         if (s.price === 0 || s.owner !== 0) {
             return game.auction()
         }
 
-        auctionproperty = index
-        highestbidder = 0
-        highestbid = 0
-        currentbidder = turn + 1
+        auctionproperty = index;
+        highestbidder = 0;
+        highestbid = 0;
+        currentbidder = turn + 1;
 
         if (currentbidder > pcount) {
             currentbidder -= pcount
         }
 
-        popup("<div style='font-weight: bold font-size: 16px margin-bottom: 10px'>Auction <span id='propertyname'></span></div><div>Highest Bid = $<span id='highestbid'></span> (<span id='highestbidder'></span>)</div><div><span id='currentbidder'></span>, it is your turn to bid.</div<div><input id='bid' title='Enter an amount to bid on " + s.name + ".' style='width: 291px' /></div><div><input type='button' value='Bid' onclick='game.auctionBid()' title='Place your bid.' /><input type='button' value='Pass' title='Skip bidding this time.' onclick='game.auctionPass()' /><input type='button' value='Exit Auction' title='Stop bidding on " + s.name + " altogether.' onclick='if (confirm(\"Are you sure you want to stop bidding on this property altogether?\")) game.auctionExit()' /></div>", "blank")
+        popup("<div style='font-weight: bold font-size: 16px margin-bottom: 10px'>Auction <span id='propertyname'></span></div><div>Highest Bid = $<span id='highestbid'></span> (<span id='highestbidder'></span>)</div><div><span id='currentbidder'></span>, it is your turn to bid.</div<div><input id='bid' title='Enter an amount to bid on " + s.name + ".' style='width: 291px' /></div><div><input type='button' value='Bid' onclick='game.auctionBid()' title='Place your bid.' /><input type='button' value='Pass' title='Skip bidding this time.' onclick='game.auctionPass()' /><input type='button' value='Exit Auction' title='Stop bidding on " + s.name + " altogether.' onclick='if (confirm(\"Are you sure you want to stop bidding on this property altogether?\")) game.auctionExit()' /></div>", "blank");
 
-        document.getElementById("propertyname").innerhtml = "<a href='javascript:void(0)' onmouseover='showdeed(" + auctionproperty + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>"
-        document.getElementById("highestbid").innerhtml = "0"
-        document.getElementById("highestbidder").innerhtml = "N/A"
-        document.getElementById("currentbidder").innerhtml = player[currentbidder].name
+        document.getElementById("propertyname").innerhtml = "<a href='javascript:void(0)' onmouseover='showdeed(" + auctionproperty + ")' onmouseout='hidedeed()' class='statscellcolor'>" + s.name + "</a>";
+        document.getElementById("highestbid").innerhtml = "0";
+        document.getElementById("highestbidder").innerhtml = "N/A";
+        document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
         document.getElementById("bid").onkeydown = function (e) {
-            let key = 0
-            let isCtrl = false
-            let isShift = false
+            let key = 0;
+            let isCtrl = false;
+            let isShift = false;
 
             if (window.event) {
-                key = window.event.keyCode
-                isCtrl = window.event.ctrlKey
+                key = window.event.keyCode;
+                isCtrl = window.event.ctrlKey;
                 isShift = window.event.shiftKey
             } else if (e) {
-                key = e.keyCode
-                isCtrl = e.ctrlKey
+                key = e.keyCode;
+                isCtrl = e.ctrlKey;
                 isShift = e.shiftKey
             }
 
@@ -125,7 +125,7 @@ function Game () {
             }
 
             if (key === 13) {
-                game.auctionBid()
+                game.auctionBid();
                 return false
             }
 
@@ -140,23 +140,23 @@ function Game () {
 
             // Only allow number keys.
             return (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
-        }
+        };
 
         document.getElementById("bid").onfocus = function () {
-            this.style.color = "black"
+            this.style.color = "black";
             if (isNaN(this.value)) {
                 this.value = ""
             }
-        }
+        };
 
-        updateMoney()
+        updateMoney();
 
         if (!player[currentbidder].human) {
-            currentbidder = turn // auctionPass advances currentbidder.
+            currentbidder = turn; // auctionPass advances currentbidder.
             this.auctionPass()
         }
         return true
-    }
+    };
 
     this.auctionPass = function () {
         if (highestbidder === 0) {
@@ -164,34 +164,34 @@ function Game () {
         }
 
         while (true) {
-            currentbidder++
+            currentbidder++;
 
             if (currentbidder > pcount) {
                 currentbidder -= pcount
             }
 
             if (currentbidder === highestbidder) {
-                finalizeAuction()
+                finalizeAuction();
                 return
             } else if (player[currentbidder].bidding) {
-                let p = player[currentbidder]
+                let p = player[currentbidder];
 
                 if (!p.human) {
-                    let bid = p.AI.bid(auctionproperty, highestbid)
+                    let bid = p.AI.bid(auctionproperty, highestbid);
 
                     if (bid === -1 || highestbid >= p.money) {
-                        p.bidding = false
+                        p.bidding = false;
 
-                        window.alert(p.name + " exited the auction.")
+                        window.alert(p.name + " exited the auction.");
                         continue
 
                     } else if (bid === 0) {
-                        window.alert(p.name + " passed.")
+                        window.alert(p.name + " passed.");
                         continue
 
                     } else if (bid > 0) {
-                        this.auctionBid(bid)
-                        window.alert(p.name + " bid $" + bid + ".")
+                        this.auctionBid(bid);
+                        window.alert(p.name + " bid $" + bid + ".");
                         continue
                     }
                     return
@@ -202,69 +202,69 @@ function Game () {
 
         }
 
-        document.getElementById("currentbidder").innerhtml = player[currentbidder].name
-        document.getElementById("bid").value = ""
+        document.getElementById("currentbidder").innerhtml = player[currentbidder].name;
+        document.getElementById("bid").value = "";
         document.getElementById("bid").style.color = "black"
-    }
+    };
 
     this.auctionBid = function (bid) {
-        bid = bid || parseInt(document.getElementById("bid").value, 10)
+        bid = bid || parseInt(document.getElementById("bid").value, 10);
 
         if (bid === "" || bid === null) {
-            document.getElementById("bid").value = "Please enter a bid."
+            document.getElementById("bid").value = "Please enter a bid.";
             document.getElementById("bid").style.color = "red"
         } else if (isNaN(bid)) {
-            document.getElementById("bid").value = "Your bid must be a number."
+            document.getElementById("bid").value = "Your bid must be a number.";
             document.getElementById("bid").style.color = "red"
         } else {
 
             if (bid > player[currentbidder].money) {
-                document.getElementById("bid").value = "You don't have enough money to bid $" + bid + "."
+                document.getElementById("bid").value = "You don't have enough money to bid $" + bid + ".";
                 document.getElementById("bid").style.color = "red"
             } else if (bid > highestbid) {
-                highestbid = bid
-                document.getElementById("highestbid").innerhtml = parseInt(bid, 10)
-                highestbidder = currentbidder
-                document.getElementById("highestbidder").innerhtml = player[highestbidder].name
+                highestbid = bid;
+                document.getElementById("highestbid").innerhtml = parseInt(bid, 10);
+                highestbidder = currentbidder;
+                document.getElementById("highestbidder").innerhtml = player[highestbidder].name;
 
-                document.getElementById("bid").focus()
+                document.getElementById("bid").focus();
 
                 if (player[currentbidder].human) {
                     this.auctionPass()
                 }
             } else {
-                document.getElementById("bid").value = "Your bid must be greater than highest bid. ($" + highestbid + ")"
+                document.getElementById("bid").value = "Your bid must be greater than highest bid. ($" + highestbid + ")";
                 document.getElementById("bid").style.color = "red"
             }
         }
-    }
+    };
 
     this.auctionExit = function () {
-        player[currentbidder].bidding = false
+        player[currentbidder].bidding = false;
         this.auctionPass()
-    }
+    };
 
 
     // Trade functions:
 
 
-    let currentInitiator
-    let currentRecipient
+    let currentInitiator;
+    let currentRecipient;
 
     // Define event handlers:
 
     let tradeMoneyOnKeyDown = function (e) {
-        let key = 0
-        let isCtrl = false
-        let isShift = false
+        let key = 0;
+        let isCtrl = false;
+        let isShift = false;
 
         if (window.event) {
-            key = window.event.keyCode
-            isCtrl = window.event.ctrlKey
+            key = window.event.keyCode;
+            isCtrl = window.event.ctrlKey;
             isShift = window.event.shiftKey
         } else if (e) {
-            key = e.keyCode
-            isCtrl = e.ctrlKey
+            key = e.keyCode;
+            isCtrl = e.ctrlKey;
             isShift = e.shiftKey
         }
 
@@ -287,76 +287,76 @@ function Game () {
 
         // Only allow number keys.
         return (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
-    }
+    };
 
     let tradeMoneyOnFocus = function () {
-        this.style.color = "black"
+        this.style.color = "black";
         if (isNaN(this.value) || this.value === "0") {
             this.value = ""
         }
-    }
+    };
 
     let tradeMoneyOnChange = function (e) {
-        $("#proposetradebutton").show()
-        $("#canceltradebutton").show()
-        $("#accepttradebutton").hide()
-        $("#rejecttradebutton").hide()
+        $("#proposetradebutton").show();
+        $("#canceltradebutton").show();
+        $("#accepttradebutton").hide();
+        $("#rejecttradebutton").hide();
 
-        let amount = this.value
+        let amount = this.value;
 
         if (isNaN(amount)) {
-            this.value = "This value must be a number."
-            this.style.color = "red"
+            this.value = "This value must be a number.";
+            this.style.color = "red";
             return false
         }
 
-        amount = Math.round(amount) || 0
-        this.value = amount
+        amount = Math.round(amount) || 0;
+        this.value = amount;
 
         if (amount < 0) {
-            this.value = "This value must be greater than 0."
-            this.style.color = "red"
+            this.value = "This value must be greater than 0.";
+            this.style.color = "red";
             return false
         }
 
         return true
-    }
+    };
 
-    document.getElementById("trade-leftp-money").onkeydown = tradeMoneyOnKeyDown
-    document.getElementById("trade-rightp-money").onkeydown = tradeMoneyOnKeyDown
-    document.getElementById("trade-leftp-money").onfocus = tradeMoneyOnFocus
-    document.getElementById("trade-rightp-money").onfocus = tradeMoneyOnFocus
-    document.getElementById("trade-leftp-money").onchange = tradeMoneyOnChange
-    document.getElementById("trade-rightp-money").onchange = tradeMoneyOnChange
+    document.getElementById("trade-leftp-money").onkeydown = tradeMoneyOnKeyDown;
+    document.getElementById("trade-rightp-money").onkeydown = tradeMoneyOnKeyDown;
+    document.getElementById("trade-leftp-money").onfocus = tradeMoneyOnFocus;
+    document.getElementById("trade-rightp-money").onfocus = tradeMoneyOnFocus;
+    document.getElementById("trade-leftp-money").onchange = tradeMoneyOnChange;
+    document.getElementById("trade-rightp-money").onchange = tradeMoneyOnChange;
 
     let resetTrade = function (initiator, recipient, allowRecipientToBeChanged) {
-        let currentSquare
-        let currentTableRow
-        let currentTableCell
-        let currentTableCellCheckbox
-        let nameSelect
-        let currentOption
-        let allGroupUninproved
-        let currentName
+        let currentSquare;
+        let currentTableRow;
+        let currentTableCell;
+        let currentTableCellCheckbox;
+        let nameSelect;
+        let currentOption;
+        let allGroupUninproved;
+        let currentName;
 
         let tableRowOnClick = function (e) {
-            let checkboxElement = this.firstChild.firstChild
+            let checkboxElement = this.firstChild.firstChild;
 
             if (checkboxElement !== e.srcElement) {
                 checkboxElement.checked = !checkboxElement.checked
             }
 
-            $("#proposetradebutton").show()
-            $("#canceltradebutton").show()
-            $("#accepttradebutton").hide()
+            $("#proposetradebutton").show();
+            $("#canceltradebutton").show();
+            $("#accepttradebutton").hide();
             $("#rejecttradebutton").hide()
-        }
+        };
 
-        let initiatorProperty = document.getElementById("trade-leftp-property")
-        let recipientProperty = document.getElementById("trade-rightp-property")
+        let initiatorProperty = document.getElementById("trade-leftp-property");
+        let recipientProperty = document.getElementById("trade-rightp-property");
 
-        currentInitiator = initiator
-        currentRecipient = recipient
+        currentInitiator = initiator;
+        currentRecipient = recipient;
 
         // Empty elements.
         while (initiatorProperty.lastChild) {
@@ -367,24 +367,24 @@ function Game () {
             recipientProperty.removeChild(recipientProperty.lastChild)
         }
 
-        let initiatorSideTable = document.createElement("table")
-        let recipientSideTable = document.createElement("table")
+        let initiatorSideTable = document.createElement("table");
+        let recipientSideTable = document.createElement("table");
 
 
         for (let i = 0; i < 40; i++) {
-            currentSquare = square[i]
+            currentSquare = square[i];
 
             // A property cannot be traded if any properties in its group have been improved.
             if (currentSquare.house > 0 || currentSquare.groupNumber === 0) {
                 continue
             }
 
-            allGroupUninproved = true
-            let max = currentSquare.group.length
+            allGroupUninproved = true;
+            let max = currentSquare.group.length;
             for (let j = 0; j < max; j++) {
 
                 if (square[currentSquare.group[j]].house > 0) {
-                    allGroupUninproved = false
+                    allGroupUninproved = false;
                     break
                 }
             }
@@ -395,19 +395,19 @@ function Game () {
 
             // Offered properties.
             if (currentSquare.owner === initiator.index) {
-                currentTableRow = initiatorSideTable.appendChild(document.createElement("tr"))
-                currentTableRow.onclick = tableRowOnClick
+                currentTableRow = initiatorSideTable.appendChild(document.createElement("tr"));
+                currentTableRow.onclick = tableRowOnClick;
 
-                currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-                currentTableCell.className = "propertycellcheckbox"
-                currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"))
-                currentTableCellCheckbox.type = "checkbox"
-                currentTableCellCheckbox.id = "tradeleftcheckbox" + i
-                currentTableCellCheckbox.title = "Check this box to include " + currentSquare.name + " in the trade."
+                currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+                currentTableCell.className = "propertycellcheckbox";
+                currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"));
+                currentTableCellCheckbox.type = "checkbox";
+                currentTableCellCheckbox.id = "tradeleftcheckbox" + i;
+                currentTableCellCheckbox.title = "Check this box to include " + currentSquare.name + " in the trade.";
 
-                currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-                currentTableCell.className = "propertycellcolor"
-                currentTableCell.style.backgroundColor = currentSquare.color
+                currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+                currentTableCell.className = "propertycellcolor";
+                currentTableCell.style.backgroundColor = currentSquare.color;
 
                 if (currentSquare.groupNumber === 1 || currentSquare.groupNumber === 2) {
                     currentTableCell.style.borderColor = "grey"
@@ -415,35 +415,35 @@ function Game () {
                     currentTableCell.style.borderColor = currentSquare.color
                 }
 
-                currentTableCell.propertyIndex = i
+                currentTableCell.propertyIndex = i;
                 currentTableCell.onmouseover = function () {
                     showdeed(this.propertyIndex)
-                }
-                currentTableCell.onmouseout = hidedeed
+                };
+                currentTableCell.onmouseout = hidedeed;
 
-                currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-                currentTableCell.className = "propertycellname"
+                currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+                currentTableCell.className = "propertycellname";
                 if (currentSquare.mortgage) {
-                    currentTableCell.title = "Mortgaged"
+                    currentTableCell.title = "Mortgaged";
                     currentTableCell.style.color = "grey"
                 }
                 currentTableCell.textContent = currentSquare.name
 
                 // Requested properties.
             } else if (currentSquare.owner === recipient.index) {
-                currentTableRow = recipientSideTable.appendChild(document.createElement("tr"))
-                currentTableRow.onclick = tableRowOnClick
+                currentTableRow = recipientSideTable.appendChild(document.createElement("tr"));
+                currentTableRow.onclick = tableRowOnClick;
 
-                currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-                currentTableCell.className = "propertycellcheckbox"
-                currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"))
-                currentTableCellCheckbox.type = "checkbox"
-                currentTableCellCheckbox.id = "traderightcheckbox" + i
-                currentTableCellCheckbox.title = "Check this box to include " + currentSquare.name + " in the trade."
+                currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+                currentTableCell.className = "propertycellcheckbox";
+                currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"));
+                currentTableCellCheckbox.type = "checkbox";
+                currentTableCellCheckbox.id = "traderightcheckbox" + i;
+                currentTableCellCheckbox.title = "Check this box to include " + currentSquare.name + " in the trade.";
 
-                currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-                currentTableCell.className = "propertycellcolor"
-                currentTableCell.style.backgroundColor = currentSquare.color
+                currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+                currentTableCell.className = "propertycellcolor";
+                currentTableCell.style.backgroundColor = currentSquare.color;
 
                 if (currentSquare.groupNumber === 1 || currentSquare.groupNumber === 2) {
                     currentTableCell.style.borderColor = "grey"
@@ -451,16 +451,16 @@ function Game () {
                     currentTableCell.style.borderColor = currentSquare.color
                 }
 
-                currentTableCell.propertyIndex = i
+                currentTableCell.propertyIndex = i;
                 currentTableCell.onmouseover = function () {
                     showdeed(this.propertyIndex)
-                }
-                currentTableCell.onmouseout = hidedeed
+                };
+                currentTableCell.onmouseout = hidedeed;
 
-                currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-                currentTableCell.className = "propertycellname"
+                currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+                currentTableCell.className = "propertycellname";
                 if (currentSquare.mortgage) {
-                    currentTableCell.title = "Mortgaged"
+                    currentTableCell.title = "Mortgaged";
                     currentTableCell.style.color = "grey"
                 }
                 currentTableCell.textContent = currentSquare.name
@@ -468,85 +468,85 @@ function Game () {
         }
 
         if (initiator.communityChestJailCard) {
-            currentTableRow = initiatorSideTable.appendChild(document.createElement("tr"))
-            currentTableRow.onclick = tableRowOnClick
+            currentTableRow = initiatorSideTable.appendChild(document.createElement("tr"));
+            currentTableRow.onclick = tableRowOnClick;
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcheckbox"
-            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"))
-            currentTableCellCheckbox.type = "checkbox"
-            currentTableCellCheckbox.id = "tradeleftcheckbox40"
-            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade."
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcheckbox";
+            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"));
+            currentTableCellCheckbox.type = "checkbox";
+            currentTableCellCheckbox.id = "tradeleftcheckbox40";
+            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade.";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcolor"
-            currentTableCell.style.backgroundColor = "white"
-            currentTableCell.style.borderColor = "grey"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcolor";
+            currentTableCell.style.backgroundColor = "white";
+            currentTableCell.style.borderColor = "grey";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellname"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellname";
 
             currentTableCell.textContent = "Get Out of Jail Free Card"
         } else if (recipient.communityChestJailCard) {
-            currentTableRow = recipientSideTable.appendChild(document.createElement("tr"))
-            currentTableRow.onclick = tableRowOnClick
+            currentTableRow = recipientSideTable.appendChild(document.createElement("tr"));
+            currentTableRow.onclick = tableRowOnClick;
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcheckbox"
-            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"))
-            currentTableCellCheckbox.type = "checkbox"
-            currentTableCellCheckbox.id = "traderightcheckbox40"
-            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade."
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcheckbox";
+            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"));
+            currentTableCellCheckbox.type = "checkbox";
+            currentTableCellCheckbox.id = "traderightcheckbox40";
+            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade.";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcolor"
-            currentTableCell.style.backgroundColor = "white"
-            currentTableCell.style.borderColor = "grey"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcolor";
+            currentTableCell.style.backgroundColor = "white";
+            currentTableCell.style.borderColor = "grey";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellname"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellname";
 
             currentTableCell.textContent = "Get Out of Jail Free Card"
         }
 
         if (initiator.chanceJailCard) {
-            currentTableRow = initiatorSideTable.appendChild(document.createElement("tr"))
-            currentTableRow.onclick = tableRowOnClick
+            currentTableRow = initiatorSideTable.appendChild(document.createElement("tr"));
+            currentTableRow.onclick = tableRowOnClick;
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcheckbox"
-            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"))
-            currentTableCellCheckbox.type = "checkbox"
-            currentTableCellCheckbox.id = "tradeleftcheckbox41"
-            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade."
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcheckbox";
+            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"));
+            currentTableCellCheckbox.type = "checkbox";
+            currentTableCellCheckbox.id = "tradeleftcheckbox41";
+            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade.";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcolor"
-            currentTableCell.style.backgroundColor = "white"
-            currentTableCell.style.borderColor = "grey"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcolor";
+            currentTableCell.style.backgroundColor = "white";
+            currentTableCell.style.borderColor = "grey";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellname"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellname";
 
             currentTableCell.textContent = "Get Out of Jail Free Card"
         } else if (recipient.chanceJailCard) {
-            currentTableRow = recipientSideTable.appendChild(document.createElement("tr"))
-            currentTableRow.onclick = tableRowOnClick
+            currentTableRow = recipientSideTable.appendChild(document.createElement("tr"));
+            currentTableRow.onclick = tableRowOnClick;
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcheckbox"
-            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"))
-            currentTableCellCheckbox.type = "checkbox"
-            currentTableCellCheckbox.id = "traderightcheckbox41"
-            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade."
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcheckbox";
+            currentTableCellCheckbox = currentTableCell.appendChild(document.createElement("input"));
+            currentTableCellCheckbox.type = "checkbox";
+            currentTableCellCheckbox.id = "traderightcheckbox41";
+            currentTableCellCheckbox.title = "Check this box to include this Get Out of Jail Free Card in the trade.";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellcolor"
-            currentTableCell.style.backgroundColor = "white"
-            currentTableCell.style.borderColor = "grey"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellcolor";
+            currentTableCell.style.backgroundColor = "white";
+            currentTableCell.style.borderColor = "grey";
 
-            currentTableCell = currentTableRow.appendChild(document.createElement("td"))
-            currentTableCell.className = "propertycellname"
+            currentTableCell = currentTableRow.appendChild(document.createElement("td"));
+            currentTableCell.className = "propertycellname";
 
             currentTableCell.textContent = "Get Out of Jail Free Card"
         }
@@ -563,9 +563,9 @@ function Game () {
             recipientProperty.textContent = recipient.name + " has no properties to trade."
         }
 
-        document.getElementById("trade-leftp-name").textContent = initiator.name
+        document.getElementById("trade-leftp-name").textContent = initiator.name;
 
-        currentName = document.getElementById("trade-rightp-name")
+        currentName = document.getElementById("trade-rightp-name");
 
         if (allowRecipientToBeChanged && pcount > 2) {
             // Empty element.
@@ -573,16 +573,16 @@ function Game () {
                 currentName.removeChild(currentName.lastChild)
             }
 
-            nameSelect = currentName.appendChild(document.createElement("select"))
+            nameSelect = currentName.appendChild(document.createElement("select"));
             for (let i = 1; i <= pcount; i++) {
                 if (i === initiator.index) {
                     continue
                 }
 
-                currentOption = nameSelect.appendChild(document.createElement("option"))
-                currentOption.value = i + ""
-                currentOption.style.color = player[i].color
-                currentOption.textContent = player[i].name
+                currentOption = nameSelect.appendChild(document.createElement("option"));
+                currentOption.value = i + "";
+                currentOption.style.color = player[i].color;
+                currentOption.textContent = player[i].name;
 
                 if (i === recipient.index) {
                     currentOption.selected = "selected"
@@ -591,25 +591,25 @@ function Game () {
 
             nameSelect.onchange = function () {
                 resetTrade(currentInitiator, player[parseInt(this.value, 10)], true)
-            }
+            };
 
             nameSelect.title = "Select a player to trade with."
         } else {
             currentName.textContent = recipient.name
         }
 
-        document.getElementById("trade-leftp-money").value = "0"
+        document.getElementById("trade-leftp-money").value = "0";
         document.getElementById("trade-rightp-money").value = "0"
 
-    }
+    };
 
     let readTrade = function () {
-        let initiator = currentInitiator
-        let recipient = currentRecipient
-        let property = new Array(40)
-        let money
-        let communityChestJailCard
-        let chanceJailCard
+        let initiator = currentInitiator;
+        let recipient = currentRecipient;
+        let property = new Array(40);
+        let money;
+        let communityChestJailCard;
+        let chanceJailCard;
 
         for (let i = 0; i < 40; i++) {
 
@@ -638,14 +638,14 @@ function Game () {
             chanceJailCard = 0
         }
 
-        money = parseInt(document.getElementById("trade-leftp-money").value, 10) || 0
-        money -= parseInt(document.getElementById("trade-rightp-money").value, 10) || 0
+        money = parseInt(document.getElementById("trade-leftp-money").value, 10) || 0;
+        money -= parseInt(document.getElementById("trade-rightp-money").value, 10) || 0;
 
         return new Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard)
-    }
+    };
 
     let writeTrade = function (tradeObj) {
-        resetTrade(tradeObj.getInitiator(), tradeObj.getRecipient(), false)
+        resetTrade(tradeObj.getInitiator(), tradeObj.getRecipient(), false);
 
         for (let i = 0; i < 40; i++) {
 
@@ -682,62 +682,62 @@ function Game () {
             document.getElementById("trade-rightp-money").value = (-tradeObj.getMoney()) + ""
         }
 
-    }
+    };
 
     this.trade = function (tradeObj) {
-        $("#board").hide()
-        $("#control").hide()
-        $("#trade").show()
-        $("#proposetradebutton").show()
-        $("#canceltradebutton").show()
-        $("#accepttradebutton").hide()
-        $("#rejecttradebutton").hide()
+        $("#board").hide();
+        $("#control").hide();
+        $("#trade").show();
+        $("#proposetradebutton").show();
+        $("#canceltradebutton").show();
+        $("#accepttradebutton").hide();
+        $("#rejecttradebutton").hide();
 
         if (tradeObj instanceof Trade) {
-            writeTrade(tradeObj)
+            writeTrade(tradeObj);
             this.proposeTrade()
         } else {
-            let initiator = player[turn]
-            let recipient = turn === 1 ? player[2] : player[1]
+            let initiator = player[turn];
+            let recipient = turn === 1 ? player[2] : player[1];
 
-            currentInitiator = initiator
-            currentRecipient = recipient
+            currentInitiator = initiator;
+            currentRecipient = recipient;
 
             resetTrade(initiator, recipient, true)
         }
-    }
+    };
 
 
     this.cancelTrade = function () {
-        $("#board").show()
-        $("#control").show()
-        $("#trade").hide()
+        $("#board").show();
+        $("#control").show();
+        $("#trade").hide();
 
 
         if (!player[turn].human) {
-            player[turn].AI.alertList = ""
+            player[turn].AI.alertList = "";
             game.next()
         }
 
-    }
+    };
 
     this.acceptTrade = function (tradeObj) {
         if (isNaN(document.getElementById("trade-leftp-money").value)) {
-            document.getElementById("trade-leftp-money").value = "This value must be a number."
-            document.getElementById("trade-leftp-money").style.color = "red"
+            document.getElementById("trade-leftp-money").value = "This value must be a number.";
+            document.getElementById("trade-leftp-money").style.color = "red";
             return false
         }
 
         if (isNaN(document.getElementById("trade-rightp-money").value)) {
-            document.getElementById("trade-rightp-money").value = "This value must be a number."
-            document.getElementById("trade-rightp-money").style.color = "red"
+            document.getElementById("trade-rightp-money").value = "This value must be a number.";
+            document.getElementById("trade-rightp-money").style.color = "red";
             return false
         }
 
-        let showAlerts = true
-        let money
-        let initiator
-        let recipient
+        let showAlerts = true;
+        let money;
+        let initiator;
+        let recipient;
 
         if (tradeObj) {
             showAlerts = false
@@ -745,33 +745,33 @@ function Game () {
             tradeObj = readTrade()
         }
 
-        money = tradeObj.getMoney()
-        initiator = tradeObj.getInitiator()
-        recipient = tradeObj.getRecipient()
+        money = tradeObj.getMoney();
+        initiator = tradeObj.getInitiator();
+        recipient = tradeObj.getRecipient();
 
 
         if (money > 0 && money > initiator.money) {
-            document.getElementById("trade-leftp-money").value = initiator.name + " does not have $" + money + "."
-            document.getElementById("trade-leftp-money").style.color = "red"
+            document.getElementById("trade-leftp-money").value = initiator.name + " does not have $" + money + ".";
+            document.getElementById("trade-leftp-money").style.color = "red";
             return false
         } else if (money < 0 && -money > recipient.money) {
-            document.getElementById("trade-rightp-money").value = recipient.name + " does not have $" + (-money) + "."
-            document.getElementById("trade-rightp-money").style.color = "red"
+            document.getElementById("trade-rightp-money").value = recipient.name + " does not have $" + (-money) + ".";
+            document.getElementById("trade-rightp-money").style.color = "red";
             return false
         }
 
-        let isAPropertySelected = 0
+        let isAPropertySelected = 0;
 
         // Ensure that some properties are selected.
         for (let i = 0; i < 40; i++) {
             isAPropertySelected |= tradeObj.getProperty(i)
         }
 
-        isAPropertySelected |= tradeObj.getCommunityChestJailCard()
-        isAPropertySelected |= tradeObj.getchanceJailCard()
+        isAPropertySelected |= tradeObj.getCommunityChestJailCard();
+        isAPropertySelected |= tradeObj.getchanceJailCard();
 
         if (isAPropertySelected === 0) {
-            popup("<p>One or more properties must be selected in order to trade.</p>")
+            popup("<p>One or more properties must be selected in order to trade.</p>");
 
             return false
         }
@@ -784,105 +784,105 @@ function Game () {
         for (let i = 0; i < 40; i++) {
 
             if (tradeObj.getProperty(i) === 1) {
-                square[i].owner = recipient.index
+                square[i].owner = recipient.index;
                 addAlert(recipient.name + " received " + square[i].name + " from " + initiator.name + ".")
             } else if (tradeObj.getProperty(i) === -1) {
-                square[i].owner = initiator.index
+                square[i].owner = initiator.index;
                 addAlert(initiator.name + " received " + square[i].name + " from " + recipient.name + ".")
             }
 
         }
 
         if (tradeObj.getCommunityChestJailCard() === 1) {
-            initiator.communityChestJailCard = false
-            recipient.communityChestJailCard = true
+            initiator.communityChestJailCard = false;
+            recipient.communityChestJailCard = true;
             addAlert(recipient.name + ' received a "Get Out of Jail Free" card from ' + initiator.name + ".")
         } else if (tradeObj.getCommunityChestJailCard() === -1) {
-            initiator.communityChestJailCard = true
-            recipient.communityChestJailCard = false
+            initiator.communityChestJailCard = true;
+            recipient.communityChestJailCard = false;
             addAlert(initiator.name + ' received a "Get Out of Jail Free" card from ' + recipient.name + ".")
         }
 
         if (tradeObj.getchanceJailCard() === 1) {
-            initiator.chanceJailCard = false
-            recipient.chanceJailCard = true
+            initiator.chanceJailCard = false;
+            recipient.chanceJailCard = true;
             addAlert(recipient.name + ' received a "Get Out of Jail Free" card from ' + initiator.name + ".")
         } else if (tradeObj.getchanceJailCard() === -1) {
-            initiator.chanceJailCard = true
-            recipient.chanceJailCard = false
+            initiator.chanceJailCard = true;
+            recipient.chanceJailCard = false;
             addAlert(initiator.name + ' received a "Get Out of Jail Free" card from ' + recipient.name + ".")
         }
 
         // Exchange money.
         if (money > 0) {
-            initiator.pay(money, recipient.index)
-            recipient.money += money
+            initiator.pay(money, recipient.index);
+            recipient.money += money;
 
             addAlert(recipient.name + " received $" + money + " from " + initiator.name + ".")
         } else if (money < 0) {
-            money = -money
+            money = -money;
 
-            recipient.pay(money, initiator.index)
-            initiator.money += money
+            recipient.pay(money, initiator.index);
+            initiator.money += money;
 
             addAlert(initiator.name + " received $" + money + " from " + recipient.name + ".")
         }
 
-        updateOwned()
-        updateMoney()
+        updateOwned();
+        updateMoney();
 
-        $("#board").show()
-        $("#control").show()
-        $("#trade").hide()
+        $("#board").show();
+        $("#control").show();
+        $("#trade").hide();
 
         if (!player[turn].human) {
-            player[turn].AI.alertList = ""
+            player[turn].AI.alertList = "";
             game.next()
         }
-    }
+    };
 
     this.proposeTrade = function () {
         if (isNaN(document.getElementById("trade-leftp-money").value)) {
-            document.getElementById("trade-leftp-money").value = "This value must be a number."
-            document.getElementById("trade-leftp-money").style.color = "red"
+            document.getElementById("trade-leftp-money").value = "This value must be a number.";
+            document.getElementById("trade-leftp-money").style.color = "red";
             return false
         }
 
         if (isNaN(document.getElementById("trade-rightp-money").value)) {
-            document.getElementById("trade-rightp-money").value = "This value must be a number."
-            document.getElementById("trade-rightp-money").style.color = "red"
+            document.getElementById("trade-rightp-money").value = "This value must be a number.";
+            document.getElementById("trade-rightp-money").style.color = "red";
             return false
         }
 
-        let tradeObj = readTrade()
-        let money = tradeObj.getMoney()
-        let initiator = tradeObj.getInitiator()
-        let recipient = tradeObj.getRecipient()
-        let reversedTradeProperty = []
+        let tradeObj = readTrade();
+        let money = tradeObj.getMoney();
+        let initiator = tradeObj.getInitiator();
+        let recipient = tradeObj.getRecipient();
+        let reversedTradeProperty = [];
 
         if (money > 0 && money > initiator.money) {
-            document.getElementById("trade-leftp-money").value = initiator.name + " does not have $" + money + "."
-            document.getElementById("trade-leftp-money").style.color = "red"
+            document.getElementById("trade-leftp-money").value = initiator.name + " does not have $" + money + ".";
+            document.getElementById("trade-leftp-money").style.color = "red";
             return false
         } else if (money < 0 && -money > recipient.money) {
-            document.getElementById("trade-rightp-money").value = recipient.name + " does not have $" + (-money) + "."
-            document.getElementById("trade-rightp-money").style.color = "red"
+            document.getElementById("trade-rightp-money").value = recipient.name + " does not have $" + (-money) + ".";
+            document.getElementById("trade-rightp-money").style.color = "red";
             return false
         }
 
-        let isAPropertySelected = 0
+        let isAPropertySelected = 0;
 
         // Ensure that some properties are selected.
         for (let i = 0; i < 40; i++) {
-            reversedTradeProperty[i] = -tradeObj.getProperty(i)
+            reversedTradeProperty[i] = -tradeObj.getProperty(i);
             isAPropertySelected |= tradeObj.getProperty(i)
         }
 
-        isAPropertySelected |= tradeObj.getCommunityChestJailCard()
-        isAPropertySelected |= tradeObj.getchanceJailCard()
+        isAPropertySelected |= tradeObj.getCommunityChestJailCard();
+        isAPropertySelected |= tradeObj.getchanceJailCard();
 
         if (isAPropertySelected === 0) {
-            popup("<p>One or more properties must be selected in order to trade.</p>")
+            popup("<p>One or more properties must be selected in order to trade.</p>");
 
             return false
         }
@@ -891,48 +891,48 @@ function Game () {
             return false
         }
 
-        let reversedTrade = new Trade(recipient, initiator, -money, reversedTradeProperty, -tradeObj.getCommunityChestJailCard(), -tradeObj.getchanceJailCard())
+        let reversedTrade = new Trade(recipient, initiator, -money, reversedTradeProperty, -tradeObj.getCommunityChestJailCard(), -tradeObj.getchanceJailCard());
 
         if (recipient.human) {
 
-            writeTrade(reversedTrade)
+            writeTrade(reversedTrade);
 
-            $("#proposetradebutton").hide()
-            $("#canceltradebutton").hide()
-            $("#accepttradebutton").show()
-            $("#rejecttradebutton").show()
+            $("#proposetradebutton").hide();
+            $("#canceltradebutton").hide();
+            $("#accepttradebutton").show();
+            $("#rejecttradebutton").show();
 
-            addAlert(initiator.name + " initiated a trade with " + recipient.name + ".")
+            addAlert(initiator.name + " initiated a trade with " + recipient.name + ".");
             popup("<p>" + initiator.name + " has proposed a trade with you, " + recipient.name + ". You may accept, reject, or modify the offer.</p>")
         } else {
-            let tradeResponse = recipient.AI.acceptTrade(tradeObj)
+            let tradeResponse = recipient.AI.acceptTrade(tradeObj);
 
             if (tradeResponse === true) {
-                popup("<p>" + recipient.name + " has accepted your offer.</p>")
+                popup("<p>" + recipient.name + " has accepted your offer.</p>");
                 this.acceptTrade(reversedTrade)
             } else if (tradeResponse === false) {
-                popup("<p>" + recipient.name + " has declined your offer.</p>")
-                return
-            } else if (tradeResponse instanceof Trade) {
-                popup("<p>" + recipient.name + " has proposed a counteroffer.</p>")
-                writeTrade(tradeResponse)
+                popup("<p>" + recipient.name + " has declined your offer.</p>");
 
-                $("#proposetradebutton, #canceltradebutton").hide()
-                $("#accepttradebutton").show()
+            } else if (tradeResponse instanceof Trade) {
+                popup("<p>" + recipient.name + " has proposed a counteroffer.</p>");
+                writeTrade(tradeResponse);
+
+                $("#proposetradebutton, #canceltradebutton").hide();
+                $("#accepttradebutton").show();
                 $("#rejecttradebutton").show()
             }
         }
-    }
+    };
 
 
     // Bankrupcy functions:
 
 
     this.eliminatePlayer = function () {
-        let p = player[turn]
+        let p = player[turn];
 
         for (let i = p.index; i < pcount; i++) {
-            player[i] = player[i + 1]
+            player[i] = player[i + 1];
             player[i].index = i
 
         }
@@ -943,8 +943,8 @@ function Game () {
             }
         }
 
-        pcount--
-        turn--
+        pcount--;
+        turn--;
 
         if (pcount === 2) {
             document.getElementById("stats").style.width = "454px"
@@ -953,10 +953,10 @@ function Game () {
         }
 
         if (pcount === 1) {
-            updateMoney()
-            $("#control").hide()
-            $("#board").hide()
-            $("#refresh").show()
+            updateMoney();
+            $("#control").hide();
+            $("#board").hide();
+            $("#refresh").show();
 
             // // Display land counts for survey purposes.
             // let text
@@ -973,25 +973,25 @@ function Game () {
         } else {
             play()
         }
-    }
+    };
 
     this.bankruptcyUnmortgage = function () {
-        let p = player[turn]
+        let p = player[turn];
 
         if (p.creditor === 0) {
-            this.eliminatePlayer()
+            this.eliminatePlayer();
             return
         }
 
-        let html = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>"
-        let price
+        let html = "<p>" + player[p.creditor].name + ", you may unmortgage any of the following properties, interest free, by clicking on them. Click OK when finished.</p><table>";
+        let price;
 
         for (let i = 0; i < 40; i++) {
-            sq = square[i]
+            sq = square[i];
             if (sq.owner === p.index && sq.mortgage) {
-                price = Math.round(sq.price * 0.5)
+                price = Math.round(sq.price * 0.5);
 
-                html += "<tr><td class='propertycellcolor' style='background: " + sq.color + ""
+                html += "<tr><td class='propertycellcolor' style='background: " + sq.color + "";
 
                 if (sq.groupNumber === 1 || sq.groupNumber === 2) {
                     html += " border: 1px solid grey"
@@ -1000,40 +1000,40 @@ function Game () {
                 }
 
                 // Player already paid interest, so they can unmortgage for the mortgage price.
-                html += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='propertycellname'><a href='javascript:void(0)' title='Unmortgage " + sq.name + " for $" + price + ".' onclick='if (" + price + " <= player[" + p.creditor + "].money) {player[" + p.creditor + "].pay(" + price + ", 0) square[" + i + "].mortgage = false addAlert(\"" + player[p.creditor].name + " unmortgaged " + sq.name + " for $" + price + ".\")} this.parentElement.parentElement.style.display = \"none\"'>Unmortgage " + sq.name + " ($" + price + ")</a></td></tr>"
+                html += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'></td><td class='propertycellname'><a href='javascript:void(0)' title='Unmortgage " + sq.name + " for $" + price + ".' onclick='if (" + price + " <= player[" + p.creditor + "].money) {player[" + p.creditor + "].pay(" + price + ", 0) square[" + i + "].mortgage = false addAlert(\"" + player[p.creditor].name + " unmortgaged " + sq.name + " for $" + price + ".\")} this.parentElement.parentElement.style.display = \"none\"'>Unmortgage " + sq.name + " ($" + price + ")</a></td></tr>";
 
                 sq.owner = p.creditor
 
             }
         }
 
-        html += "</table>"
+        html += "</table>";
 
         popup(html, game.eliminatePlayer)
-    }
+    };
 
     this.resign = function () {
         popup("<p>Are you sure you want to resign?</p>", game.bankruptcy, "Yes/No")
-    }
+    };
 
     this.bankruptcy = function () {
-        let p = player[turn]
-        let pcredit = player[p.creditor]
-        let bankruptcyUnmortgageFee = 0
+        let p = player[turn];
+        let pcredit = player[p.creditor];
+        let bankruptcyUnmortgageFee = 0;
 
 
         if (p.money >= 0) {
             return
         }
 
-        addAlert(p.name + " is bankrupt.")
+        addAlert(p.name + " is bankrupt.");
 
         if (p.creditor !== 0) {
             pcredit.money += p.money
         }
 
         for (let i = 0; i < 40; i++) {
-            sq = square[i]
+            sq = square[i];
             if (sq.owner === p.index) {
                 // Mortgaged properties will be tranfered by bankruptcyUnmortgage()
                 if (!sq.mortgage) {
@@ -1046,36 +1046,36 @@ function Game () {
                     if (p.creditor !== 0) {
                         pcredit.money += sq.housePrice * 0.5 * sq.house
                     }
-                    sq.hotel = 0
+                    sq.hotel = 0;
                     sq.house = 0
                 }
 
                 if (p.creditor === 0) {
-                    sq.mortgage = false
-                    game.addPropertyToAuctionQueue(i)
+                    sq.mortgage = false;
+                    game.addPropertyToAuctionQueue(i);
                     sq.owner = 0
                 }
             }
         }
 
-        updateMoney()
+        updateMoney();
 
         if (p.chanceJailCard) {
-            p.chanceJailCard = false
+            p.chanceJailCard = false;
             pcredit.chanceJailCard = true
         }
 
         if (p.communityChestJailCard) {
-            p.communityChestJailCard = false
+            p.communityChestJailCard = false;
             pcredit.communityChestJailCard = true
         }
 
         if (pcount === 2 || bankruptcyUnmortgageFee === 0 || p.creditor === 0) {
             this.eliminatePlayer()
         } else {
-            addAlert(pcredit.name + " paid $" + bankruptcyUnmortgageFee + " interest on the mortgaged properties received from " + p.name + ".")
+            addAlert(pcredit.name + " paid $" + bankruptcyUnmortgageFee + " interest on the mortgaged properties received from " + p.name + ".");
             popup("<p>" + pcredit.name + ", you must pay $" + bankruptcyUnmortgageFee + " interest on the mortgaged properties you received from " + p.name + ".</p>", function () {
-                player[pcredit.index].pay(bankruptcyUnmortgageFee, 0)
+                player[pcredit.index].pay(bankruptcyUnmortgageFee, 0);
                 game.bankruptcyUnmortgage()
             })
         }
@@ -1083,34 +1083,34 @@ function Game () {
 
 }
 
-let game
+let game;
 
 function Player (name, color) {
-    this.name = name
-    this.color = color
-    this.position = 0
-    this.money = 1500
-    this.creditor = -1
-    this.jail = false
-    this.jailroll = 0
-    this.communityChestJailCard = false
-    this.chanceJailCard = false
-    this.bidding = true
-    this.human = true
+    this.name = name;
+    this.color = color;
+    this.position = 0;
+    this.money = 1500;
+    this.creditor = -1;
+    this.jail = false;
+    this.jailroll = 0;
+    this.communityChestJailCard = false;
+    this.chanceJailCard = false;
+    this.bidding = true;
+    this.human = true;
     // this.AI = null
 
     this.pay = function (amount, creditor) {
         if (amount <= this.money) {
-            this.money -= amount
+            this.money -= amount;
 
-            updateMoney()
+            updateMoney();
 
             return true
         } else {
-            this.money -= amount
-            this.creditor = creditor
+            this.money -= amount;
+            this.creditor = creditor;
 
-            updateMoney()
+            updateMoney();
 
             return false
         }
@@ -1129,37 +1129,37 @@ function Trade (initiator, recipient, money, property, communityChestJailCard, c
 
     this.getInitiator = function () {
         return initiator
-    }
+    };
 
     this.getRecipient = function () {
         return recipient
-    }
+    };
 
     this.getProperty = function (index) {
         return property[index]
-    }
+    };
 
     this.getMoney = function () {
         return money
-    }
+    };
 
     this.getCommunityChestJailCard = function () {
         return communityChestJailCard
-    }
+    };
 
     this.getchanceJailCard = function () {
         return chanceJailCard
     }
 }
 
-let player = []
-let pcount
-let turn = 0, doublecount = 0
+let player = [];
+let pcount;
+let turn = 0, doublecount = 0;
 // Overwrite an array with numbers from one to the array's length in a random order.
 Array.prototype.randomize = function (length) {
-    length = (length || this.length)
-    let num
-    let indexArray = []
+    length = (length || this.length);
+    let num;
+    let indexArray = [];
 
     for (let i = 0; i < length; i++) {
         indexArray[i] = i
@@ -1167,12 +1167,12 @@ Array.prototype.randomize = function (length) {
 
     for (let i = 0; i < length; i++) {
         // Generate random number between 0 and indexArray.length - 1.
-        num = Math.floor(Math.random() * indexArray.length)
-        this[i] = indexArray[num] + 1
+        num = Math.floor(Math.random() * indexArray.length);
+        this[i] = indexArray[num] + 1;
 
         indexArray.splice(num, 1)
     }
-}
+};
 
 // function show(element) {
 // // Element may be an html element or the id of one passed as a string.
@@ -1197,12 +1197,12 @@ Array.prototype.randomize = function (length) {
 // }
 
 function addAlert (alertText) {
-    $alert = $("#alert")
+    $alert = $("#alert");
 
-    $(document.createElement("div")).text(alertText).appendTo($alert)
+    $(document.createElement("div")).text(alertText).appendTo($alert);
 
     // Animate scrolling down alert element.
-    $alert.stop().animate({"scrollTop": $alert.prop("scrollHeight")}, 1000)
+    $alert.stop().animate({"scrollTop": $alert.prop("scrollHeight")}, 1000);
 
     if (!player[turn].human) {
         player[turn].AI.alertList += "<div>" + alertText + "</div>"
@@ -1210,16 +1210,16 @@ function addAlert (alertText) {
 }
 
 function popup (html, action, option) {
-    document.getElementById("popuptext").innerhtml = html
-    document.getElementById("popup").style.width = "300px"
-    document.getElementById("popup").style.top = "0px"
-    document.getElementById("popup").style.left = "0px"
+    document.getElementById("popuptext").innerhtml = html;
+    document.getElementById("popup").style.width = "300px";
+    document.getElementById("popup").style.top = "0px";
+    document.getElementById("popup").style.left = "0px";
 
     if (!option && typeof action === "string") {
         option = action
     }
 
-    option = option ? option.toLowerCase() : ""
+    option = option ? option.toLowerCase() : "";
 
     if (typeof action !== "function") {
         action = null
@@ -1231,22 +1231,22 @@ function popup (html, action, option) {
 
         // Yes/No
     } else if (option === "yes/no") {
-        document.getElementById("popuptext").innerhtml += "<div><input type=\"button\" value=\"Yes\" id=\"popupyes\" /><input type=\"button\" value=\"No\" id=\"popupno\" /></div>"
+        document.getElementById("popuptext").innerhtml += "<div><input type=\"button\" value=\"Yes\" id=\"popupyes\" /><input type=\"button\" value=\"No\" id=\"popupno\" /></div>";
 
         $("#popupyes, #popupno").on("click", function () {
-            $("#popupwrap").hide()
+            $("#popupwrap").hide();
             $("#popupbackground").fadeOut(400)
-        })
+        });
 
         $("#popupyes").on("click", action)
 
         // Ok
     } else if (option === "") {
-        $("#popuptext").append("<div><input type='button' value='OK' id='popupclose' /></div>")
-        $("#popupclose").focus()
+        $("#popuptext").append("<div><input type='button' value='OK' id='popupclose' /></div>");
+        $("#popupclose").focus();
 
         $("#popupclose").on("click", function () {
-            $("#popupwrap").hide()
+            $("#popupwrap").hide();
             $("#popupbackground").fadeOut(400)
         }).on("click", action)
 
@@ -1265,28 +1265,28 @@ function popup (html, action, option) {
 
 function updatePosition () {
     // Reset borders
-    document.getElementById("jail").style.border = "1px solid black"
-    document.getElementById("jailpositionholder").innerhtml = ""
+    document.getElementById("jail").style.border = "1px solid black";
+    document.getElementById("jailpositionholder").innerhtml = "";
     for (let i = 0; i < 40; i++) {
-        document.getElementById("cell" + i).style.border = "1px solid black"
+        document.getElementById("cell" + i).style.border = "1px solid black";
         document.getElementById("cell" + i + "positionholder").innerhtml = ""
 
     }
 
-    let sq, left, top
+    let sq, left, top;
 
     for (let x = 0; x < 40; x++) {
-        sq = square[x]
-        left = 0
-        top = 0
+        sq = square[x];
+        left = 0;
+        top = 0;
 
         for (let y = turn; y <= pcount; y++) {
 
             if (player[y].position === x && !player[y].jail) {
 
-                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
+                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>";
                 if (left === 36) {
-                    left = 0
+                    left = 0;
                     top = 12
                 } else
                     left += 12
@@ -1296,9 +1296,9 @@ function updatePosition () {
         for (let y = 1; y < turn; y++) {
 
             if (player[y].position === x && !player[y].jail) {
-                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>"
+                document.getElementById("cell" + x + "positionholder").innerhtml += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + " left: " + left + "px top: " + top + "px'></div>";
                 if (left === 36) {
-                    left = 0
+                    left = 0;
                     top = 12
                 } else
                     left += 12
@@ -1306,14 +1306,14 @@ function updatePosition () {
         }
     }
 
-    left = 0
-    top = 53
+    left = 0;
+    top = 53;
     for (let i = turn; i <= pcount; i++) {
         if (player[i].jail) {
-            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
+            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>";
 
             if (left === 36) {
-                left = 0
+                left = 0;
                 top = 41
             } else {
                 left += 12
@@ -1323,16 +1323,16 @@ function updatePosition () {
 
     for (let i = 1; i < turn; i++) {
         if (player[i].jail) {
-            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>"
+            document.getElementById("jailpositionholder").innerhtml += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + " left: " + left + "px top: " + top + "px'></div>";
             if (left === 36) {
-                left = 0
+                left = 0;
                 top = 41
             } else
                 left += 12
         }
     }
 
-    p = player[turn]
+    p = player[turn];
 
     if (p.jail) {
         document.getElementById("jail").style.border = "1px solid " + p.color
@@ -1346,17 +1346,17 @@ function updatePosition () {
 }
 
 function updateMoney () {
-    let p = player[turn]
+    let p = player[turn];
 
-    document.getElementById("pmoney").innerhtml = "$" + p.money
-    $(".money-bar-row").hide()
+    document.getElementById("pmoney").innerhtml = "$" + p.money;
+    $(".money-bar-row").hide();
 
     for (let i = 1; i <= pcount; i++) {
-        p_i = player[i]
+        p_i = player[i];
 
-        $("#moneybarrow" + i).show()
-        document.getElementById("p" + i + "moneybar").style.border = "2px solid " + p_i.color
-        document.getElementById("p" + i + "money").innerhtml = p_i.money
+        $("#moneybarrow" + i).show();
+        document.getElementById("p" + i + "moneybar").style.border = "2px solid " + p_i.color;
+        document.getElementById("p" + i + "money").innerhtml = p_i.money;
         document.getElementById("p" + i + "moneyname").innerhtml = p_i.name
     }
     // show("moneybarrow9") // Don't remove this line or make the first for-loop stop when i <= 8, because this affects how the table is displayed.
@@ -1365,35 +1365,35 @@ function updateMoney () {
         $("#landed").hide()
     }
 
-    document.getElementById("quickstats").style.borderColor = p.color
+    document.getElementById("quickstats").style.borderColor = p.color;
 
     if (p.money < 0) {
         // document.getElementById("nextbutton").disabled = true
-        $("#resignbutton").show()
+        $("#resignbutton").show();
         $("#nextbutton").hide()
     } else {
         // document.getElementById("nextbutton").disabled = false
-        $("#resignbutton").hide()
+        $("#resignbutton").hide();
         $("#nextbutton").show()
     }
 }
 
 function updateDice () {
-    let die0 = game.getDie(1)
-    let die1 = game.getDie(2)
+    let die0 = game.getDie(1);
+    let die1 = game.getDie(2);
 
-    $("#die0").show()
-    $("#die1").show()
+    $("#die0").show();
+    $("#die1").show();
 
     if (document.images) {
-        let element0 = document.getElementById("die0")
-        let element1 = document.getElementById("die1")
+        let element0 = document.getElementById("die0");
+        let element1 = document.getElementById("die1");
 
-        element0.classList.remove("die-no-img")
-        element1.classList.remove("die-no-img")
+        element0.classList.remove("die-no-img");
+        element1.classList.remove("die-no-img");
 
-        element0.title = "Die (" + die0 + " spots)"
-        element1.title = "Die (" + die1 + " spots)"
+        element0.title = "Die (" + die0 + " spots)";
+        element1.title = "Die (" + die1 + " spots)";
 
         if (element0.firstChild) {
             element0 = element0.firstChild
@@ -1401,8 +1401,8 @@ function updateDice () {
             element0 = element0.appendChild(document.createElement("img"))
         }
 
-        element0.src = "images/Die_" + die0 + ".png"
-        element0.alt = die0
+        element0.src = "images/Die_" + die0 + ".png";
+        element0.alt = die0;
 
         if (element1.firstChild) {
             element1 = element1.firstChild
@@ -1410,53 +1410,53 @@ function updateDice () {
             element1 = element1.appendChild(document.createElement("img"))
         }
 
-        element1.src = "images/Die_" + die1 + ".png"
+        element1.src = "images/Die_" + die1 + ".png";
         element1.alt = die0
     } else {
-        document.getElementById("die0").textContent = die0
-        document.getElementById("die1").textContent = die1
+        document.getElementById("die0").textContent = die0;
+        document.getElementById("die1").textContent = die1;
 
-        document.getElementById("die0").title = "Die"
+        document.getElementById("die0").title = "Die";
         document.getElementById("die1").title = "Die"
     }
 }
 
 function updateOwned () {
-    let p = player[turn]
-    let checkedProperty = getCheckedProperty()
-    $("#option").show()
-    $("#owned").show()
+    let p = player[turn];
+    let checkedProperty = getCheckedProperty();
+    $("#option").show();
+    $("#owned").show();
 
     let html = "",
-        firstProperty = -1
+        firstProperty = -1;
 
     let mortgageText = "",
-        houseText = ""
-    let sq
+        houseText = "";
+    let sq;
 
     for (let i = 0; i < 40; i++) {
-        sq = square[i]
+        sq = square[i];
         if (sq.groupNumber && sq.owner === 0) {
             $("#cell" + i + "owner").hide()
         } else if (sq.groupNumber && sq.owner > 0) {
-            let currentCellOwner = document.getElementById("cell" + i + "owner")
+            let currentCellOwner = document.getElementById("cell" + i + "owner");
 
-            currentCellOwner.style.display = "block"
-            currentCellOwner.style.backgroundColor = player[sq.owner].color
+            currentCellOwner.style.display = "block";
+            currentCellOwner.style.backgroundColor = player[sq.owner].color;
             currentCellOwner.title = player[sq.owner].name
         }
     }
 
     for (let i = 0; i < 40; i++) {
-        sq = square[i]
+        sq = square[i];
         if (sq.owner === turn) {
 
-            mortgageText = ""
+            mortgageText = "";
             if (sq.mortgage) {
                 mortgageText = "title='Mortgaged' style='color: grey'"
             }
 
-            houseText = ""
+            houseText = "";
             if (sq.house >= 1 && sq.house <= 4) {
                 for (let x = 1; x <= sq.house; x++) {
                     houseText += "<img src='images/house.png' alt='' title='House' class='house' />"
@@ -1466,11 +1466,11 @@ function updateOwned () {
             }
 
             if (html === "") {
-                html += "<table>"
+                html += "<table>";
                 firstProperty = i
             }
 
-            html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox" + i + "' /></td><td class='propertycellcolor' style='background: " + sq.color + ""
+            html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox" + i + "' /></td><td class='propertycellcolor' style='background: " + sq.color + "";
 
             if (sq.groupNumber === 1 || sq.groupNumber === 2) {
                 html += " border: 1px solid grey width: 18px"
@@ -1482,7 +1482,7 @@ function updateOwned () {
 
     if (p.communityChestJailCard) {
         if (html === "") {
-            firstProperty = 40
+            firstProperty = 40;
             html += "<table>"
         }
         html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox40' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
@@ -1490,20 +1490,20 @@ function updateOwned () {
     }
     if (p.chanceJailCard) {
         if (html === "") {
-            firstProperty = 41
+            firstProperty = 41;
             html += "<table>"
         }
         html += "<tr class='property-cell-row'><td class='propertycellcheckbox'><input type='checkbox' id='propertycheckbox41' /></td><td class='propertycellcolor' style='background: white'></td><td class='propertycellname'>Get Out of Jail Free Card</td></tr>"
     }
 
     if (html === "") {
-        html = p.name + ", you don't have any properties."
+        html = p.name + ", you don't have any properties.";
         $("#option").hide()
     } else {
         html += "</table>"
     }
 
-    document.getElementById("owned").innerhtml = html
+    document.getElementById("owned").innerhtml = html;
 
     // Select previously selected property.
     if (checkedProperty > -1 && document.getElementById("propertycheckbox" + checkedProperty)) {
@@ -1512,114 +1512,114 @@ function updateOwned () {
         document.getElementById("propertycheckbox" + firstProperty).checked = true
     }
     $(".property-cell-row").click(function () {
-        let row = this
+        let row = this;
 
         // Toggle check the current checkbox.
         $(this).find(".propertycellcheckbox > input").prop("checked", function (index, val) {
             return !val
-        })
+        });
 
         // Set all other checkboxes to false.
         $(".propertycellcheckbox > input").prop("checked", function (index, val) {
             if (!$.contains(row, this)) {
                 return false
             }
-        })
+        });
 
         updateOption()
-    })
+    });
     updateOption()
 }
 
 function updateOption () {
-    $("#option").show()
+    $("#option").show();
 
-    let allGroupUninproved = true
-    let allGroupUnmortgaged = true
-    let checkedProperty = getCheckedProperty()
+    let allGroupUninproved = true;
+    let allGroupUnmortgaged = true;
+    let checkedProperty = getCheckedProperty();
 
     if (checkedProperty < 0 || checkedProperty >= 40) {
-        $("#buyHouseButton").hide()
-        $("#sellHouseButton").hide()
-        $("#mortgagebutton").hide()
+        $("#buyHouseButton").hide();
+        $("#sellHouseButton").hide();
+        $("#mortgagebutton").hide();
 
 
-        let houseSum = 32
-        let hotelSum = 12
+        let houseSum = 32;
+        let hotelSum = 12;
 
         for (let i = 0; i < 40; i++) {
-            s = square[i]
+            s = square[i];
             if (s.hotel === 1)
-                hotelSum--
+                hotelSum--;
             else
                 houseSum -= s.house
         }
 
-        $("#buildings").show()
-        document.getElementById("buildings").innerhtml = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum
+        $("#buildings").show();
+        document.getElementById("buildings").innerhtml = "<img src='images/house.png' alt='' title='House' class='house' />:&nbsp" + houseSum + "&nbsp&nbsp<img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&nbsp" + hotelSum;
 
         return
     }
 
-    $("#buildings").hide()
-    let sq = square[checkedProperty]
+    $("#buildings").hide();
+    let sq = square[checkedProperty];
 
-    buyHouseButton = document.getElementById("buyHouseButton")
-    sellHouseButton = document.getElementById("sellHouseButton")
+    buyHouseButton = document.getElementById("buyHouseButton");
+    sellHouseButton = document.getElementById("sellHouseButton");
 
-    $("#mortgagebutton").show()
-    document.getElementById("mortgagebutton").disabled = false
+    $("#mortgagebutton").show();
+    document.getElementById("mortgagebutton").disabled = false;
 
     if (sq.mortgage) {
-        document.getElementById("mortgagebutton").value = "Unmortgage ($" + Math.round(sq.price * 0.6) + ")"
-        document.getElementById("mortgagebutton").title = "Unmortgage " + sq.name + " for $" + Math.round(sq.price * 0.6) + "."
-        $("#buyHouseButton").hide()
-        $("#sellHouseButton").hide()
+        document.getElementById("mortgagebutton").value = "Unmortgage ($" + Math.round(sq.price * 0.6) + ")";
+        document.getElementById("mortgagebutton").title = "Unmortgage " + sq.name + " for $" + Math.round(sq.price * 0.6) + ".";
+        $("#buyHouseButton").hide();
+        $("#sellHouseButton").hide();
 
         allGroupUnmortgaged = false
     } else {
-        document.getElementById("mortgagebutton").value = "Mortgage ($" + (sq.price * 0.5) + ")"
-        document.getElementById("mortgagebutton").title = "Mortgage " + sq.name + " for $" + (sq.price * 0.5) + "."
+        document.getElementById("mortgagebutton").value = "Mortgage ($" + (sq.price * 0.5) + ")";
+        document.getElementById("mortgagebutton").title = "Mortgage " + sq.name + " for $" + (sq.price * 0.5) + ".";
 
         if (sq.groupNumber >= 3) {
-            $("#buyHouseButton").show()
-            $("#sellHouseButton").show()
-            buyHouseButton.disabled = false
-            sellHouseButton.disabled = false
+            $("#buyHouseButton").show();
+            $("#sellHouseButton").show();
+            buyHouseButton.disabled = false;
+            sellHouseButton.disabled = false;
 
-            buyHouseButton.value = "Buy house ($" + sq.housePrice + ")"
-            sellHouseButton.value = "Sell house ($" + (sq.housePrice * 0.5) + ")"
-            buyHouseButton.title = "Buy a house for $" + sq.housePrice
-            sellHouseButton.title = "Sell a house for $" + (sq.housePrice * 0.5)
+            buyHouseButton.value = "Buy house ($" + sq.housePrice + ")";
+            sellHouseButton.value = "Sell house ($" + (sq.housePrice * 0.5) + ")";
+            buyHouseButton.title = "Buy a house for $" + sq.housePrice;
+            sellHouseButton.title = "Sell a house for $" + (sq.housePrice * 0.5);
 
             if (sq.house === 4) {
-                buyHouseButton.value = "Buy hotel ($" + sq.housePrice + ")"
+                buyHouseButton.value = "Buy hotel ($" + sq.housePrice + ")";
                 buyHouseButton.title = "Buy a hotel for $" + sq.housePrice
             }
             if (sq.hotel === 1) {
-                $("#buyHouseButton").hide()
-                sellHouseButton.value = "Sell hotel ($" + (sq.housePrice * 0.5) + ")"
+                $("#buyHouseButton").hide();
+                sellHouseButton.value = "Sell hotel ($" + (sq.housePrice * 0.5) + ")";
                 sellHouseButton.title = "Sell a hotel for $" + (sq.housePrice * 0.5)
             }
 
-            let maxHouse = 0
-            let minhouse = 5
+            let maxHouse = 0;
+            let minhouse = 5;
 
             for (let j = 0; j < max; j++) {
 
                 if (square[currentSquare.group[j]].house > 0) {
-                    allGroupUninproved = false
+                    allGroupUninproved = false;
                     break
                 }
             }
 
-            let max = sq.group.length
+            let max = sq.group.length;
             for (let i = 0; i < max; i++) {
-                s = square[sq.group[i]]
+                s = square[sq.group[i]];
 
                 if (s.owner !== sq.owner) {
-                    buyHouseButton.disabled = true
-                    sellHouseButton.disabled = true
+                    buyHouseButton.disabled = true;
+                    sellHouseButton.disabled = true;
                     buyHouseButton.title = "Before you can buy a house, you must own all the properties of this color-group."
                 } else {
 
@@ -1642,13 +1642,13 @@ function updateOption () {
             }
 
             if (!allGroupUnmortgaged) {
-                buyHouseButton.disabled = true
+                buyHouseButton.disabled = true;
                 buyHouseButton.title = "Before you can buy a house, you must unmortgage all the properties of this color-group."
             }
 
             // Force even building
             if (sq.house > minhouse) {
-                buyHouseButton.disabled = true
+                buyHouseButton.disabled = true;
 
                 if (sq.house === 1) {
                     buyHouseButton.title = "Before you can buy another house, the other properties of this color-group must all have one house."
@@ -1659,7 +1659,7 @@ function updateOption () {
                 }
             }
             if (sq.house < maxHouse) {
-                sellHouseButton.disabled = true
+                sellHouseButton.disabled = true;
 
                 if (sq.house === 1) {
                     sellHouseButton.title = "Before you can sell house, the other properties of this color-group must all have one house."
@@ -1678,23 +1678,23 @@ function updateOption () {
 
             // Before a property can be mortgaged or sold, all the properties of its color-group must unimproved.
             if (!allGroupUninproved) {
-                document.getElementById("mortgagebutton").title = "Before a property can be mortgaged, all the properties of its color-group must unimproved."
+                document.getElementById("mortgagebutton").title = "Before a property can be mortgaged, all the properties of its color-group must unimproved.";
                 document.getElementById("mortgagebutton").disabled = true
             }
 
         } else {
-            $("#buyHouseButton").hide()
+            $("#buyHouseButton").hide();
             $("#sellHouseButton").hide()
         }
     }
 }
 
 function chanceCommunityChest () {
-    let p = player[turn]
+    let p = player[turn];
 
     // Community Chest
     if (p.position === 2 || p.position === 17 || p.position === 33) {
-        let communityChestIndex = communityChestCards.deck[communityChestCards.index]
+        let communityChestIndex = communityChestCards.deck[communityChestCards.index];
 
         // Remove the get out of jail free card from the deck.
         if (communityChestIndex === 0) {
@@ -1703,9 +1703,9 @@ function chanceCommunityChest () {
 
         popup("<img src='images/community_chest_icon.png' style='height: 50px width: 53px float: left margin: 8px 8px 8px 0px' /><div style='font-weight: bold font-size: 16px '>Community Chest:</div><div style='text-align: justify'>" + communityChestCards[communityChestIndex].text + "</div>", function () {
             communityChestAction(communityChestIndex)
-        })
+        });
 
-        communityChestCards.index++
+        communityChestCards.index++;
 
         if (communityChestCards.index >= communityChestCards.deck.length) {
             communityChestCards.index = 0
@@ -1713,7 +1713,7 @@ function chanceCommunityChest () {
 
         // Chance
     } else if (p.position === 7 || p.position === 22 || p.position === 36) {
-        let chanceIndex = chanceCards.deck[chanceCards.index]
+        let chanceIndex = chanceCards.deck[chanceCards.index];
 
         // Remove the get out of jail free card from the deck.
         if (chanceIndex === 0) {
@@ -1722,16 +1722,16 @@ function chanceCommunityChest () {
 
         popup("<img src='images/chance_icon.png' style='height: 50px width: 26px float: left margin: 8px 8px 8px 0px' /><div style='font-weight: bold font-size: 16px '>Chance:</div><div style='text-align: justify'>" + chanceCards[chanceIndex].text + "</div>", function () {
             chanceAction(chanceIndex)
-        })
+        });
 
-        chanceCards.index++
+        chanceCards.index++;
 
         if (chanceCards.index >= chanceCards.deck.length) {
             chanceCards.index = 0
         }
     } else {
         if (!p.human) {
-            p.AI.alertList = ""
+            p.AI.alertList = "";
 
             if (!p.AI.onLand()) {
                 game.next()
@@ -1741,92 +1741,92 @@ function chanceCommunityChest () {
 }
 
 function chanceAction (chanceIndex) {
-    let p = player[turn] // This is needed for reference in action() method.
+    let p = player[turn]; // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
     // $('#popupwrap').hide()
-    chanceCards[chanceIndex].action(p)
+    chanceCards[chanceIndex].action(p);
 
-    updateMoney()
+    updateMoney();
 
     if (chanceIndex !== 15 && !p.human) {
-        p.AI.alertList = ""
+        p.AI.alertList = "";
         game.next()
     }
 }
 
 function communityChestAction (communityChestIndex) {
-    let p = player[turn] // This is needed for reference in action() method.
+    let p = player[turn]; // This is needed for reference in action() method.
 
     // $('#popupbackground').hide()
     // $('#popupwrap').hide()
-    communityChestCards[communityChestIndex].action(p)
+    communityChestCards[communityChestIndex].action(p);
 
-    updateMoney()
+    updateMoney();
 
     if (communityChestIndex !== 15 && !p.human) {
-        p.AI.alertList = ""
+        p.AI.alertList = "";
         game.next()
     }
 }
 
 function addAmount (amount, cause) {
-    let p = player[turn]
+    let p = player[turn];
 
-    p.money += amount
+    p.money += amount;
 
     addAlert(p.name + " received $" + amount + " from " + cause + ".")
 }
 
 function subtractAmount (amount, cause) {
-    let p = player[turn]
+    let p = player[turn];
 
-    p.pay(amount, 0)
+    p.pay(amount, 0);
 
     addAlert(p.name + " lost $" + amount + " from " + cause + ".")
 }
 
 function gotoJail () {
-    let p = player[turn]
-    addAlert(p.name + " was sent directly to jail.")
-    document.getElementById("landed").innerhtml = "You are in jail."
+    let p = player[turn];
+    addAlert(p.name + " was sent directly to jail.");
+    document.getElementById("landed").innerhtml = "You are in jail.";
 
-    p.jail = true
-    doublecount = 0
+    p.jail = true;
+    doublecount = 0;
 
-    document.getElementById("nextbutton").value = "End turn"
-    document.getElementById("nextbutton").title = "End turn and advance to the next player."
+    document.getElementById("nextbutton").value = "End turn";
+    document.getElementById("nextbutton").title = "End turn and advance to the next player.";
 
     if (p.human) {
         document.getElementById("nextbutton").focus()
     }
 
-    updatePosition()
-    updateOwned()
+    updatePosition();
+    updateOwned();
 
     if (!p.human) {
-        popup(p.AI.alertList, game.next)
+        popup(p.AI.alertList, game.next);
         p.AI.alertList = ""
     }
 }
 
 function goBackThreeSpaces () {
-    let p = player[turn]
+    let p = player[turn];
 
-    p.position -= 3
+    p.position -= 3;
 
     land()
 }
 
 function payEachPlayer (amount, cause) {
-    let p = player[turn]
-    let total = 0
+    let p = player[turn];
+    let total = 0;
 
     for (let i = 1; i <= pcount; i++) {
         if (i !== turn) {
-            player[i].money += amount
-            total += amount
-            creditor = p.money >= 0 ? i : creditor
+            player[i].money += amount;
+            total += amount;
+            creditor = p.money >= 0 ? i : creditor;
 
             p.pay(amount, creditor)
         }
@@ -1836,19 +1836,19 @@ function payEachPlayer (amount, cause) {
 }
 
 function collectfromeachplayer (amount, cause) {
-    let p = player[turn]
-    let total = 0
+    let p = player[turn];
+    let total = 0;
 
     for (let i = 1; i <= pcount; i++) {
         if (i !== turn) {
-            money = player[i].money
+            money = player[i].money;
             if (money < amount) {
-                p.money += money
-                total += money
+                p.money += money;
+                total += money;
                 player[i].money = 0
             } else {
-                player[i].pay(amount, turn)
-                p.money += amount
+                player[i].pay(amount, turn);
+                p.money += amount;
                 total += amount
             }
         }
@@ -1858,22 +1858,22 @@ function collectfromeachplayer (amount, cause) {
 }
 
 function advance (destination, pass) {
-    let p = player[turn]
+    let p = player[turn];
 
     if (typeof pass === "number") {
         if (p.position < pass) {
             p.position = pass
         } else {
-            p.position = pass
-            p.money += 200
+            p.position = pass;
+            p.money += 200;
             addAlert(p.name + " collected a $200 salary for passing GO.")
         }
     }
     if (p.position < destination) {
         p.position = destination
     } else {
-        p.position = destination
-        p.money += 200
+        p.position = destination;
+        p.money += 200;
         addAlert(p.name + " collected a $200 salary for passing GO.")
     }
 
@@ -1881,15 +1881,15 @@ function advance (destination, pass) {
 }
 
 function advanceToNearestUtility () {
-    let p = player[turn]
+    let p = player[turn];
 
     if (p.position < 12) {
         p.position = 12
     } else if (p.position >= 12 && p.position < 28) {
         p.position = 28
     } else if (p.position >= 28) {
-        p.position = 12
-        p.money += 200
+        p.position = 12;
+        p.money += 200;
         addAlert(p.name + " collected a $200 salary for passing GO.")
     }
 
@@ -1897,17 +1897,17 @@ function advanceToNearestUtility () {
 }
 
 function advanceToNearestRailRoad () {
-    let p = player[turn]
+    let p = player[turn];
 
-    updatePosition()
+    updatePosition();
 
     if (p.position < 15) {
         p.position = 15
     } else if (p.position >= 15 && p.position < 25) {
         p.position = 25
     } else if (p.position >= 35) {
-        p.position = 5
-        p.money += 200
+        p.position = 5;
+        p.money += 200;
         addAlert(p.name + " collected a $200 salary for passing GO.")
     }
 
@@ -1915,21 +1915,21 @@ function advanceToNearestRailRoad () {
 }
 
 function streetRepairs (housePrice, hotelprice) {
-    let cost = 0
+    let cost = 0;
     for (let i = 0; i < 40; i++) {
-        let s = square[i]
+        let s = square[i];
         if (s.owner === turn) {
             if (s.hotel === 1)
-                cost += hotelprice
+                cost += hotelprice;
             else
                 cost += s.house * housePrice
         }
     }
 
-    let p = player[turn]
+    let p = player[turn];
 
     if (cost > 0) {
-        p.pay(cost, 0)
+        p.pay(cost, 0);
 
         // If function was called by Community Chest.
         if (housePrice === 40) {
@@ -1942,72 +1942,72 @@ function streetRepairs (housePrice, hotelprice) {
 }
 
 function payfifty () {
-    let p = player[turn]
+    let p = player[turn];
 
-    document.getElementById("jail").style.border = '1px solid black'
-    document.getElementById("cell11").style.border = '2px solid ' + p.color
+    document.getElementById("jail").style.border = '1px solid black';
+    document.getElementById("cell11").style.border = '2px solid ' + p.color;
 
-    $("#landed").hide()
-    doublecount = 0
+    $("#landed").hide();
+    doublecount = 0;
 
-    p.jail = false
-    p.jailroll = 0
-    p.position = 10
-    p.pay(50, 0)
+    p.jail = false;
+    p.jailroll = 0;
+    p.position = 10;
+    p.pay(50, 0);
 
-    addAlert(p.name + " paid the $50 fine to get out of jail.")
-    updateMoney()
+    addAlert(p.name + " paid the $50 fine to get out of jail.");
+    updateMoney();
     updatePosition()
 }
 
 function useJailCard () {
-    let p = player[turn]
+    let p = player[turn];
 
-    document.getElementById("jail").style.border = '1px solid black'
-    document.getElementById("cell11").style.border = '2px solid ' + p.color
+    document.getElementById("jail").style.border = '1px solid black';
+    document.getElementById("cell11").style.border = '2px solid ' + p.color;
 
-    $("#landed").hide()
-    p.jail = false
-    p.jailroll = 0
+    $("#landed").hide();
+    p.jail = false;
+    p.jailroll = 0;
 
-    p.position = 10
+    p.position = 10;
 
-    doublecount = 0
+    doublecount = 0;
 
     if (p.communityChestJailCard) {
-        p.communityChestJailCard = false
+        p.communityChestJailCard = false;
 
         // Insert the get out of jail free card back into the community chest deck.
-        communityChestCards.deck.splice(communityChestCards.index, 0, 0)
+        communityChestCards.deck.splice(communityChestCards.index, 0, 0);
 
-        communityChestCards.index++
+        communityChestCards.index++;
 
         if (communityChestCards.index >= communityChestCards.deck.length) {
             communityChestCards.index = 0
         }
     } else if (p.chanceJailCard) {
-        p.chanceJailCard = false
+        p.chanceJailCard = false;
 
         // Insert the get out of jail free card back into the chance deck.
-        chanceCards.deck.splice(chanceCards.index, 0, 0)
+        chanceCards.deck.splice(chanceCards.index, 0, 0);
 
-        chanceCards.index++
+        chanceCards.index++;
 
         if (chanceCards.index >= chanceCards.deck.length) {
             chanceCards.index = 0
         }
     }
 
-    addAlert(p.name + " used a \"Get Out of Jail Free\" card.")
-    updateOwned()
+    addAlert(p.name + " used a \"Get Out of Jail Free\" card.");
+    updateOwned();
     updatePosition()
 }
 
 function buyHouse (index) {
-    let sq = square[index]
-    let p = player[sq.owner]
-    let houseSum = 0
-    let hotelSum = 0
+    let sq = square[index];
+    let p = player[sq.owner];
+    let houseSum = 0;
+    let hotelSum = 0;
 
     if (p.money - sq.housePrice < 0) {
         if (sq.house === 4) {
@@ -2030,7 +2030,7 @@ function buyHouse (index) {
                 return false
 
             } else {
-                sq.house++
+                sq.house++;
                 addAlert(p.name + " placed a house on " + sq.name + ".")
             }
 
@@ -2039,65 +2039,65 @@ function buyHouse (index) {
                 return
 
             } else {
-                sq.house = 5
-                sq.hotel = 1
+                sq.house = 5;
+                sq.hotel = 1;
                 addAlert(p.name + " placed a hotel on " + sq.name + ".")
             }
         }
 
-        p.pay(sq.housePrice, 0)
+        p.pay(sq.housePrice, 0);
 
-        updateOwned()
+        updateOwned();
         updateMoney()
     }
 }
 
 function sellHouse (index) {
-    sq = square[index]
-    p = player[sq.owner]
+    sq = square[index];
+    p = player[sq.owner];
 
     if (sq.hotel === 1) {
-        sq.hotel = 0
-        sq.house = 4
+        sq.hotel = 0;
+        sq.house = 4;
         addAlert(p.name + " sold the hotel on " + sq.name + ".")
     } else {
-        sq.house--
+        sq.house--;
         addAlert(p.name + " sold a house on " + sq.name + ".")
     }
 
-    p.money += sq.housePrice * 0.5
-    updateOwned()
+    p.money += sq.housePrice * 0.5;
+    updateOwned();
     updateMoney()
 }
 
 function showStats () {
-    let html, sq, p
+    let html, sq, p;
     let mortgageText,
-        houseText
-    let write
-    html = "<table align='center'><tr>"
+        houseText;
+    let write;
+    html = "<table align='center'><tr>";
 
     for (let x = 1; x <= pcount; x++) {
-        write = false
-        p = player[x]
+        write = false;
+        p = player[x];
         if (x === 5) {
             html += "</tr><tr>"
         }
-        html += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>"
+        html += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>";
 
         for (let i = 0; i < 40; i++) {
-            sq = square[i]
+            sq = square[i];
 
             if (sq.owner === x) {
                 mortgageText = "",
-                    houseText = ""
+                    houseText = "";
 
                 if (sq.mortgage) {
                     mortgageText = "title='Mortgaged' style='color: grey'"
                 }
 
                 if (!write) {
-                    write = true
+                    write = true;
                     html += "<table>"
                 }
 
@@ -2107,7 +2107,7 @@ function showStats () {
                     houseText += "<span style='float: right font-weight: bold'>" + sq.house + "&nbspx&nbsp<img src='images/house.png' alt='' title='House' class='house' style='float: none' /></span>"
                 }
 
-                html += "<tr><td class='statscellcolor' style='background: " + sq.color + ""
+                html += "<tr><td class='statscellcolor' style='background: " + sq.color + "";
 
                 if (sq.groupNumber === 1 || sq.groupNumber === 2) {
                     html += " border: 1px solid grey"
@@ -2119,7 +2119,7 @@ function showStats () {
 
         if (p.communityChestJailCard) {
             if (!write) {
-                write = true
+                write = true;
                 html += "<table>"
             }
             html += "<tr><td class='statscellcolor'></td><td class='statscellname'>Get Out of Jail Free Card</td></tr>"
@@ -2127,7 +2127,7 @@ function showStats () {
         }
         if (p.chanceJailCard) {
             if (!write) {
-                write = true
+                write = true;
                 html += "<table>"
             }
             html += "<tr><td class='statscellcolor'></td><td class='statscellname'>Get Out of Jail Free Card</td></tr>"
@@ -2142,9 +2142,9 @@ function showStats () {
 
         html += "</td>"
     }
-    html += "</tr></table><div id='titledeed'></div>"
+    html += "</tr></table><div id='titledeed'></div>";
 
-    document.getElementById("statstext").innerhtml = html
+    document.getElementById("statstext").innerhtml = html;
     // Show using animation.
     $("#statsbackground").fadeIn(350, function () {
         $("#statswrap").show()
@@ -2152,44 +2152,44 @@ function showStats () {
 }
 
 function showdeed (property) {
-    let sq = square[property]
-    $("#deed").show()
+    let sq = square[property];
+    $("#deed").show();
 
-    $("#deed-normal").hide()
-    $("#deed-mortgaged").hide()
-    $("#deed-special").hide()
+    $("#deed-normal").hide();
+    $("#deed-mortgaged").hide();
+    $("#deed-special").hide();
 
     if (sq.mortgage) {
-        $("#deed-mortgaged").show()
-        document.getElementById("deed-mortgaged-name").textContent = sq.name
+        $("#deed-mortgaged").show();
+        document.getElementById("deed-mortgaged-name").textContent = sq.name;
         document.getElementById("deed-mortgaged-mortgage").textContent = (sq.price / 2)
 
     } else {
 
         if (sq.groupNumber >= 3) {
-            $("#deed-normal").show()
-            document.getElementById("deed-header").style.backgroundColor = sq.color
-            document.getElementById("deed-name").textContent = sq.name
-            document.getElementById("deed-baseRent").textContent = sq.baseRent
-            document.getElementById("deed-rent1").textContent = sq.rent1
-            document.getElementById("deed-rent2").textContent = sq.rent2
-            document.getElementById("deed-rent3").textContent = sq.rent3
-            document.getElementById("deed-rent4").textContent = sq.rent4
-            document.getElementById("deed-rent5").textContent = sq.rent5
-            document.getElementById("deed-mortgage").textContent = (sq.price / 2)
-            document.getElementById("deed-housePrice").textContent = sq.housePrice
+            $("#deed-normal").show();
+            document.getElementById("deed-header").style.backgroundColor = sq.color;
+            document.getElementById("deed-name").textContent = sq.name;
+            document.getElementById("deed-baseRent").textContent = sq.baseRent;
+            document.getElementById("deed-rent1").textContent = sq.rent1;
+            document.getElementById("deed-rent2").textContent = sq.rent2;
+            document.getElementById("deed-rent3").textContent = sq.rent3;
+            document.getElementById("deed-rent4").textContent = sq.rent4;
+            document.getElementById("deed-rent5").textContent = sq.rent5;
+            document.getElementById("deed-mortgage").textContent = (sq.price / 2);
+            document.getElementById("deed-housePrice").textContent = sq.housePrice;
             document.getElementById("deed-hotelprice").textContent = sq.housePrice
 
         } else if (sq.groupNumber === 2) {
-            $("#deed-special").show()
-            document.getElementById("deed-special-name").textContent = sq.name
-            document.getElementById("deed-special-text").innerhtml = utilText()
+            $("#deed-special").show();
+            document.getElementById("deed-special-name").textContent = sq.name;
+            document.getElementById("deed-special-text").innerhtml = utilText();
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
 
         } else if (sq.groupNumber === 1) {
-            $("#deed-special").show()
-            document.getElementById("deed-special-name").textContent = sq.name
-            document.getElementById("deed-special-text").innerhtml = transText()
+            $("#deed-special").show();
+            document.getElementById("deed-special-name").textContent = sq.name;
+            document.getElementById("deed-special-text").innerhtml = transText();
             document.getElementById("deed-special-mortgage").textContent = (sq.price / 2)
         }
     }
@@ -2200,18 +2200,18 @@ function hidedeed () {
 }
 
 function buy () {
-    let p = player[turn]
-    let property = square[p.position]
-    let cost = property.price
+    let p = player[turn];
+    let property = square[p.position];
+    let cost = property.price;
 
     if (p.money >= cost) {
-        p.pay(cost, 0)
+        p.pay(cost, 0);
 
-        property.owner = turn
-        updateMoney()
-        addAlert(p.name + " bought " + property.name + " for " + property.pricetext + ".")
+        property.owner = turn;
+        updateMoney();
+        addAlert(p.name + " bought " + property.name + " for " + property.pricetext + ".");
 
-        updateOwned()
+        updateOwned();
 
         $("#landed").hide()
 
@@ -2221,63 +2221,63 @@ function buy () {
 }
 
 function mortgage (index) {
-    let sq = square[index]
-    let p = player[sq.owner]
+    let sq = square[index];
+    let p = player[sq.owner];
 
     if (sq.house > 0 || sq.hotel > 0 || sq.mortgage) {
         return false
     }
 
-    let mortgagePrice = Math.round(sq.price * 0.5)
-    let unmortgagePrice = Math.round(sq.price * 0.6)
+    let mortgagePrice = Math.round(sq.price * 0.5);
+    let unmortgagePrice = Math.round(sq.price * 0.6);
 
-    sq.mortgage = true
-    p.money += mortgagePrice
+    sq.mortgage = true;
+    p.money += mortgagePrice;
 
-    document.getElementById("mortgagebutton").value = "Unmortgage for $" + unmortgagePrice
-    document.getElementById("mortgagebutton").title = "Unmortgage " + sq.name + " for $" + unmortgagePrice + "."
+    document.getElementById("mortgagebutton").value = "Unmortgage for $" + unmortgagePrice;
+    document.getElementById("mortgagebutton").title = "Unmortgage " + sq.name + " for $" + unmortgagePrice + ".";
 
-    addAlert(p.name + " mortgaged " + sq.name + " for $" + mortgagePrice + ".")
-    updateOwned()
-    updateMoney()
+    addAlert(p.name + " mortgaged " + sq.name + " for $" + mortgagePrice + ".");
+    updateOwned();
+    updateMoney();
 
     return true
 }
 
 function unmortgage (index) {
-    let sq = square[index]
-    let p = player[sq.owner]
-    let unmortgagePrice = Math.round(sq.price * 0.6)
-    let mortgagePrice = Math.round(sq.price * 0.5)
+    let sq = square[index];
+    let p = player[sq.owner];
+    let unmortgagePrice = Math.round(sq.price * 0.6);
+    let mortgagePrice = Math.round(sq.price * 0.5);
 
     if (unmortgagePrice > p.money || !sq.mortgage) {
         return false
     }
 
-    p.pay(unmortgagePrice, 0)
-    sq.mortgage = false
-    document.getElementById("mortgagebutton").value = "Mortgage for $" + mortgagePrice
-    document.getElementById("mortgagebutton").title = "Mortgage " + sq.name + " for $" + mortgagePrice + "."
+    p.pay(unmortgagePrice, 0);
+    sq.mortgage = false;
+    document.getElementById("mortgagebutton").value = "Mortgage for $" + mortgagePrice;
+    document.getElementById("mortgagebutton").title = "Mortgage " + sq.name + " for $" + mortgagePrice + ".";
 
-    addAlert(p.name + " unmortgaged " + sq.name + " for $" + unmortgagePrice + ".")
-    updateOwned()
+    addAlert(p.name + " unmortgaged " + sq.name + " for $" + unmortgagePrice + ".");
+    updateOwned();
     return true
 }
 
 
 function land (increasedRent) {
-    increasedRent = !!increasedRent // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
+    increasedRent = !!increasedRent; // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
 
-    let p = player[turn]
-    let s = square[p.position]
+    let p = player[turn];
+    let s = square[p.position];
 
-    let die1 = game.getDie(1)
-    let die2 = game.getDie(2)
+    let die1 = game.getDie(1);
+    let die2 = game.getDie(2);
 
-    $("#landed").show()
-    document.getElementById("landed").innerhtml = "You landed on " + s.name + "."
-    s.landcount++
-    addAlert(p.name + " landed on " + s.name + ".")
+    $("#landed").show();
+    document.getElementById("landed").innerhtml = "You landed on " + s.name + ".";
+    s.landcount++;
+    addAlert(p.name + " landed on " + s.name + ".");
 
     // Allow player to buy the property on which he landed.
     if (s.price !== 0 && s.owner === 0) {
@@ -2297,8 +2297,8 @@ function land (increasedRent) {
 
     // Collect rent
     if (s.owner !== 0 && s.owner != turn && !s.mortgage) {
-        let groupowned = true
-        let rent
+        let groupowned = true;
+        let rent;
 
         // Railroads
         if (p.position === 5 || p.position === 15 || p.position === 25 || p.position === 35) {
@@ -2338,7 +2338,7 @@ function land (increasedRent) {
         } else {
 
             for (let i = 0; i < 40; i++) {
-                sq = square[i]
+                sq = square[i];
                 if (sq.groupNumber === s.groupNumber && sq.owner != s.owner) {
                     groupowned = false
                 }
@@ -2355,9 +2355,9 @@ function land (increasedRent) {
             }
         }
 
-        addAlert(p.name + " paid $" + rent + " rent to " + player[s.owner].name + ".")
-        p.pay(rent, s.owner)
-        player[s.owner].money += rent
+        addAlert(p.name + " paid $" + rent + " rent to " + player[s.owner].name + ".");
+        p.pay(rent, s.owner);
+        player[s.owner].money += rent;
 
         document.getElementById("landed").innerhtml = "You landed on " + s.name + ". " + player[s.owner].name + " collected $" + rent + " rent."
     } else if (s.owner > 0 && s.owner != turn && s.mortgage) {
@@ -2371,8 +2371,8 @@ function land (increasedRent) {
 
     // Go to jail. Go directly to Jail. Do not pass GO. Do not collect $200.
     if (p.position === 30) {
-        updateMoney()
-        updatePosition()
+        updateMoney();
+        updatePosition();
 
         if (p.human) {
             popup("<div>Go to jail. Go directly to Jail. Do not pass GO. Do not collect $200.</div>", gotoJail)
@@ -2388,12 +2388,12 @@ function land (increasedRent) {
         luxuryTax()
     }
 
-    updateMoney()
-    updatePosition()
-    updateOwned()
+    updateMoney();
+    updatePosition();
+    updateOwned();
 
     if (!p.human) {
-        popup(p.AI.alertList, chanceCommunityChest)
+        popup(p.AI.alertList, chanceCommunityChest);
         p.AI.alertList = ""
     } else {
         chanceCommunityChest()
@@ -2401,23 +2401,23 @@ function land (increasedRent) {
 }
 
 function roll () {
-    let p = player[turn]
+    let p = player[turn];
 
-    $("#option").hide()
-    $("#buy").show()
-    $("#manage").hide()
+    $("#option").hide();
+    $("#buy").show();
+    $("#manage").hide();
 
     if (p.human) {
         document.getElementById("nextbutton").focus()
     }
-    document.getElementById("nextbutton").value = "End turn"
-    document.getElementById("nextbutton").title = "End turn and advance to the next player."
+    document.getElementById("nextbutton").value = "End turn";
+    document.getElementById("nextbutton").title = "End turn and advance to the next player.";
 
-    game.rollDice()
-    let die1 = game.getDie(1)
-    let die2 = game.getDie(2)
+    game.rollDice();
+    let die1 = game.getDie(1);
+    let die2 = game.getDie(2);
 
-    doublecount++
+    doublecount++;
 
     if (die1 === die2) {
         addAlert(p.name + " rolled " + (die1 + die2) + " - doubles.")
@@ -2426,18 +2426,18 @@ function roll () {
     }
 
     if (die1 === die2 && !p.jail) {
-        updateDice(die1, die2)
+        updateDice(die1, die2);
 
         if (doublecount < 3) {
-            document.getElementById("nextbutton").value = "Roll again"
+            document.getElementById("nextbutton").value = "Roll again";
             document.getElementById("nextbutton").title = "You threw doubles. Roll again."
 
             // If player rolls doubles three times in a row, send him to jail
         } else if (doublecount === 3) {
-            p.jail = true
-            doublecount = 0
-            addAlert(p.name + " rolled doubles three times in a row.")
-            updateMoney()
+            p.jail = true;
+            doublecount = 0;
+            addAlert(p.name + " rolled doubles three times in a row.");
+            updateMoney();
 
 
             if (p.human) {
@@ -2449,30 +2449,30 @@ function roll () {
             return
         }
     } else {
-        document.getElementById("nextbutton").value = "End turn"
-        document.getElementById("nextbutton").title = "End turn and advance to the next player."
+        document.getElementById("nextbutton").value = "End turn";
+        document.getElementById("nextbutton").title = "End turn and advance to the next player.";
         doublecount = 0
     }
 
-    updatePosition()
-    updateMoney()
-    updateOwned()
+    updatePosition();
+    updateMoney();
+    updateOwned();
 
     if (p.jail === true) {
-        p.jailroll++
+        p.jailroll++;
 
-        updateDice(die1, die2)
+        updateDice(die1, die2);
         if (die1 === die2) {
-            document.getElementById("jail").style.border = "1px solid black"
-            document.getElementById("cell11").style.border = "2px solid " + p.color
-            $("#landed").hide()
+            document.getElementById("jail").style.border = "1px solid black";
+            document.getElementById("cell11").style.border = "2px solid " + p.color;
+            $("#landed").hide();
 
-            p.jail = false
-            p.jailroll = 0
-            p.position = 10 + die1 + die2
-            doublecount = 0
+            p.jail = false;
+            p.jailroll = 0;
+            p.position = 10 + die1 + die2;
+            doublecount = 0;
 
-            addAlert(p.name + " rolled doubles to get out of jail.")
+            addAlert(p.name + " rolled doubles to get out of jail.");
 
             land()
         } else {
@@ -2480,22 +2480,22 @@ function roll () {
 
                 if (p.human) {
                     popup("<p>You must pay the $50 fine.</p>", function () {
-                        payFifty()
-                        payfifty()
-                        player[turn].position = 10 + die1 + die2
+                        payFifty();
+                        payfifty();
+                        player[turn].position = 10 + die1 + die2;
                         land()
                     })
                 } else {
-                    payfifty()
-                    p.position = 10 + die1 + die2
+                    payfifty();
+                    p.position = 10 + die1 + die2;
                     land()
                 }
             } else {
-                $("#landed").show()
-                document.getElementById("landed").innerhtml = "You are in jail."
+                $("#landed").show();
+                document.getElementById("landed").innerhtml = "You are in jail.";
 
                 if (!p.human) {
-                    popup(p.AI.alertList, game.next)
+                    popup(p.AI.alertList, game.next);
                     p.AI.alertList = ""
                 }
             }
@@ -2503,15 +2503,15 @@ function roll () {
 
 
     } else {
-        updateDice(die1, die2)
+        updateDice(die1, die2);
 
         // Move player
-        p.position += die1 + die2
+        p.position += die1 + die2;
 
         // Collect $200 salary as you pass GO
         if (p.position >= 40) {
-            p.position -= 40
-            p.money += 200
+            p.position -= 40;
+            p.money += 200;
             addAlert(p.name + " collected a $200 salary for passing GO.")
         }
 
@@ -2524,50 +2524,50 @@ function play () {
         return
     }
 
-    turn++
+    turn++;
     if (turn > pcount) {
         turn -= pcount
     }
 
-    let p = player[turn]
-    game.resetDice()
+    let p = player[turn];
+    game.resetDice();
 
-    document.getElementById("pname").innerhtml = p.name
+    document.getElementById("pname").innerhtml = p.name;
 
-    addAlert("It is " + p.name + "'s turn.")
+    addAlert("It is " + p.name + "'s turn.");
 
     // Check for bankruptcy.
-    p.pay(0, p.creditor)
+    p.pay(0, p.creditor);
 
-    $("#landed, #option, #manage").hide()
-    $("#board, #control, #moneybar, #viewstats, #buy").show()
+    $("#landed, #option, #manage").hide();
+    $("#board, #control, #moneybar, #viewstats, #buy").show();
 
-    doublecount = 0
+    doublecount = 0;
     if (p.human) {
         document.getElementById("nextbutton").focus()
     }
-    document.getElementById("nextbutton").value = "Roll Dice"
-    document.getElementById("nextbutton").title = "Roll the dice and move your token accordingly."
+    document.getElementById("nextbutton").value = "Roll Dice";
+    document.getElementById("nextbutton").title = "Roll the dice and move your token accordingly.";
 
-    $("#die0").hide()
-    $("#die1").hide()
+    $("#die0").hide();
+    $("#die1").hide();
 
     if (p.jail) {
-        $("#landed").show()
-        document.getElementById("landed").innerhtml = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty()' />"
+        $("#landed").show();
+        document.getElementById("landed").innerhtml = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty()' />";
 
         if (p.communityChestJailCard || p.chanceJailCard) {
             document.getElementById("landed").innerhtml += "<input type='button' id='gojfbutton' title='Use &quotGet Out of Jail Free&quot card.' onclick='useJailCard()' value='Use Card' />"
         }
 
-        document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail."
+        document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail.";
 
         if (p.jailroll === 0)
-            addAlert("This is " + p.name + "'s first turn in jail.")
+            addAlert("This is " + p.name + "'s first turn in jail.");
         else if (p.jailroll === 1)
-            addAlert("This is " + p.name + "'s second turn in jail.")
+            addAlert("This is " + p.name + "'s second turn in jail.");
         else if (p.jailroll === 2) {
-            document.getElementById("landed").innerhtml += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>"
+            document.getElementById("landed").innerhtml += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>";
             addAlert("This is " + p.name + "'s third turn in jail.")
         }
 
@@ -2580,12 +2580,12 @@ function play () {
         }
     }
 
-    updateMoney()
-    updatePosition()
-    updateOwned()
+    updateMoney();
+    updatePosition();
+    updateOwned();
 
-    $(".money-bar-arrow").hide()
-    $("#p" + turn + "arrow").show()
+    $(".money-bar-arrow").hide();
+    $("#p" + turn + "arrow").show();
 
     if (!p.human) {
         if (!p.AI.beforeTurn()) {
@@ -2596,137 +2596,137 @@ function play () {
 
 let game_ns = {
     available_colors: ['blue', 'red', 'green', 'yellow', 'aqua', 'black', 'fuchsia', 'gray', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'silver', 'teal']
-}
+};
 
 game_ns.draw_setup = function () {
-    let context = game_ns._draw_setup
+    let context = game_ns._draw_setup;
 
-    context.draw_player_wrappers(8)
-    context.bind_player_inteligence_change()
-    context.bind_and_invoke_player_color_change()
+    context.draw_player_wrappers(8);
+    context.bind_player_inteligence_change();
+    context.bind_and_invoke_player_color_change();
     context.bind_and_invoke_players_count_change()
-}
+};
 
-game_ns._draw_setup = {}
+game_ns._draw_setup = {};
 
 game_ns._draw_setup.draw_player_wrappers = function (max) {
-    let i, color
+    let i, color;
 
-    let content = ""
+    let content = "";
 
-    let content_intel = ""
-    content_intel += "<select class='player-intel' title='Choose whether this player is controled by a human or by the computer.'>"
-    content_intel += "	<option value='0' selected='selected'>Human</option>"
-    content_intel += "	<option value='1'>AI (Test)</option>"
-    content_intel += "</select>"
+    let content_intel = "";
+    content_intel += "<select class='player-intel' title='Choose whether this player is controled by a human or by the computer.'>";
+    content_intel += "	<option value='0' selected='selected'>Human</option>";
+    content_intel += "	<option value='1'>AI (Test)</option>";
+    content_intel += "</select>";
 
-    let content_colors = "<select class='player-color' title='Player color'>"
+    let content_colors = "<select class='player-color' title='Player color'>";
     for (i = 0; i <= game_ns.available_colors.length - 1; i++) {
-        color = game_ns.available_colors[i]
+        color = game_ns.available_colors[i];
         content_colors += "<option style='color: " + color + "'>" + color + "</option>"
     }
-    content_colors += "</select>"
+    content_colors += "</select>";
 
     for (i = 1; i <= max; i++) {
-        content += "<div id='player" + i + "wrap' data-id='" + i + "' class='player-wrap'>"
-        content += "Player " + i + ": "
-        content += "<input type='text' class='player-name' title='Player name' maxlength='16' value='Player " + i + "' /> "
-        content += content_colors
-        content += " "
-        content += content_intel
+        content += "<div id='player" + i + "wrap' data-id='" + i + "' class='player-wrap'>";
+        content += "Player " + i + ": ";
+        content += "<input type='text' class='player-name' title='Player name' maxlength='16' value='Player " + i + "' /> ";
+        content += content_colors;
+        content += " ";
+        content += content_intel;
         content += "</div>"
     }
 
     $("#player-wrappers").append(content)
-}
+};
 
 game_ns._draw_setup.bind_player_inteligence_change = function () {
     $("#player-wrappers .player-intel").change(function () {
-        let val = $(this).val()
-        let boo = val !== '0'
-        let wrap = $(this).closest('.player-wrap')
+        let val = $(this).val();
+        let boo = val !== '0';
+        let wrap = $(this).closest('.player-wrap');
 
-        wrap.find('.player-name').attr('disabled', boo)
-        wrap.nextAll().find('.player-name').attr('disabled', boo)
+        wrap.find('.player-name').attr('disabled', boo);
+        wrap.nextAll().find('.player-name').attr('disabled', boo);
         wrap.nextAll().find('.player-intel').val(val)
     })
-}
+};
 
 game_ns._draw_setup.bind_and_invoke_player_color_change = function () {
-    $("#player-wrappers .player-color").on("change", game_ns._draw_setup.select_on_player_color_change)
+    $("#player-wrappers .player-color").on("change", game_ns._draw_setup.select_on_player_color_change);
     $("#player-wrappers .player-color").change()
-}
+};
 
 game_ns._draw_setup.bind_and_invoke_players_count_change = function () {
-    $("#playernumber").on("change", game_ns._draw_setup.select_on_player_number_change)
+    $("#playernumber").on("change", game_ns._draw_setup.select_on_player_number_change);
     $("#playernumber").change()
-}
+};
 
 game_ns._draw_setup.select_on_player_number_change = function () {
-    pcount = parseInt(document.getElementById("playernumber").value, 10)
+    pcount = parseInt(document.getElementById("playernumber").value, 10);
 
-    $(".player-wrap").hide()
+    $(".player-wrap").hide();
 
     for (let i = 1; i <= pcount; i++) {
         $("#player" + i + "wrap").show()
     }
-}
+};
 
 game_ns._draw_setup.select_on_player_color_change = function () {
-    let colors_taken = []
+    let colors_taken = [];
 
-    let wrap = $(this).closest('.player-wrap')
+    let wrap = $(this).closest('.player-wrap');
 
     // assume current and before as static
-    colors_taken.push($(this).val())
+    colors_taken.push($(this).val());
 
     // change any next to any other color
     wrap.siblings().each(function (index, el) {
-        let el2 = $(el).find('.player-color')
-        let val2 = el2.val()
-        let is_already_present = colors_taken.indexOf(val2) != -1
+        let el2 = $(el).find('.player-color');
+        let val2 = el2.val();
+        let is_already_present = colors_taken.indexOf(val2) != -1;
         if (is_already_present) {
             // change its color to next available
-            let colors_not_taken = arr_diff(game_ns.available_colors, colors_taken)
+            let colors_not_taken = arr_diff(game_ns.available_colors, colors_taken);
             el2.val(colors_not_taken[0])
         }
 
         // refresh val2
-        val2 = el2.val()
+        val2 = el2.val();
         colors_taken.push(val2)
 
     })
 
-}
+};
 
 game_ns.setup = function () {
 
-    pcount = parseInt(document.getElementById("playernumber").value, 10)
+    pcount = parseInt(document.getElementById("playernumber").value, 10);
 
-    let playerArray = new Array(pcount)
-    let p, wrap, intel
+    let playerArray = new Array(pcount);
+    let p, wrap, intel;
 
-    playerArray.randomize()
+    playerArray.randomize();
 
     for (let i = 1; i <= pcount; i++) {
-        p = player[playerArray[i - 1]]
+        p = player[playerArray[i - 1]];
 
-        wrap = $("div#player" + i + "wrap")
-        intel = wrap.find("select.player-intel").val()
+        wrap = $("div#player" + i + "wrap");
+        intel = wrap.find("select.player-intel").val();
 
-        p.color = wrap.find("select.player-color").val().toLowerCase()
+        p.color = wrap.find("select.player-color").val().toLowerCase();
 
         if (intel === "0") {
-            p.name = wrap.find("input.player-name").val()
+            p.name = wrap.find("input.player-name").val();
             p.human = true
         } else {
-            p.human = false
+            p.human = false;
             p.AI = new AITest(p)
         }
     }
 
-    $("#board, #moneybar").show()
-    $("#setup").hide()
+    $("#board, #moneybar").show();
+    $("#setup").hide();
 
     if (pcount === 2) {
         document.getElementById("stats").style.width = "454px"
@@ -2734,11 +2734,11 @@ game_ns.setup = function () {
         document.getElementById("stats").style.width = "686px"
     }
 
-    document.getElementById("stats").style.top = "0px"
-    document.getElementById("stats").style.left = "0px"
+    document.getElementById("stats").style.top = "0px";
+    document.getElementById("stats").style.left = "0px";
 
     play()
-}
+};
 
 
 // function togglecheck(elementid) {
@@ -2779,30 +2779,30 @@ function getCheckedProperty () {
 // }
 
 function menuitem_onmouseover (element) {
-    element.className = "menuitem menuitem_hover"
-    return
+    element.className = "menuitem menuitem_hover";
+
 }
 
 function menuitem_onmouseout (element) {
-    element.className = "menuitem"
-    return
+    element.className = "menuitem";
+
 }
 
 window.onload = function () {
-    game_ns.draw_setup()
+    game_ns.draw_setup();
 
-    game = new Game()
+    game = new Game();
 
     for (let i = 0; i <= 8; i++) {
-        player[i] = new Player("", "")
+        player[i] = new Player("", "");
         player[i].index = i
     }
 
-    let groupPropertyArray = []
-    let groupNumber
+    let groupPropertyArray = [];
+    let groupNumber;
 
     for (let i = 0; i < 40; i++) {
-        groupNumber = square[i].groupNumber
+        groupNumber = square[i].groupNumber;
 
         if (groupNumber > 0) {
             if (!groupPropertyArray[groupNumber]) {
@@ -2814,7 +2814,7 @@ window.onload = function () {
     }
 
     for (let i = 0; i < 40; i++) {
-        groupNumber = square[i].groupNumber
+        groupNumber = square[i].groupNumber;
 
         if (groupNumber > 0) {
             square[i].group = groupPropertyArray[groupNumber]
@@ -2823,105 +2823,105 @@ window.onload = function () {
         square[i].index = i
     }
 
-    AITest.count = 0
+    AITest.count = 0;
 
-    player[1].human = true
-    player[0].name = "the bank"
+    player[1].human = true;
+    player[0].name = "the bank";
 
-    communityChestCards.index = 0
-    chanceCards.index = 0
+    communityChestCards.index = 0;
+    chanceCards.index = 0;
 
-    communityChestCards.deck = []
-    chanceCards.deck = []
+    communityChestCards.deck = [];
+    chanceCards.deck = [];
 
     for (let i = 0; i < 16; i++) {
-        chanceCards.deck[i] = i
+        chanceCards.deck[i] = i;
         communityChestCards.deck[i] = i
     }
 
     // Shuffle Chance and Community Chest decks.
     chanceCards.deck.sort(function () {
         return Math.random() - 0.5
-    })
+    });
     communityChestCards.deck.sort(function () {
         return Math.random() - 0.5
-    })
+    });
 
-    $("#nextbutton").click(game.next)
-    $("#noscript").hide()
-    $("#setup, #noF5").show()
+    $("#nextbutton").click(game.next);
+    $("#noscript").hide();
+    $("#setup, #noF5").show();
 
-    let enlargeWrap = document.body.appendChild(document.createElement("div"))
+    let enlargeWrap = document.body.appendChild(document.createElement("div"));
 
-    enlargeWrap.id = "enlarge-wrap"
+    enlargeWrap.id = "enlarge-wrap";
 
-    let html = ""
+    let html = "";
     for (let i = 0; i < 40; i++) {
-        html += "<div id='enlarge" + i + "' class='enlarge'>"
-        html += "<div id='enlarge" + i + "color' class='enlarge-color'></div><br /><div id='enlarge" + i + "name' class='enlarge-name'></div>"
-        html += "<br /><div id='enlarge" + i + "price' class='enlarge-price'></div>"
+        html += "<div id='enlarge" + i + "' class='enlarge'>";
+        html += "<div id='enlarge" + i + "color' class='enlarge-color'></div><br /><div id='enlarge" + i + "name' class='enlarge-name'></div>";
+        html += "<br /><div id='enlarge" + i + "price' class='enlarge-price'></div>";
         html += "<br /><div id='enlarge" + i + "token' class='enlarge-token'></div></div>"
     }
 
-    enlargeWrap.innerhtml = html
+    enlargeWrap.innerhtml = html;
 
-    let currentCell
-    let currentCellAnchor
-    let currentCellPositionHolder
-    let currentCellName
-    let currentCellOwner
+    let currentCell;
+    let currentCellAnchor;
+    let currentCellPositionHolder;
+    let currentCellName;
+    let currentCellOwner;
 
     for (let i = 0; i < 40; i++) {
-        s = square[i]
+        s = square[i];
 
-        currentCell = document.getElementById("cell" + i)
+        currentCell = document.getElementById("cell" + i);
 
-        currentCellAnchor = currentCell.appendChild(document.createElement("div"))
-        currentCellAnchor.id = "cell" + i + "anchor"
-        currentCellAnchor.className = "cell-anchor"
+        currentCellAnchor = currentCell.appendChild(document.createElement("div"));
+        currentCellAnchor.id = "cell" + i + "anchor";
+        currentCellAnchor.className = "cell-anchor";
 
-        currentCellPositionHolder = currentCellAnchor.appendChild(document.createElement("div"))
-        currentCellPositionHolder.id = "cell" + i + "positionholder"
-        currentCellPositionHolder.className = "cell-position-holder"
-        currentCellPositionHolder.enlargeId = "enlarge" + i
+        currentCellPositionHolder = currentCellAnchor.appendChild(document.createElement("div"));
+        currentCellPositionHolder.id = "cell" + i + "positionholder";
+        currentCellPositionHolder.className = "cell-position-holder";
+        currentCellPositionHolder.enlargeId = "enlarge" + i;
 
-        currentCellName = currentCellAnchor.appendChild(document.createElement("div"))
-        currentCellName.id = "cell" + i + "name"
-        currentCellName.className = "cell-name"
-        currentCellName.textContent = s.name
+        currentCellName = currentCellAnchor.appendChild(document.createElement("div"));
+        currentCellName.id = "cell" + i + "name";
+        currentCellName.className = "cell-name";
+        currentCellName.textContent = s.name;
 
         if (square[i].groupNumber) {
-            currentCellOwner = currentCellAnchor.appendChild(document.createElement("div"))
-            currentCellOwner.id = "cell" + i + "owner"
+            currentCellOwner = currentCellAnchor.appendChild(document.createElement("div"));
+            currentCellOwner.id = "cell" + i + "owner";
             currentCellOwner.className = "cell-owner"
         }
 
-        document.getElementById("enlarge" + i + "color").style.backgroundColor = s.color
-        document.getElementById("enlarge" + i + "name").textContent = s.name
+        document.getElementById("enlarge" + i + "color").style.backgroundColor = s.color;
+        document.getElementById("enlarge" + i + "name").textContent = s.name;
         document.getElementById("enlarge" + i + "price").textContent = s.pricetext
     }
 
 
     // Add images to enlarges.
-    document.getElementById("enlarge0token").innerhtml += '<img src="images/arrow_icon.png" height="40" width="136" alt="" />'
-    document.getElementById("enlarge20price").innerhtml += "<img src='images/free_parking_icon.png' height='80' width='72' alt='' style='position: relative top: -20px' />"
-    document.getElementById("enlarge38token").innerhtml += '<img src="images/tax_icon.png" height="60" width="70" alt="" style="position: relative top: -20px" />'
+    document.getElementById("enlarge0token").innerhtml += '<img src="images/arrow_icon.png" height="40" width="136" alt="" />';
+    document.getElementById("enlarge20price").innerhtml += "<img src='images/free_parking_icon.png' height='80' width='72' alt='' style='position: relative top: -20px' />";
+    document.getElementById("enlarge38token").innerhtml += '<img src="images/tax_icon.png" height="60" width="70" alt="" style="position: relative top: -20px" />';
 
-    corrections()
+    corrections();
 
     // Jail corrections
-    $("<div>", {id: "jailpositionholder"}).appendTo("#jail")
-    $("<span>").text("Jail").appendTo("#jail")
+    $("<div>", {id: "jailpositionholder"}).appendTo("#jail");
+    $("<span>").text("Jail").appendTo("#jail");
 
-    document.getElementById("jail").enlargeId = "enlarge40"
+    document.getElementById("jail").enlargeId = "enlarge40";
 
-    document.getElementById("enlarge-wrap").innerhtml += "<div id='enlarge40' class='enlarge'><div id='enlarge40color' class='enlarge-color'></div><br /><div id='enlarge40name' class='enlarge-name'>Jail</div><br /><div id='enlarge40price' class='enlarge-price'><img src='images/jake_icon.png' height='80' width='80' alt='' style='position: relative top: -20px' /></div><br /><div id='enlarge40token' class='enlarge-token'></div></div>"
+    document.getElementById("enlarge-wrap").innerhtml += "<div id='enlarge40' class='enlarge'><div id='enlarge40color' class='enlarge-color'></div><br /><div id='enlarge40name' class='enlarge-name'>Jail</div><br /><div id='enlarge40price' class='enlarge-price'><img src='images/jake_icon.png' height='80' width='80' alt='' style='position: relative top: -20px' /></div><br /><div id='enlarge40token' class='enlarge-token'></div></div>";
 
-    document.getElementById("enlarge40name").innerhtml = "Jail"
+    document.getElementById("enlarge40name").innerhtml = "Jail";
 
     // Create event handlers for hovering and draging.
 
-    let drag, dragX, dragY, dragObj, dragTop, dragLeft
+    let drag, dragX, dragY, dragObj, dragTop, dragLeft;
 
     $(".cell-position-holder, #jail").on("mouseover", function () {
         $("#" + this.enlargeId).show()
@@ -2930,7 +2930,7 @@ window.onload = function () {
         $("#" + this.enlargeId).hide()
 
     }).on("mousemove", function (e) {
-        let element = document.getElementById(this.enlargeId)
+        let element = document.getElementById(this.enlargeId);
 
         if (e.clientY + 20 > window.innerHeight - 204) {
             element.style.top = (window.innerHeight - 204) + "px"
@@ -2939,11 +2939,11 @@ window.onload = function () {
         }
 
         element.style.left = (e.clientX + 10) + "px"
-    })
+    });
 
 
     $("body").on("mousemove", function (e) {
-        let object
+        let object;
 
         if (e.target) {
             object = e.target
@@ -2963,60 +2963,60 @@ window.onload = function () {
 
         } else if (drag) {
             if (e) {
-                dragObj.style.left = (dragLeft + e.clientX - dragX) + "px"
+                dragObj.style.left = (dragLeft + e.clientX - dragX) + "px";
                 dragObj.style.top = (dragTop + e.clientY - dragY) + "px"
 
             } else if (window.event) {
-                dragObj.style.left = (dragLeft + window.event.clientX - dragX) + "px"
+                dragObj.style.left = (dragLeft + window.event.clientX - dragX) + "px";
                 dragObj.style.top = (dragTop + window.event.clientY - dragY) + "px"
             }
         }
-    })
+    });
 
 
     $("body").on("mouseup", function () {
 
         drag = false
-    })
+    });
     document.getElementById("statsdrag").onmousedown = function (e) {
-        dragObj = document.getElementById("stats")
-        dragObj.style.position = "relative"
+        dragObj = document.getElementById("stats");
+        dragObj.style.position = "relative";
 
-        dragTop = parseInt(dragObj.style.top, 10) || 0
-        dragLeft = parseInt(dragObj.style.left, 10) || 0
+        dragTop = parseInt(dragObj.style.top, 10) || 0;
+        dragLeft = parseInt(dragObj.style.left, 10) || 0;
 
         if (window.event) {
-            dragX = window.event.clientX
+            dragX = window.event.clientX;
             dragY = window.event.clientY
         } else if (e) {
-            dragX = e.clientX
+            dragX = e.clientX;
             dragY = e.clientY
         }
 
         drag = true
-    }
+    };
 
     document.getElementById("popupdrag").onmousedown = function (e) {
-        dragObj = document.getElementById("popup")
-        dragObj.style.position = "relative"
+        dragObj = document.getElementById("popup");
+        dragObj.style.position = "relative";
 
-        dragTop = parseInt(dragObj.style.top, 10) || 0
-        dragLeft = parseInt(dragObj.style.left, 10) || 0
+        dragTop = parseInt(dragObj.style.top, 10) || 0;
+        dragLeft = parseInt(dragObj.style.left, 10) || 0;
 
         if (window.event) {
-            dragX = window.event.clientX
+            dragX = window.event.clientX;
             dragY = window.event.clientY
         } else if (e) {
-            dragX = e.clientX
+            dragX = e.clientX;
             dragY = e.clientY
         }
 
         drag = true
-    }
+    };
 
     $("#mortgagebutton").click(function () {
-        let checkedProperty = getCheckedProperty()
-        let s = square[checkedProperty]
+        let checkedProperty = getCheckedProperty();
+        let s = square[checkedProperty];
 
         if (s.mortgage) {
             if (player[s.owner].money < Math.round(s.price * 0.6)) {
@@ -3033,21 +3033,21 @@ window.onload = function () {
             }, "Yes/No")
         }
 
-    })
+    });
 
     $("#buyHouseButton").on("click", function () {
-        let checkedProperty = getCheckedProperty()
-        let s = square[checkedProperty]
-        let p = player[s.owner]
-        let houseSum = 0
-        let hotelSum = 0
+        let checkedProperty = getCheckedProperty();
+        let s = square[checkedProperty];
+        let p = player[s.owner];
+        let houseSum = 0;
+        let hotelSum = 0;
 
         if (p.money < s.housePrice) {
             if (s.house === 4) {
-                popup("<p>You need $" + (s.housePrice - player[s.owner].money) + " more to buy a hotel for " + s.name + ".</p>")
+                popup("<p>You need $" + (s.housePrice - player[s.owner].money) + " more to buy a hotel for " + s.name + ".</p>");
                 return
             } else {
-                popup("<p>You need $" + (s.housePrice - player[s.owner].money) + " more to buy a house for " + s.name + ".</p>")
+                popup("<p>You need $" + (s.housePrice - player[s.owner].money) + " more to buy a house for " + s.name + ".</p>");
                 return
             }
         }
@@ -3061,50 +3061,50 @@ window.onload = function () {
         }
 
         if (s.house < 4 && houseSum >= 32) {
-            popup("<p>All 32 houses are owned. You must wait until one becomes available.</p>")
+            popup("<p>All 32 houses are owned. You must wait until one becomes available.</p>");
             return
         } else if (s.house === 4 && hotelSum >= 12) {
-            popup("<p>All 12 hotels are owned. You must wait until one becomes available.</p>")
+            popup("<p>All 12 hotels are owned. You must wait until one becomes available.</p>");
             return
         }
 
         buyHouse(checkedProperty)
 
-    })
+    });
 
     $("#sellHouseButton").click(function () {
         sellHouse(getCheckedProperty())
-    })
+    });
 
-    $("#viewstats").on("click", showStats)
+    $("#viewstats").on("click", showStats);
     $("#statsclose, #statsbackground").on("click", function () {
-        $("#statswrap").hide()
+        $("#statswrap").hide();
         $("#statsbackground").fadeOut(400)
-    })
+    });
 
     $("#buy-menu-item").click(function () {
-        $("#buy").show()
-        $("#manage").hide()
+        $("#buy").show();
+        $("#manage").hide();
 
         // Scroll alerts to bottom.
         $("#alert").scrollTop($("#alert").prop("scrollHeight"))
-    })
+    });
 
 
     $("#manage-menu-item").click(function () {
-        $("#manage").show()
+        $("#manage").show();
         $("#buy").hide()
-    })
+    });
 
 
     $("#trade-menu-item").click(game.trade)
 
 
-}
+};
 
 
 function arr_diff (a1, a2) {
-    let a = [], diff = []
+    let a = [], diff = [];
 
     for (let i = 0; i < a1.length; i++) {
         a[a1[i]] = true
