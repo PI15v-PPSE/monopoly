@@ -129,7 +129,7 @@ function Game() {
                 roll()
             }
 
-        } else if (areDiceRolled && doublecount === 0) {
+        } else if (areDiceRolled && doubleCount === 0) {
             play()
         } else {
             roll()
@@ -147,7 +147,7 @@ function Game() {
      * @param {boolean} die
      */
     this.getDie = function (die) {
-        if (die === 1) {
+        if (die) {
             return die1
         }
         return die2
@@ -1620,9 +1620,9 @@ let turn = 0;
  * Используем простое целочисленное обозначение
  * для удвоенного количества игроков.
  *
- * @var {number} doublecount
+ * @var {number} doubleCount
  */
-let doublecount = 0;
+let doubleCount = 0;
 /**
  * Работа со свойством
  *
@@ -2130,7 +2130,7 @@ function updateOption() {
                 }
             }
 
-            let max = sq.group.length;
+            var max = sq.group.length;
             for (let i = 0; i < max; i++) {
                 s = square[sq.group[i]];
 
@@ -2357,7 +2357,7 @@ function gotoJail() {
     document.getElementById("landed").innerHTML = "You are in jail.";
 
     p.jail = true;
-    doublecount = 0;
+    doubleCount = 0;
 
     document.getElementById("nextbutton").value = "End turn";
     document.getElementById("nextbutton").title = "End turn and advance to the next player.";
@@ -2545,7 +2545,7 @@ function payfifty() {
     document.getElementById("cell11").style.border = '2px solid ' + p.color;
 
     $("#landed").hide();
-    doublecount = 0;
+    doubleCount = 0;
 
     p.jail = false;
     p.jailroll = 0;
@@ -2572,7 +2572,7 @@ function useJailCard() {
 
     p.position = 10;
 
-    doublecount = 0;
+    doubleCount = 0;
 
     if (p.communityChestJailCard) {
         p.communityChestJailCard = false;
@@ -3055,7 +3055,7 @@ function roll() {
     let die1 = game.getDie(true);
     let die2 = game.getDie(false);
 
-    doublecount++;
+    doubleCount++;
 
     if (die1 === die2) {
         addAlert(p.name + " rolled " + (die1 + die2) + " - doubles.")
@@ -3066,14 +3066,14 @@ function roll() {
     if (die1 === die2 && !p.jail) {
         updateDice(die1, die2);
 
-        if (doublecount < 3) {
+        if (doubleCount < 3) {
             document.getElementById("nextbutton").value = "Roll again";
             document.getElementById("nextbutton").title = "You threw doubles. Roll again."
 
             // If player rolls doubles three times in a row, send him to jail
-        } else if (doublecount === 3) {
+        } else if (doubleCount === 3) {
             p.jail = true;
-            doublecount = 0;
+            doubleCount = 0;
             addAlert(p.name + " rolled doubles three times in a row.");
             updateMoney();
 
@@ -3089,7 +3089,7 @@ function roll() {
     } else {
         document.getElementById("nextbutton").value = "End turn";
         document.getElementById("nextbutton").title = "End turn and advance to the next player.";
-        doublecount = 0
+        doubleCount = 0
     }
 
     updatePosition();
@@ -3108,7 +3108,7 @@ function roll() {
             p.jail = false;
             p.jailroll = 0;
             p.position = 10 + die1 + die2;
-            doublecount = 0;
+            doubleCount = 0;
 
             addAlert(p.name + " rolled doubles to get out of jail.");
 
@@ -3183,7 +3183,7 @@ function play() {
     $("#landed, #option, #manage").hide();
     $("#board, #control, #moneybar, #viewstats, #buy").show();
 
-    doublecount = 0;
+    doubleCount = 0;
     if (p.human) {
         document.getElementById("nextbutton").focus()
     }
