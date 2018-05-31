@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<article xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Описание игры "Монополия"</title>
+    </info>
+    <sect1>
+        <title>Описание продукта</title>
+        <para>    Монополия — это классическая игра, в которой вы можете покупать, арендовать и
+            продавать свою собственность! В начале игры участники выставляют свои фишки на поле
+            «Вперед», затем перемещают их по игровому полю в зависимости от выпавшего на кубиках
+            количества очков. </para>
+        <para>    Если вы попадаете на Участок Недвижимости, которая пока еще никому не принадлежит,
+            то вы можете купить эту Недвижимость у Банка. Если вы решаете не покупать ее, она может
+            быть продана на Аукционе другому игроку, предложившему за нее самую высокую цену.
+            Игроки, имеющие Недвижимость, могут взимать арендную плату с игроков, которые попадают
+            на их Участок. При строительстве Домов и Гостиниц арендная плата значительно возрастает,
+            поэтому вам следует вести строительсто на как можно большем количестве Участков. </para>
+        <para>    Если вы нуждаетесь в деньгах, вы можете заложить вашу Недвижимость. Но не
+            расслабляйтесь — в некоторых случаях вас могут посадить в Тюрьму. </para>
+        <table frame="all">
+            <title>Функиональность:</title>
+            <tgroup cols="2">
+                <tbody>
+                    <row>
+                        <entry>Бросок игральных костей</entry>
+                        <entry>Симуляция броска игральных костей позволяет игроку совершить
+                            ход.</entry>
+                    </row>
+                    <row>
+                        <entry>Имущество игрока</entry>
+                        <entry>
+                            <para>Владение недвижимостью дает игроку право взимать арендную плату с
+                                любых арендаторов, которые остановились на поле, обозначающем ее.
+                                Очень выгодно владеть недвижимостью всей цветовой группы — иными
+                                словами, владеть монополией. </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>Управление имуществом и балансом</entry>
+                        <entry>На каждый ход игрок может заложить своё имущество, чтобы получить
+                            деньги для выкупа себя из тюрьмы или приобретения другого
+                            имущества.</entry>
+                    </row>
+                    <row>
+                        <entry>Колесо фортуны</entry>
+                        <entry>Иногда удача может улыбнуться игроку после выхода из тюрьмы и
+                            перенести его в очень выгодное положение.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </sect1>
+    <sect1>
+        <title>Игровая механика и скриншоты работы</title>
+        <para>Вся логика продукта реализована в файле <filename>monopoly.js</filename> и
+                <filename>classicedition.js</filename>, а также использовалась библиотека
+                <filename>jquery-1.11.1.min.js</filename>. </para>
+        <para>Далее представлен код функции, которая обновляет данные игральных костей во время
+            хода:
+            <programlisting>/**
+ * Работа со свойством
+ *
+ * Функция для обновления цифр на
+ * игральной кости
+ *
+ */
+function updateDice() {
+    let die0 = game.getDie(true);
+    let die1 = game.getDie(false);
+
+    $("#die0").show();
+    $("#die1").show();
+
+    if (document.images) {
+        let element0 = document.getElementById("die0");
+        let element1 = document.getElementById("die1");
+
+        element0.classList.remove("die-no-img");
+        element1.classList.remove("die-no-img");
+
+        element0.title = "Die (" + die0 + " spots)";
+        element1.title = "Die (" + die1 + " spots)";
+
+        if (element0.firstChild) {
+            element0 = element0.firstChild
+        } else {
+            element0 = element0.appendChild(document.createElement("img"))
+        }
+
+        element0.src = "images/Die_" + die0 + ".png";
+        element0.alt = die0;
+
+        if (element1.firstChild) {
+            element1 = element1.firstChild
+        } else {
+            element1 = element1.appendChild(document.createElement("img"))
+        }
+
+        element1.src = "images/Die_" + die1 + ".png";
+        element1.alt = die0
+    } else {
+        document.getElementById("die0").textContent = die0;
+        document.getElementById("die1").textContent = die1;
+
+        document.getElementById("die0").title = "Die";
+        document.getElementById("die1").title = "Die"
+    }
+}
+            </programlisting>
+        </para>
+        <para>Код, который обновляет информацию об имуществе игрока
+            <programlisting>/**
+ * Работа со свойством
+ *
+ * Функция для обновления владений игрока
+ *
+ */
+function updateOwned() {
+    let p = player[turn];
+    let checkedProperty = getCheckedProperty();
+    $("#option").show();
+    $("#owned").show();
+
+    let html = "",
+        firstProperty = -1;
+
+    let mortgageText = "",
+        houseText = "";
+    let sq;
+
+    for (let i = 0; i &lt; 40; i++) {
+        sq = square[i];
+        if (sq.groupNumber &amp;&amp; sq.owner === 0) {
+            $("#cell" + i + "owner").hide()
+        } else if (sq.groupNumber &amp;&amp; sq.owner > 0) {
+            let currentCellOwner = document.getElementById("cell" + i + "owner");
+
+            currentCellOwner.style.display = "block";
+            currentCellOwner.style.backgroundColor = player[sq.owner].color;
+            currentCellOwner.title = player[sq.owner].name
+        }
+    }
+
+    for (let i = 0; i &lt; 40; i++) {
+        sq = square[i];
+        if (sq.owner === turn) {
+
+            mortgageText = "";
+            if (sq.mortgage) {
+                mortgageText = "title='Mortgaged' style='color: grey'"
+            }
+
+            houseText = "";
+            if (sq.house >= 1 &amp;&amp; sq.house &lt;= 4) {
+                for (let x = 1; x &lt;= sq.house; x++) {
+                    houseText += "&lt;img src='images/house.png' alt='' title='House' class='house' />"
+                }
+            } else if (sq.hotel) {
+                houseText += "&lt;img src='images/hotel.png' alt='' title='Hotel' class='hotel' />"
+            }
+
+            if (html === "") {
+                html += "&lt;table>";
+                firstProperty = i
+            }
+
+            html += "&lt;tr class='property-cell-row'>&lt;td class='propertycellcheckbox'>&lt;input type='checkbox' id='propertycheckbox" + i + "' />&lt;/td>&lt;td class='propertycellcolor' style='background: " + sq.color + "";
+
+            if (sq.groupNumber === 1 || sq.groupNumber === 2) {
+                html += " border: 1px solid grey width: 18px"
+            }
+
+            html += "' onmouseover='showdeed(" + i + ")' onmouseout='hidedeed()'>&lt;/td>&lt;td class='propertycellname' " + mortgageText + ">" + sq.name + houseText + "&lt;/td>&lt;/tr>"
+        }
+    }
+
+    if (p.communityChestJailCard) {
+        if (html === "") {
+            firstProperty = 40;
+            html += "&lt;table>"
+        }
+        html += "&lt;tr class='property-cell-row'>&lt;td class='propertycellcheckbox'>&lt;input type='checkbox' id='propertycheckbox40' />&lt;/td>&lt;td class='propertycellcolor' style='background: white'>&lt;/td>&lt;td class='propertycellname'>Get Out of Jail Free Card&lt;/td>&lt;/tr>"
+
+    }
+    if (p.chanceJailCard) {
+        if (html === "") {
+            firstProperty = 41;
+            html += "&lt;table>"
+        }
+        html += "&lt;tr class='property-cell-row'>&lt;td class='propertycellcheckbox'>&lt;input type='checkbox' id='propertycheckbox41' />&lt;/td>&lt;td class='propertycellcolor' style='background: white'>&lt;/td>&lt;td class='propertycellname'>Get Out of Jail Free Card&lt;/td>&lt;/tr>"
+    }
+
+    if (html === "") {
+        html = p.name + ", you don't have any properties.";
+        $("#option").hide()
+    } else {
+        html += "&lt;/table>"
+    }
+
+    document.getElementById("owned").innerHTML = html;
+
+    // Select previously selected property.
+    if (checkedProperty > -1 &amp;&amp; document.getElementById("propertycheckbox" + checkedProperty)) {
+        document.getElementById("propertycheckbox" + checkedProperty).checked = true
+    } else if (firstProperty > -1) {
+        document.getElementById("propertycheckbox" + firstProperty).checked = true
+    }
+    $(".property-cell-row").click(function () {
+        let row = this;
+
+        // Toggle check the current checkbox.
+        $(this).find(".propertycellcheckbox > input").prop("checked", function (index, val) {
+            return !val
+        });
+
+        // Set all other checkboxes to false.
+        $(".propertycellcheckbox > input").prop("checked", function (index, val) {
+            if (!$.contains(row, this)) {
+                return false
+            }
+        });
+
+        updateOption()
+    });
+    updateOption()
+}</programlisting>
+        </para>
+        <para>Пример кода, который реализует управление владениями и балансом игрока
+            <programlisting>/**
+ * Работа со свойством
+ *
+ * Функция для обновления настроек игрока
+ *
+ */
+function updateOption() {
+    $("#option").show();
+
+    let allGroupUninproved = true;
+    let allGroupUnmortgaged = true;
+    let checkedProperty = getCheckedProperty();
+
+    if (checkedProperty &lt; 0 || checkedProperty >= 40) {
+        $("#buyHouseButton").hide();
+        $("#sellHouseButton").hide();
+        $("#mortgagebutton").hide();
+
+
+        let houseSum = 32;
+        let hotelSum = 12;
+
+        for (let i = 0; i &lt; 40; i++) {
+            s = square[i];
+            if (s.hotel === 1)
+                hotelSum--;
+            else
+                houseSum -= s.house
+        }
+
+        $("#buildings").show();
+        document.getElementById("buildings").innerHTML = "&lt;img src='images/house.png' alt='' title='House' class='house' />:&amp;nbsp" + houseSum + "&amp;nbsp&amp;nbsp&lt;img src='images/hotel.png' alt='' title='Hotel' class='hotel' />:&amp;nbsp" + hotelSum;
+
+        return
+    }
+
+    $("#buildings").hide();
+    let sq = square[checkedProperty];
+
+    buyHouseButton = document.getElementById("buyHouseButton");
+    sellHouseButton = document.getElementById("sellHouseButton");
+
+    $("#mortgagebutton").show();
+    document.getElementById("mortgagebutton").disabled = false;
+
+    if (sq.mortgage) {
+        document.getElementById("mortgagebutton").value = "Unmortgage ($" + Math.round(sq.price * 0.6) + ")";
+        document.getElementById("mortgagebutton").title = "Unmortgage " + sq.name + " for $" + Math.round(sq.price * 0.6) + ".";
+        $("#buyHouseButton").hide();
+        $("#sellHouseButton").hide();
+
+        allGroupUnmortgaged = false
+    } else {
+        document.getElementById("mortgagebutton").value = "Mortgage ($" + (sq.price * 0.5) + ")";
+        document.getElementById("mortgagebutton").title = "Mortgage " + sq.name + " for $" + (sq.price * 0.5) + ".";
+
+        if (sq.groupNumber >= 3) {
+            $("#buyHouseButton").show();
+            $("#sellHouseButton").show();
+            buyHouseButton.disabled = false;
+            sellHouseButton.disabled = false;
+
+            buyHouseButton.value = "Buy house ($" + sq.housePrice + ")";
+            sellHouseButton.value = "Sell house ($" + (sq.housePrice * 0.5) + ")";
+            buyHouseButton.title = "Buy a house for $" + sq.housePrice;
+            sellHouseButton.title = "Sell a house for $" + (sq.housePrice * 0.5);
+
+            if (sq.house === 4) {
+                buyHouseButton.value = "Buy hotel ($" + sq.housePrice + ")";
+                buyHouseButton.title = "Buy a hotel for $" + sq.housePrice
+            }
+            if (sq.hotel === 1) {
+                $("#buyHouseButton").hide();
+                sellHouseButton.value = "Sell hotel ($" + (sq.housePrice * 0.5) + ")";
+                sellHouseButton.title = "Sell a hotel for $" + (sq.housePrice * 0.5)
+            }
+
+            let maxHouse = 0;
+            let minhouse = 5;
+
+            for (let j = 0; j &lt; max; j++) {
+
+                if (square[currentSquare.group[j]].house > 0) {
+                    allGroupUninproved = false;
+                    break
+                }
+            }
+
+            let max = sq.group.length;
+            for (let i = 0; i &lt; max; i++) {
+                s = square[sq.group[i]];
+
+                if (s.owner !== sq.owner) {
+                    buyHouseButton.disabled = true;
+                    sellHouseButton.disabled = true;
+                    buyHouseButton.title = "Before you can buy a house, you must own all the properties of this color-group."
+                } else {
+
+                    if (s.house > maxHouse) {
+                        maxHouse = s.house
+                    }
+
+                    if (s.house &lt; minhouse) {
+                        minhouse = s.house
+                    }
+
+                    if (s.house > 0) {
+                        allGroupUninproved = false
+                    }
+
+                    if (s.mortgage) {
+                        allGroupUnmortgaged = false
+                    }
+                }
+            }
+
+            if (!allGroupUnmortgaged) {
+                buyHouseButton.disabled = true;
+                buyHouseButton.title = "Before you can buy a house, you must unmortgage all the properties of this color-group."
+            }
+
+            // Force even building
+            if (sq.house > minhouse) {
+                buyHouseButton.disabled = true;
+
+                if (sq.house === 1) {
+                    buyHouseButton.title = "Before you can buy another house, the other properties of this color-group must all have one house."
+                } else if (sq.house === 4) {
+                    buyHouseButton.title = "Before you can buy a hotel, the other properties of this color-group must all have 4 houses."
+                } else {
+                    buyHouseButton.title = "Before you can buy a house, the other properties of this color-group must all have " + sq.house + " houses."
+                }
+            }
+            if (sq.house &lt; maxHouse) {
+                sellHouseButton.disabled = true;
+
+                if (sq.house === 1) {
+                    sellHouseButton.title = "Before you can sell house, the other properties of this color-group must all have one house."
+                } else {
+                    sellHouseButton.title = "Before you can sell a house, the other properties of this color-group must all have " + sq.house + " houses."
+                }
+            }
+
+            if (sq.house === 0 &amp;&amp; sq.hotel === 0) {
+                $("#sellHouseButton").hide()
+
+            } else {
+                $("#mortgagebutton").hide()
+
+            }
+
+            // Before a property can be mortgaged or sold, all the properties of its color-group must unimproved.
+            if (!allGroupUninproved) {
+                document.getElementById("mortgagebutton").title = "Before a property can be mortgaged, all the properties of its color-group must unimproved.";
+                document.getElementById("mortgagebutton").disabled = true
+            }
+
+        } else {
+            $("#buyHouseButton").hide();
+            $("#sellHouseButton").hide()
+        }
+    }
+}</programlisting>
+        </para>
+        <para>Функция, которая расчитывает шанс на везение после выхода из
+            тюрьмы<programlisting>/**
+ * Работа со свойством
+ *
+ * Функция, которая даёт шанс игроку
+ * попасть на поле Общественного фонда
+ *
+ */
+function chanceCommunityChest() {
+    let p = player[turn];
+
+    // Community Chest
+    if (p.position === 2 || p.position === 17 || p.position === 33) {
+        let communityChestIndex = communityChestCards.deck[communityChestCards.index];
+
+        // Remove the get out of jail free card from the deck.
+        if (communityChestIndex === 0) {
+            communityChestCards.deck.splice(communityChestCards.index, 1)
+        }
+
+        popup("&lt;img src='images/community_chest_icon.png' style='height: 50px width: 53px float: left margin: 8px 8px 8px 0px' />&lt;div style='font-weight: bold font-size: 16px '>Community Chest:&lt;/div>&lt;div style='text-align: justify'>" + communityChestCards[communityChestIndex].text + "&lt;/div>", function () {
+            communityChestAction(communityChestIndex)
+        });
+
+        communityChestCards.index++;
+
+        if (communityChestCards.index >= communityChestCards.deck.length) {
+            communityChestCards.index = 0
+        }
+
+        // Chance
+    } else if (p.position === 7 || p.position === 22 || p.position === 36) {
+        let chanceIndex = chanceCards.deck[chanceCards.index];
+
+        // Remove the get out of jail free card from the deck.
+        if (chanceIndex === 0) {
+            chanceCards.deck.splice(chanceCards.index, 1)
+        }
+
+        popup("&lt;img src='images/chance_icon.png' style='height: 50px width: 26px float: left margin: 8px 8px 8px 0px' />&lt;div style='font-weight: bold font-size: 16px '>Chance:&lt;/div>&lt;div style='text-align: justify'>" + chanceCards[chanceIndex].text + "&lt;/div>", function () {
+            chanceAction(chanceIndex)
+        });
+
+        chanceCards.index++;
+
+        if (chanceCards.index >= chanceCards.deck.length) {
+            chanceCards.index = 0
+        }
+    } else {
+        if (!p.human) {
+            p.AI.alertList = "";
+
+            if (!p.AI.onLand()) {
+                game.next()
+            }
+        }
+    }
+}
+</programlisting></para>
+        <para>Ниже представлен скриншот старта игры <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="1.JPG" width="500"/>
+                </imageobject>
+            </inlinemediaobject>
+        </para>
+        <para>Далее представлен скриншот карты монополии <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="2.JPG" width="500"/>
+                </imageobject>
+            </inlinemediaobject>
+        </para>
+    </sect1>
+    <sect1>
+        <title>Выводы</title>
+        <para>В течение двух месяцев была разработана игра "Монополия" с использованием JavaScript,
+            CSS, HTML. Игра получилась забавной, местами непредсказуемой.</para>
+    </sect1>
+</article>
+
