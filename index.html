@@ -3,7 +3,7 @@
 <head>
     <title>Monopoly Game</title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
-    <script src="scripts/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/libraries/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/classicedition.js"></script>
     <!-- Comment out the previous line and uncomment the next one to enable the New York City Edition -->
     <!-- <script type="text/javascript" src="newyorkcityedition.js"></script> -->
@@ -36,11 +36,11 @@
 </div>
 
 <p id="noscript">
-    Note: This page will not function without JavaScript.
+    Для работы страницы требуется JS.
 </p>
 
 <div id="refresh">
-    Refresh this page to start a new game.
+    Чтобы начать игру, обновите страницу.
 </div>
 
 <!-- <div id="enlarge"></div> -->
@@ -48,13 +48,13 @@
 <div id="deed">
     <div id="deed-normal" style="display: none;">
         <div id="deed-header">
-            <div style="margin: 5px; font-size: 11px;">T I T L E&nbsp;&nbsp;D E E D</div>
+            <div style="margin: 5px; font-size: 11px;">Монополия</div>
             <div id="deed-name"></div>
         </div>
         <table id="deed-table">
             <tr>
                 <td colspan="2">
-                    RENT&nbsp;$<span id="deed-baseRent">12</span>.
+                    Аренда&nbsp;$<span id="deed-baseRent">12</span>.
                 </td>
             </tr>
             <tr>
@@ -66,19 +66,19 @@
                 <td style="text-align: right;"><span id="deed-rent2">180</span>.</td>
             </tr>
             <tr>
-                <td style="text-align: left;">With 3 Houses</td>
+                <td style="text-align: left;">С тремя домами</td>
                 <td style="text-align: right;"><span id="deed-rent3">500</span>.</td>
             </tr>
             <tr>
-                <td style="text-align: left;">With 4 Houses</td>
+                <td style="text-align: left;">С 4 домами</td>
                 <td style="text-align: right;"><span id="deed-rent4">700</span>.</td>
             </tr>
             <tr>
                 <td colspan="2">
                     <div style="margin-bottom: 8px;">С гостиницей $<span id="deed-rent5">900</span>.</div>
-                    <div>Mortgage Value $<span id="deed-mortgage">80</span>.</div>
-                    <div>Houses cost $<span id="deed-housePrice">100</span>. each</div>
-                    <div>Hotels, $<span id="deed-hotelprice">100</span>. plus 4 houses</div>
+                    <div>Цена выкупа $<span id="deed-mortgage">80</span>.</div>
+                    <div>Стоимость имущества $<span id="deed-housePrice">100</span>. each</div>
+                    <div>Отели, $<span id="deed-hotelprice">100</span>. и 4 дома</div>
                     <div style="font-size: 9px; font-style: italic; margin-top: 5px;">Если игрок владеет ВСЕМ множеством
                         любой цветной группы, арендная плата удваивается на неулучшенных участках в этой группе.
                     </div>
@@ -91,10 +91,9 @@
         <div id="deed-mortgaged-name"></div>
         <p>&bull;</p>
         <div>Заложено</div>
-        <div> for $<span id="deed-mortgaged-mortgage">80</span></div>
+        <div> за $<span id="deed-mortgaged-mortgage">80</span></div>
         <p>&bull;</p>
-        <div style="font-style: italic; font-size: 13px; margin: 10px;">Card must be turned this side up if property is
-            mortgaged
+        <div style="font-style: italic; font-size: 13px; margin: 10px;">Карточка должна быть положена обратно, если у игрока заложено имущество
         </div>
     </div>
 
@@ -102,7 +101,7 @@
         <div id="deed-special-name"></div>
         <div id="deed-special-text"></div>
         <div id="deed-special-footer">
-            Mortgage Value
+            Стоимость залога
             <span style="float: right;">$<span id="deed-special-mortgage">100</span>.</span>
         </div>
     </div>
@@ -192,7 +191,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p0arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p0moneybar" class="moneybarcell">
-                    <div><span id="p0moneyname">Player 0</span>:</div>
+                    <div><span id="p0moneyname">Игрок 0</span>:</div>
                     <div>$<span id="p0money">1500</span></div>
                 </td>
             </tr>
@@ -200,7 +199,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p1arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p1moneybar" class="moneybarcell">
-                    <div><span id="p1moneyname">Player 1</span>:</div>
+                    <div><span id="p1moneyname">Игрок 1</span>:</div>
                     <div>$<span id="p1money">1500</span></div>
                 </td>
             </tr>
@@ -208,7 +207,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p2arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p2moneybar" class="moneybarcell">
-                    <div><span id="p2moneyname">Player 2</span>:</div>
+                    <div><span id="p2moneyname">Игрок 2</span>:</div>
                     <div>$<span id="p2money">1500</span></div>
                 </td>
             </tr>
@@ -216,7 +215,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p3arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p3moneybar" class="moneybarcell">
-                    <div><span id="p3moneyname">Player 3</span>:</div>
+                    <div><span id="p3moneyname">Игрок 3</span>:</div>
                     <div>$<span id="p3money">1500</span></div>
                 </td>
             </tr>
@@ -224,7 +223,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p4arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p4moneybar" class="moneybarcell">
-                    <div><span id="p4moneyname">Player 4</span>:</div>
+                    <div><span id="p4moneyname">Игрок 4</span>:</div>
                     <div>$<span id="p4money">1500</span></div>
                 </td>
             </tr>
@@ -232,7 +231,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p5arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p5moneybar" class="moneybarcell">
-                    <div><span id="p5moneyname">Player 5</span>:</div>
+                    <div><span id="p5moneyname">Игрок 5</span>:</div>
                     <div>$<span id="p5money">1500</span></div>
                 </td>
             </tr>
@@ -240,7 +239,7 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p6arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p6moneybar" class="moneybarcell">
-                    <div><span id="p6moneyname">Player 6</span>:</div>
+                    <div><span id="p6moneyname">Игрок 6</span>:</div>
                     <div>$<span id="p6money">1500</span></div>
                 </td>
             </tr>
@@ -248,15 +247,15 @@
                 <td class="moneybararrowcell"><img src="images/arrow.png" id="p7arrow" class="money-bar-arrow" alt=">"/>
                 </td>
                 <td id="p7moneybar" class="moneybarcell">
-                    <div><span id="p7moneyname">Player 7</span>:</div>
+                    <div><span id="p7moneyname">Игрок 7</span>:</div>
                     <div>$<span id="p7money">1500</span></div>
                 </td>
             </tr>
             <tr id="moneybarrow8">
                 <td style="border: none;" class="moneybararrowcell">&nbsp;</td>
                 <td style="border: none;">
-                    <input type="button" id="viewstats" value="View stats"
-                           title="View a pop-up window that shows a list of each player's properties."/>
+                    <input type="button" id="viewstats" value="Посмотреть таблицу"
+                           title="Показать всплывающее окно, в котором указаны свойства игроков"/>
                 </td>
             </tr>
         </table>
@@ -265,8 +264,8 @@
 
 <div id="setup">
     <div style="margin-bottom: 20px;">
-        Select number of players.
-        <select id="playernumber" title="Select the number of players for the game.">
+        Выберите количество игроков
+        <select id="playernumber" title="Выбирете количество игроков для игры.">
             <option>2</option>
             <option>3</option>
             <option selected="selected">4</option>
@@ -281,11 +280,10 @@
     </div>
 
     <div style="margin: 20px 0;">
-        <input type="button" value="Start Game" onclick="game_ns.setup()" title="Begin playing."/>
+        <input type="button" value="Начать игру" onclick="game_ns.setup()" title="Начать играть"/>
     </div>
 
-    <div id="noF5">Attention, please! Refreshing this page or navigating away from it may end your game without
-        warning.
+    <div id="noF5">Внимание, перезагрузка страницы прервет вашу игру!
     </div>
 </div>
 
@@ -299,16 +297,16 @@
                             <td class="menu-item" id="buy-menu-item">
 
                                 <a href="javascript:void(0)"
-                                   title="View alerts and buy the property you landed on.">Buy</a>
+                                   title="Показывать уведомления и покупать имущество, на котором вы находитесь">Buy</a>
                             </td>
                             <td class="menu-item" id="manage-menu-item">
 
                                 <a href="javascript:void(0)"
-                                   title="View, mortgage, and improve your property. ">Manage</a>
+                                   title="Улучшить положение">Управление</a>
                             </td>
                             <td class="menu-item" id="trade-menu-item">
 
-                                <a href="javascript:void(0)" title="Exchange property with other players.">Trade</a>
+                                <a href="javascript:void(0)" title="Обмениваться с другими игроками">Обмен</a>
                             </td>
                         </tr>
                     </table>
@@ -321,17 +319,17 @@
 
                 <div id="manage">
                     <div id="option">
-                        <div id="buildings" title="Available buildings"></div>
-                        <input type="button" value="Buy house" id="buyHouseButton"/>
-                        <input type="button" value="Mortgage" id="mortgagebutton"/>
-                        <input type="button" value="Sell house" id="sellHouseButton"/>
+                        <div id="buildings" title="Доступное имущество"></div>
+                        <input type="button" value="Купить имущество" id="buyHouseButton"/>
+                        <input type="button" value="Залог" id="mortgagebutton"/>
+                        <input type="button" value="Продать имущество" id="sellHouseButton"/>
                     </div>
                     <div id="owned"></div>
                 </div>
             </td>
             <td style="vertical-align: top; border: none;">
                 <div id="quickstats" style="">
-                    <div><span id="pname">Player 1</span>:</div>
+                    <div><span id="pname">Игрок 1</span>:</div>
                     <div><span id="pmoney">$1500</span></div>
                 </div>
                 <div>
@@ -344,10 +342,10 @@
         <tr>
             <td colspan="2" style="border: none">
                 <div style="padding-top: 8px;">
-                    <input type="button" id="nextbutton" title="Roll the dice and move your token accordingly."
-                           value="Roll Dice"/>
+                    <input type="button" id="nextbutton" title="Бросьте кости"
+                           value="Кинуть кости"/>
                     <input type="button" id="resignbutton"
-                           title="If you cannot pay your debt then you must resign from the game." value="Resign"
+                           title="Если вы не можете заплатить свой долг, вы должны покинуть нас." value="Пока"
                            onclick="game.resign()"/>
                 </div>
             </td>
@@ -368,11 +366,11 @@
         <tr>
             <td class="trade-cell">
                 $&nbsp;<input id="trade-leftp-money" value="0"
-                              title="Enter amount to exchange with the other player."/>
+                              title="Введите сумму для обмена с другим игроком"/>
             </td>
             <td class="trade-cell">
                 $&nbsp;<input id="trade-rightp-money" value="0"
-                              title="Enter amount to exchange with the other player."/>
+                              title="Введите сумму для обмена с другим игроком"/>
             </td>
         </tr>
         <tr>
