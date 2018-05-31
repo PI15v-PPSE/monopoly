@@ -227,7 +227,7 @@ function transText() {
  *
  */
 function luxuryTax() {
-    addalert(player[turn].name + " заплатите $100 за попадание на luxury tax.");
+    addAlert(player[turn].name + " заплатите $100 за попадание на luxury tax.");
     player[turn].pay(100, 0);
 
     $("#landed").show().text("вы попали на luxury tax. заплатите $100.");
@@ -241,7 +241,7 @@ function luxuryTax() {
  *
  */
 function cityTax () {
-    addalert(player[turn].name + " заплатите $100 за попадание на city tax.");
+    addAlert(player[turn].name + " заплатите $100 за попадание на city tax.");
     player[turn].pay(200, 0);
     $("#landed").show().text("вы попали на city tax. заплатите $200.");
 }

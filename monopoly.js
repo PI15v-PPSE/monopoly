@@ -16,7 +16,7 @@ function Game() {
      * переменной для обозначения
      * количества очков на первом кубике.
      *
-     * @var int $die1
+     * @var {int} die1
      */
     let die1;
     /**
@@ -26,7 +26,7 @@ function Game() {
      * переменной для обозначения
      * количества очков на втором кубике.
      *
-     * @var int die2
+     * @var {int} die2
      */
     let die2;
     /**
@@ -35,7 +35,7 @@ function Game() {
      * Булевая переменная,
      * показывающая, брошены ли кубики
      *
-     * @var boolean areDiceRolled
+     * @var {boolean} areDiceRolled
      */
     let areDiceRolled = false;
 
@@ -46,7 +46,7 @@ function Game() {
      * всё текущее аукционное
      * имущество
      *
-     * @var array auctionQueue
+     * @var {Array} auctionQueue
      */
     let auctionQueue = [];
     /**
@@ -56,7 +56,7 @@ function Game() {
      * наивысшую ставку в аукционе
      * на данный момент
      *
-     * @var int highestBidder
+     * @var {int} highestBidder
      */
     let highestBidder;
     /**
@@ -65,7 +65,7 @@ function Game() {
      * Еаивысшая ставка в аукционе
      * на данный момент
      *
-     * @var int highestBid
+     * @var {int} highestBid
      */
     let highestBid;
     /**
@@ -74,7 +74,7 @@ function Game() {
      * Id игрока, очередь которого
      * делать ставку
      *
-     * @var int currentBidder
+     * @var {int} currentBidder
      */
     let currentBidder = 1;
     /**
@@ -83,7 +83,7 @@ function Game() {
      * Id имущества, находящегося
      * на аукционе
      *
-     * @var int auctionProperty
+     * @var {int} auctionProperty
      */
     let auctionProperty;
 
@@ -147,15 +147,13 @@ function Game() {
      * @param {boolean} die
      */
     this.getDie = function (die) {
-        if (die) {
+        if (die === 1) {
             return die1
         }
         return die2
     };
 
-
     // Auction functions:
-
 
     /**
      * Расчеты для аукциона
@@ -398,14 +396,14 @@ function Game() {
     };
 
 
-// Trade functions:
+    // Trade functions:
 
     /**
      * Инициатор сделки
      *
      * Переменная указывает на игрока, который начал сделку
      *
-     * @var Player currentInitiator
+     * @var {Player} currentInitiator
      */
     let currentInitiator;
 
@@ -414,18 +412,18 @@ function Game() {
      *
      * Переменная указывает на игрока, с которым начали сделку
      *
-     * @var Player currentRecipient
+     * @var {Player} currentRecipient
      */
     let currentRecipient;
 
-// Define event handlers:
+    // Define event handlers:
 
     /**
      * Функция-событие на ввод в поле суммы сделки
      *
      * Проверка на ввод символов, которые допустимы
      *
-     * @param e
+     * @param {event} e
      * @returns {boolean} Возвращает true, если допустить символ
      */
     let tradeMoneyOnKeyDown = function (e) {
@@ -514,7 +512,14 @@ function Game() {
     document.getElementById("trade-rightp-money").onfocus = tradeMoneyOnFocus;
     document.getElementById("trade-leftp-money").onchange = tradeMoneyOnChange;
     document.getElementById("trade-rightp-money").onchange = tradeMoneyOnChange;
-
+    /**
+     * Сбросить сделку
+     *
+     * Функция, которая завершает сделку между участниками
+     * @param {Player} initiator
+     * @param {Player} recipient
+     * @param {boolean} allowRecipientToBeChanged - Можно ли сменить участника сделки
+     */
     /**
      * Отмена обмена
      *
@@ -795,7 +800,13 @@ function Game() {
         document.getElementById("trade-rightp-money").value = "0"
 
     };
-
+    /**
+     * Считать сделку
+     *
+     * Функция, которая считывает сделку
+     *
+     * @returns {Trade}
+     */
     let readTrade = function () {
         let initiator = currentInitiator;
         let recipient = currentRecipient;
@@ -836,7 +847,13 @@ function Game() {
 
         return new Trade(initiator, recipient, money, property, communityChestJailCard, chanceJailCard)
     };
-
+    /**
+     * Вывести сделку
+     *
+     * Функция, которая выводит сделку
+     *
+     * @param {Trade} tradeObj
+     */
     let writeTrade = function (tradeObj) {
         resetTrade(tradeObj.getInitiator(), tradeObj.getRecipient(), false);
 
@@ -876,7 +893,13 @@ function Game() {
         }
 
     };
-
+    /**
+     * Начать сделку
+     *
+     * Начинает сделку (обертка)
+     *
+     * @param {Trade} tradeObj
+     */
     this.trade = function (tradeObj) {
         $("#board").hide();
         $("#control").hide();
@@ -900,7 +923,11 @@ function Game() {
         }
     };
 
-
+    /**
+     * Завершить сделку
+     *
+     * Завершает сделку (обертка)
+     */
     this.cancelTrade = function () {
         $("#board").show();
         $("#control").show();
@@ -913,7 +940,14 @@ function Game() {
         }
 
     };
-
+    /**
+     * Подтвердить сделку
+     *
+     * Подтверждает сделку (обертка)
+     *
+     * @param tradeObj
+     * @returns {boolean} true, если подтверждена сделка
+     */
     this.acceptTrade = function (tradeObj) {
         if (isNaN(document.getElementById("trade-leftp-money").value)) {
             document.getElementById("trade-leftp-money").value = "This value must be a number.";
@@ -1033,7 +1067,13 @@ function Game() {
             game.next()
         }
     };
-
+    /**
+     * Предложить сделку
+     *
+     * Предлагает сделку (обертка)
+     *
+     * @returns {boolean} true, если получилось предложить сделку
+     */
     this.proposeTrade = function () {
         if (isNaN(document.getElementById("trade-leftp-money").value)) {
             document.getElementById("trade-leftp-money").value = "This value must be a number.";
@@ -1120,7 +1160,11 @@ function Game() {
 
 // Bankrupcy functions:
 
-
+    /**
+     * Исключить игрока
+     *
+     * Исключает игрока
+     */
     this.eliminatePlayer = function () {
         let p = player[turn];
 
@@ -1167,7 +1211,11 @@ function Game() {
             play()
         }
     };
-
+    /**
+     * Заложить собственность в связи с банкротством
+     *
+     * Когда у игрока заканчиваются деньги, вызывается функция
+     */
     this.bankruptcyUnmortgage = function () {
         let p = player[turn];
 
@@ -1204,11 +1252,19 @@ function Game() {
 
         popup(html, game.eliminatePlayer)
     };
-
+    /**
+     * Переназначить
+     *
+     * Выводит диалоговое окно
+     */
     this.resign = function () {
         popup("<p>Are you sure you want to resign?</p>", game.bankruptcy, "Yes/No")
     };
-
+    /**
+     * Банкротство
+     *
+     * Проверяет на банкротство
+     */
     this.bankruptcy = function () {
         let p = player[turn];
         let pcredit = player[p.creditor];
@@ -1273,9 +1329,7 @@ function Game() {
             })
         }
     }
-
 }
-
 
 let game;
 
@@ -1309,7 +1363,7 @@ function Player(name, color) {
      * необходима детализация, создадим
      * класс Color
      *
-     * @var string color
+     * @var {string} color
      */
     this.color = color;
     /**
